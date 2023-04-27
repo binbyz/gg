@@ -2,7 +2,7 @@
 
 namespace Beaverlabs\GG;
 
-class MessageConverter
+class MessageHandler implements \JsonSerializable
 {
     /** @var mixed */
     public $data;
@@ -20,5 +20,10 @@ class MessageConverter
     public function isScalarType(): bool
     {
         return is_scalar($this->data) || is_null($this->data);
+    }
+
+    public function jsonSerialize()
+    {
+        // TODO: Implement jsonSerialize() method.
     }
 }
