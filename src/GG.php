@@ -2,21 +2,47 @@
 
 namespace Beaverlabs\GG;
 
-final class GG
+use Beaverlabs\GG\Data\EnvironmentData;
+
+class GG
 {
-    /** @var string */
-    private $host;
+    /** @var GG */
+    private static $instance;
 
-    /** @var int */
-    private $port;
+    /** @var EnvironmentData */
+    public $environments;
 
-    /** @var string */
-    private $endpoint;
-
-    public function __construct(string $host = 'localhost', int $port = 21868)
+    private function __construct()
     {
-        $this->host = $host;
-        $this->port = $port;
-        $this->endpoint = sprintf('%s:%d', $host, $port);
+        $this->environments = $this->loadEnvironments();
+    }
+
+    public function loadEnvironments(): EnvironmentData
+    {
+        return EnvironmentData::from([
+            'host' => 'localhost',
+            'port' => 21868,
+        ]);
+    }
+
+    public static function getInstance(): GG
+    {
+        if (static::$instance === null) {
+            static::$instance = new static();
+        }
+
+        return static::$instance;
+    }
+
+    public function send(...$parameters): void
+    {
+        foreach ($parameters as $parameter) {
+            $this->sendData(MessageConverter::convert($parameter));
+        }
+    }
+
+    public function sendData(MessageConverter $message): void
+    {
+        // ...
     }
 }
