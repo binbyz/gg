@@ -1,12 +1,16 @@
 {
   "name": "beaverlabs/gg",
-  "description": "Debug with Ray to fix problems faster",
+  "description": "PHP Debug, Logging Tools",
   "keywords": [
+    "php",
+    "debug",
+    "logging",
     "beaverlabs",
     "gg"
   ],
   "homepage": "https://github.com/binbyz/gg",
   "license": "MIT",
+  "version": "0.1.0",
   "authors": [
     {
       "name": "WONBEEN IM",
