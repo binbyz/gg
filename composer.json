@@ -1,0 +1,53 @@
+{
+  "name": "beaverlabs/gg",
+  "description": "Debug with Ray to fix problems faster",
+  "keywords": [
+    "beaverlabs",
+    "gg"
+  ],
+  "homepage": "https://github.com/binbyz/gg",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "WONBEEN IM",
+      "email": "eyedroot@gmail.com",
+      "homepage": "https://twitter.com/eyedroot",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^7.3|^8.0",
+    "ext-curl": "*",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "pestphp/pest": "^2.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Beaverlabs\\GG\\": "src"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Beaverlabs\\GG\\Tests\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/pest",
+    "test-coverage": "vendor/bin/pest --coverage"
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "funding": [
+  ]
+}
