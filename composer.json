@@ -21,19 +21,20 @@
     "ext-json": "*"
   },
   "require-dev": {
-    "pestphp/pest": "^2.5"
+    "pestphp/pest": "^2.5",
+    "spatie/ray": "^1.37"
   },
   "autoload": {
     "psr-4": {
-      "Beaverlabs\\GG\\": "src"
+      "Beaverlabs\\GG\\": "src/"
     },
     "files": [
-      "src/helpers.php"
+      "src/helpers/helper.php"
     ]
   },
   "autoload-dev": {
     "psr-4": {
-      "Beaverlabs\\GG\\Tests\\": "tests"
+      "Tests\\": "tests/"
     }
   },
   "scripts": {
