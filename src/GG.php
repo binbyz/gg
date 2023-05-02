@@ -3,6 +3,7 @@
 namespace Beaverlabs\GG;
 
 use Beaverlabs\GG\Data\EnvironmentData;
+use Beaverlabs\GG\Data\MessageData;
 
 class GG
 {
@@ -41,7 +42,7 @@ class GG
         }
     }
 
-    public function sendData(MessageHandler $message): void
+    public function sendData(MessageData $message): void
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://localhost:21868');

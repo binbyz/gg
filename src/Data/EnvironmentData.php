@@ -12,7 +12,7 @@ class EnvironmentData extends Data
     /** @var ?int */
     public $port;
 
-    public function endpoint(): string
+    public function getEndpoint(): string
     {
         return "http://{$this->host}:{$this->port}";
     }

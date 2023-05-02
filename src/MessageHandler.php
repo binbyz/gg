@@ -2,28 +2,62 @@
 
 namespace Beaverlabs\GG;
 
-class MessageHandler implements \JsonSerializable
+use Beaverlabs\GG\Data\MessageData;
+
+class MessageHandler
 {
     /** @var mixed */
     public $data;
 
+    /** @var bool */
+    public $isScalaType;
+
     public function __construct($data)
     {
         $this->data = $data;
+        $this->isScalaType = $this->isScalarType();
     }
 
-    public static function convert($data): self
+    public static function convert($data): MessageData
     {
-        return new self($data);
+        $self = new self($data);
+
+        return MessageData::from([
+            'language' => $self->getPHPVersion(),
+            'framework' => $self->detectFramework(),
+            'isScalaType' => $self->isScalarType(),
+            'data' => $data,
+        ]);
+    }
+
+    public function getPHPVersion(): string
+    {
+        return 'PHP/'.phpversion();
+    }
+
+    public function detectFramework(): string
+    {
+        if (defined('LARAVEL_START')) {
+            return 'Laravel';
+        }
+
+        if (defined('WPINC')) {
+            return 'WordPress';
+        }
+
+        if (defined('YII_BEGIN_TIME')) {
+            return 'Yii';
+        }
+
+        if (defined('BASEPATH') && \function_exists('get_instance')) {
+            return 'CodeIgniter';
+        }
+
+        return 'Vanilla';
     }
 
     public function isScalarType(): bool
     {
         return is_scalar($this->data) || is_null($this->data);
-    }
-
-    public function jsonSerialize()
-    {
-        // TODO: Implement jsonSerialize() method.
     }
 }

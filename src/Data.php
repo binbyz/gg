@@ -2,7 +2,7 @@
 
 namespace Beaverlabs\GG;
 
-class Data
+class Data implements \JsonSerializable
 {
     /**
      * @param  array  $inputs
@@ -25,5 +25,19 @@ class Data
         }
 
         return $dataClass;
+    }
+
+    public function jsonSerialize(): array
+    {
+        $result = [];
+
+        $reflection = new \ReflectionClass(static::class);
+        $properties = $reflection->getProperties(\ReflectionProperty::IS_PUBLIC);
+
+        foreach ($properties as $property) {
+            $result[$property->getName()] = $property->getValue($this);
+        }
+
+        return $result;
     }
 }

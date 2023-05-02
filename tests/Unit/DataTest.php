@@ -11,5 +11,5 @@ it('make EnvironmentData test', function () {
     expect($data)->toBeInstanceOf(EnvironmentData::class)
         ->host->toBeString()
         ->port->toBeInt()
-        ->endpoint()->toBe('http://localhost:21868');
+        ->getEndpoint()->toBe('http://localhost:21868');
 });
