@@ -28,6 +28,7 @@ class MessageHandler
             'framework' => $self->detectFramework(),
             'isScalaType' => $self->isScalarType(),
             'data' => $data,
+            'backtrace' => debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, 2000),
         ]);
     }
 

@@ -40,11 +40,17 @@ class GG
         return static::$instance;
     }
 
-    public function send(...$parameters): void
+    public function send(...$parameters): self
     {
-        foreach ($parameters as $parameter) {
+        if (! count($parameters)) {
+            return static::getInstance();
+        }
+
+        foreach (\current($parameters) as $parameter) {
             $this->sendData(MessageHandler::convert($parameter));
         }
+
+        return static::getInstance();
     }
 
     public function sendData(MessageData $message): bool

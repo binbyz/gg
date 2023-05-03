@@ -21,15 +21,20 @@ class MessageData extends Data
     /** @var mixed */
     public $data;
 
+    /** @var array */
+    public $backtrace;
+
     public function __construct(
         string $language,
         string $framework,
+        bool $isScalaType,
         $data,
-        bool $isScalaType
+        array $backtrace
     ) {
         $this->language = $language;
         $this->framework = $framework;
-        $this->data = $data;
         $this->isScalaType = $isScalaType;
+        $this->data = $data;
+        $this->backtrace = $backtrace;
     }
 }
