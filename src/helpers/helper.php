@@ -3,8 +3,14 @@
 use Beaverlabs\GG\GG;
 
 if (! function_exists('gg')) {
-    function gg(): GG
+    function gg(...$parameters)
     {
-        return GG::getInstance();
+        if (! count($parameters)) {
+            return GG::getInstance();
+        }
+
+        $gg = GG::getInstance();
+
+        $gg->send($parameters);
     }
 }

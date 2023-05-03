@@ -23,16 +23,12 @@ class MessageHandler
         $self = new self($data);
 
         return MessageData::from([
-            'language' => $self->getPHPVersion(),
+            'language' => 'PHP',
+            'version' => \phpversion(),
             'framework' => $self->detectFramework(),
             'isScalaType' => $self->isScalarType(),
             'data' => $data,
         ]);
-    }
-
-    public function getPHPVersion(): string
-    {
-        return 'PHP/'.phpversion();
     }
 
     public function detectFramework(): string

@@ -9,6 +9,9 @@ class MessageData extends Data
     /** @var string */
     public $language;
 
+    /** @var string */
+    public $version;
+
     /** @var bool */
     public $isScalaType;
 

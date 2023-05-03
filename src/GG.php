@@ -7,6 +7,11 @@ use Beaverlabs\GG\Data\MessageData;
 
 class GG
 {
+    /**
+     * response status when sent data received successfully
+     */
+    const RESPONSE_STATUS = 'gg';
+
     /** @var GG */
     private static $instance;
 
@@ -42,21 +47,23 @@ class GG
         }
     }
 
-    public function sendData(MessageData $message): void
+    public function sendData(MessageData $message): bool
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'http://localhost:21868');
+        curl_setopt($ch, CURLOPT_URL, 'http://localhost:21868/api/receiver');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
         curl_setopt($ch, CURLOPT_TIMEOUT, 2);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Beaverlabs/GG');
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array('data' => 'value')));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($message));
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
         $result = curl_exec($ch);
         curl_close($ch);
+
+        return $result == self::RESPONSE_STATUS;
     }
 }
