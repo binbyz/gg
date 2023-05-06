@@ -16,6 +16,9 @@ class MessageData extends Data
     public $isScalarType;
 
     /** @var string */
+    public $type;
+
+    /** @var string */
     public $framework;
 
     /** @var mixed */
@@ -28,12 +31,14 @@ class MessageData extends Data
         string $language,
         string $framework,
         bool $isScalaType,
+        string $type,
         $data,
         array $backtrace
     ) {
         $this->language = $language;
         $this->framework = $framework;
         $this->isScalarType = $isScalaType;
+        $this->type = $type;
         $this->data = $data;
         $this->backtrace = $backtrace;
     }

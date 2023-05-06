@@ -27,6 +27,7 @@ class MessageHandler
             'version' => \phpversion(),
             'framework' => $self->detectFramework(),
             'isScalarType' => $self->isScalarType(),
+            'type' => gettype($data), // 'array', 'string', 'integer', 'boolean', 'object', 'NULL'
             'data' => $data,
             'backtrace' => debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, 2000),
         ]);
