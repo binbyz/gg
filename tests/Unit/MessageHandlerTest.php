@@ -10,7 +10,7 @@ test('MessageConverter Scalar Data Type', function () {
             'language' => 'PHP',
             'version' => phpversion(),
             'framework' => 'Vanilla',
-            'isScalaType' => false,
+            'isScalarType' => false,
             'data' => [],
         ]);
 });
@@ -24,8 +24,20 @@ test('MessageData Class Test', function () {
             'language',
             'version',
             'framework',
-            'isScalaType',
+            'isScalarType',
             'data',
             'backtrace'
         ]);
 });
+
+test('Detect Framework Test', function (string $result, string $defineKey) {
+    define($defineKey, true);
+
+    expect(MessageHandler::detectFramework())->toBeString($result);
+})->with([
+    ['Laravel', 'LARAVEL_START'],
+    ['WordPress', 'WPINC'],
+    ['Yii', 'YII_BEGIN_TIME'],
+    ['CodeIgniter', 'BASEPATH'],
+    ['Vanilla', '__TEST__'],
+]);

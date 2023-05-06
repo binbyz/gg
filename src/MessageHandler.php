@@ -32,10 +32,14 @@ class MessageHandler
         ]);
     }
 
-    public function detectFramework(): string
+    public static function detectFramework(): string
     {
         if (defined('LARAVEL_START')) {
             return 'Laravel';
+        }
+
+        if (class_exists('Symfony\Component\HttpKernel\Kernel')) {
+            return 'Symfony';
         }
 
         if (defined('WPINC')) {
@@ -46,7 +50,7 @@ class MessageHandler
             return 'Yii';
         }
 
-        if (defined('BASEPATH') && \function_exists('get_instance')) {
+        if (defined('BASEPATH')) {
             return 'CodeIgniter';
         }
 
