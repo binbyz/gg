@@ -13,7 +13,7 @@ class MessageData extends Data
     public $version;
 
     /** @var bool */
-    public $isScalaType;
+    public $isScalarType;
 
     /** @var string */
     public $framework;
@@ -33,7 +33,7 @@ class MessageData extends Data
     ) {
         $this->language = $language;
         $this->framework = $framework;
-        $this->isScalaType = $isScalaType;
+        $this->isScalarType = $isScalaType;
         $this->data = $data;
         $this->backtrace = $backtrace;
     }
