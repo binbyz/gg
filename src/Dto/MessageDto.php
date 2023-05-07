@@ -1,22 +1,16 @@
 <?php
 
-namespace Beaverlabs\GG\Data;
+namespace Beaverlabs\GG\Dto;
 
 use Beaverlabs\GG\Data;
 
-class MessageData extends Data
+class MessageDto extends Data
 {
     /** @var string */
     public $language;
 
     /** @var string */
     public $version;
-
-    /** @var bool */
-    public $isScalarType;
-
-    /** @var string */
-    public $type;
 
     /** @var string */
     public $framework;
@@ -30,15 +24,11 @@ class MessageData extends Data
     public function __construct(
         string $language,
         string $framework,
-        bool $isScalaType,
-        string $type,
         $data,
         array $backtrace
     ) {
         $this->language = $language;
         $this->framework = $framework;
-        $this->isScalarType = $isScalaType;
-        $this->type = $type;
         $this->data = $data;
         $this->backtrace = $backtrace;
     }

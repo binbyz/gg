@@ -2,35 +2,89 @@
 
 namespace Beaverlabs\GG;
 
-use Beaverlabs\GG\Data\MessageData;
+use Beaverlabs\GG\Dto\DataCapsuleDto;
+use Beaverlabs\GG\Dto\MessageDto;
 
 class MessageHandler
 {
     /** @var mixed */
-    public $data;
+    private $data;
 
-    /** @var bool */
-    public $isScalaType;
-
-    public function __construct($data)
+    private function __construct($data)
     {
         $this->data = $data;
-        $this->isScalaType = $this->isScalarType();
     }
 
-    public static function convert($data): MessageData
+    public static function convert($data): MessageDto
     {
         $self = new self($data);
 
-        return MessageData::from([
+        return MessageDto::from([
             'language' => 'PHP',
             'version' => \phpversion(),
-            'framework' => $self->detectFramework(),
-            'isScalarType' => $self->isScalarType(),
-            'type' => gettype($data), // 'array', 'string', 'integer', 'boolean', 'object', 'NULL'
-            'data' => $data,
+            'framework' => static::detectFramework(),
+            'data' => $self->capsulizeRecursively($self->data),
             'backtrace' => debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, 2000),
         ]);
+    }
+
+    public static function isScalarType($data): bool
+    {
+        return is_scalar($data) || is_null($data);
+    }
+
+    public function capsulizeRecursively($data): DataCapsuleDto
+    {
+        if (static::isScalarType($data)) {
+            return $this->capsuleScalarType($data);
+        }
+
+        if (\is_array($data)) {
+            return $this->capsuleArrayType($data);
+        }
+
+        return $this->capsuleObjectType($data);
+    }
+
+    private function capsuleScalarType($data): DataCapsuleDto
+    {
+        return DataCapsuleDto::from([
+            'type' => gettype($data),
+            'isScalarType' => true,
+            'value' => $data,
+        ]);
+    }
+
+    private function capsuleArrayType($data): DataCapsuleDto
+    {
+        return DataCapsuleDto::from([
+            'type' => gettype($data),
+            'isScalarType' => false,
+            'namespace' => null,
+            'className' => null,
+            'value' => \array_map(function ($item) {
+                return $this->capsulizeRecursively($item);
+            }, $data),
+        ]);
+    }
+
+    private function capsuleObjectType($data): DataCapsuleDto
+    {
+        return DataCapsuleDto::from([
+            'type' => gettype($data),
+            'isScalarType' => false,
+            'namespace' => static::getNamespace($data),
+            'className' => \get_class($data),
+            'value' => $data,
+        ]);
+    }
+
+    public static function getNamespace($data): string
+    {
+        $namespace = \explode('\\', \get_class($data));
+        \array_pop($namespace);
+
+        return \implode('\\', $namespace);
     }
 
     public static function detectFramework(): string
@@ -56,10 +110,5 @@ class MessageHandler
         }
 
         return 'Vanilla';
-    }
-
-    public function isScalarType(): bool
-    {
-        return is_scalar($this->data) || is_null($this->data);
     }
 }

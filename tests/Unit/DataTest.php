@@ -1,14 +1,14 @@
 <?php
 
-use Beaverlabs\GG\Data\EnvironmentData;
+use Beaverlabs\GG\Dto\EnvironmentDto;
 
 it('make EnvironmentData test', function () {
-    $data = EnvironmentData::from([
+    $data = EnvironmentDto::from([
         'host' => 'localhost',
         'port' => 21868,
     ]);
 
-    expect($data)->toBeInstanceOf(EnvironmentData::class)
+    expect($data)->toBeInstanceOf(EnvironmentDto::class)
         ->host->toBeString()
         ->port->toBeInt()
         ->getEndpoint()->toBe('http://localhost:21868');

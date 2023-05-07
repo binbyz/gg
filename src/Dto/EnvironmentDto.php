@@ -1,10 +1,10 @@
 <?php
 
-namespace Beaverlabs\GG\Data;
+namespace Beaverlabs\GG\Dto;
 
 use Beaverlabs\GG\Data;
 
-class EnvironmentData extends Data
+class EnvironmentDto extends Data
 {
     /** @var ?string */
     public $host;

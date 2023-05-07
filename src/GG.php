@@ -2,8 +2,8 @@
 
 namespace Beaverlabs\GG;
 
-use Beaverlabs\GG\Data\EnvironmentData;
-use Beaverlabs\GG\Data\MessageData;
+use Beaverlabs\GG\Dto\EnvironmentDto;
+use Beaverlabs\GG\Dto\MessageDto;
 
 class GG
 {
@@ -15,7 +15,7 @@ class GG
     /** @var GG */
     private static $instance;
 
-    /** @var EnvironmentData */
+    /** @var EnvironmentDto */
     public $environments;
 
     private function __construct()
@@ -23,9 +23,9 @@ class GG
         $this->environments = $this->loadEnvironments();
     }
 
-    public function loadEnvironments(): EnvironmentData
+    public function loadEnvironments(): EnvironmentDto
     {
-        return EnvironmentData::from([
+        return EnvironmentDto::from([
             'host' => 'localhost',
             'port' => 21868,
         ]);
@@ -53,7 +53,7 @@ class GG
         return static::getInstance();
     }
 
-    public function sendData(MessageData $message): bool
+    public function sendData(MessageDto $message): bool
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://localhost:21868/api/receiver');
