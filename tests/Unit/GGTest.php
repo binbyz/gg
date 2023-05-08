@@ -25,3 +25,10 @@ test('object, array data send test', function () {
     expect(gg($param1, $param2))
         ->toBeInstanceOf(GG::class);
 });
+
+test('array data send test', function () {
+    $param1 = ['test' => 'test'];
+
+    expect(gg($param1))
+        ->toBeInstanceOf(GG::class);
+});
