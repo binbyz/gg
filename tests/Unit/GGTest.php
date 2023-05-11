@@ -27,7 +27,21 @@ test('object, array data send test', function () {
 });
 
 test('array data send test', function () {
-    $param1 = ['test' => 'test'];
+    $param1 = [
+        'test' => 'test',
+        'key' => 1,
+        'key2' => 2,
+        'key4' => 2,
+        'key5' => 2,
+        'key6' => 2,
+        'key7' => 2,
+        'key8' => [
+            'test' => 1,
+            'test2' => 2,
+        ],
+    ];
+
+    ray($param1);
 
     expect(gg($param1))
         ->toBeInstanceOf(GG::class);

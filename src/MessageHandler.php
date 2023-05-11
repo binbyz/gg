@@ -4,6 +4,7 @@ namespace Beaverlabs\GG;
 
 use Beaverlabs\GG\Dto\DataCapsuleDto;
 use Beaverlabs\GG\Dto\MessageDto;
+use Beaverlabs\GG\Exceptions\ValueTypeException;
 
 class MessageHandler
 {
@@ -55,8 +56,15 @@ class MessageHandler
         ]);
     }
 
+    /**
+     * @throws ValueTypeException
+     */
     private function capsuleArrayType($data): DataCapsuleDto
     {
+        if (! \is_array($data)) {
+            throw ValueTypeException::make($data);
+        }
+
         return DataCapsuleDto::from([
             'type' => gettype($data),
             'isScalarType' => false,
@@ -68,14 +76,23 @@ class MessageHandler
         ]);
     }
 
+    /**
+     * @throws ValueTypeException
+     */
     private function capsuleObjectType($data): DataCapsuleDto
     {
+        if (! \is_object($data)) {
+            throw ValueTypeException::make($data);
+        }
+
         return DataCapsuleDto::from([
             'type' => gettype($data),
             'isScalarType' => false,
             'namespace' => static::getNamespace($data),
             'className' => \get_class($data),
-            'value' => $data,
+            'value' => \array_map(function ($item) {
+                return $this->capsulizeRecursively($item);
+            }, \get_object_vars($data)),
         ]);
     }
 
