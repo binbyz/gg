@@ -95,3 +95,10 @@ test('Detect Framework Test', function (string $result, string $defineKey) {
     ['CodeIgniter', 'BASEPATH'],
     ['Vanilla', '__TEST__'],
 ]);
+
+test('Normalize Class Name Test', function () {
+    $class = new class extends Data {};
+
+    expect(MessageHandler::normalizeClassName($class))
+        ->toBeString('Beaverlabs\GG\Data@anonymous');
+});

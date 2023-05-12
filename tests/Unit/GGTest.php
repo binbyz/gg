@@ -15,14 +15,20 @@ test('data send test via helper function', function () {
 });
 
 test('object, array data send test', function () {
-    $param1 = ['test' => 'test'];
+//    $param1 = ['test' => 'test'];
     $param2 = new class extends Beaverlabs\GG\Data {
         public $id = 1;
         public $name = 'WONBEEN IM';
         private $email = 'eyedroot@gmail.com';
+        public $array = [
+            'key1' => 'value1',
+            'key2' => 'value2',
+        ];
     };
 
-    expect(gg($param1, $param2))
+    ray($param2);
+
+    expect(gg($param2))
         ->toBeInstanceOf(GG::class);
 });
 

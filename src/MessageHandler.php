@@ -8,6 +8,8 @@ use Beaverlabs\GG\Exceptions\ValueTypeException;
 
 class MessageHandler
 {
+    const ANONYMOUS_CLASS_PREFIX = '@anonymous';
+
     /** @var mixed */
     private $data;
 
@@ -34,6 +36,9 @@ class MessageHandler
         return is_scalar($data) || is_null($data);
     }
 
+    /**
+     * @throws ValueTypeException
+     */
     public function capsulizeRecursively($data): DataCapsuleDto
     {
         if (static::isScalarType($data)) {
@@ -89,7 +94,7 @@ class MessageHandler
             'type' => gettype($data),
             'isScalarType' => false,
             'namespace' => static::getNamespace($data),
-            'className' => \get_class($data),
+            'className' => static::normalizeClassName($data),
             'value' => \array_map(function ($item) {
                 return $this->capsulizeRecursively($item);
             }, \get_object_vars($data)),
@@ -102,6 +107,19 @@ class MessageHandler
         \array_pop($namespace);
 
         return \implode('\\', $namespace);
+    }
+
+    public static function normalizeClassName($data): string
+    {
+        $className = \get_class($data);
+
+        if (\strpos($className, self::ANONYMOUS_CLASS_PREFIX) !== false) {
+            $exploded = explode(self::ANONYMOUS_CLASS_PREFIX, $className);
+
+            $className = $exploded[0] . self::ANONYMOUS_CLASS_PREFIX;
+        }
+
+        return $className;
     }
 
     public static function detectFramework(): string
