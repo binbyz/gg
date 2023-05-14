@@ -9,8 +9,9 @@ use ReflectionException;
 
 class MessageHandler
 {
-    const ANONYMOUS_CLASS_PREFIX = '@anonymous';
     const DEBUG_BACKTRACE_LIMIT = 500;
+    const ANONYMOUS_CLASS_PREFIX = '@anonymous';
+    const MODIFIER_SPLITTER = '@';
 
     /** @var mixed */
     private $data;
@@ -119,9 +120,16 @@ class MessageHandler
         $reflection = new \ReflectionClass($data);
 
         foreach ($reflection->getProperties() as $property) {
+            $modifier = $property->getModifiers();
+
             $property->setAccessible(true);
 
-            $properties[$property->getName()] = $property->getValue($data);
+            // modifier to string
+            $modifier = \implode(' ', \Reflection::getModifierNames($modifier));
+
+            $modifierAndPropertyName = ($modifier . self::MODIFIER_SPLITTER . $property->getName());
+
+            $properties[$modifierAndPropertyName] = $property->getValue($data);
         }
 
         return \array_map(

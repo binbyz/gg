@@ -20,6 +20,7 @@ test('Anonymous 클래스 전송 테스트', function () {
         public $id = 1;
         public $name = 'WONBEEN IM';
         private $email = 'eyedroot@gmail.com';
+        protected $password = '1234';
         public $array = [
             'key1' => 'value1',
             'key2' => 'value2',
