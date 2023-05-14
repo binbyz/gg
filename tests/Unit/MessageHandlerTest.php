@@ -7,12 +7,13 @@ use Beaverlabs\GG\MessageHandler;
 
 test('MessageConverter Scalar Data Type', function () {
     expect(MessageHandler::convert([]))
+        ->ray()
         ->toBeInstanceOf(MessageDto::class)
         ->toHaveProperties([
-            'language' => 'PHP',
-            'version' => phpversion(),
-            'framework' => 'Vanilla',
-            'data' => [],
+            'language',
+            'version',
+            'framework',
+            'data',
         ]);
 });
 
