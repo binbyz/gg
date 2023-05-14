@@ -58,8 +58,8 @@ class GG
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://localhost:21868/api/receiver');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 500);
-        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 500);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 200);
+        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 200);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Beaverlabs/GG');
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         curl_setopt($ch, CURLOPT_POST, true);
