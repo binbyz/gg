@@ -9,6 +9,7 @@ use Beaverlabs\GG\Exceptions\ValueTypeException;
 class MessageHandler
 {
     const ANONYMOUS_CLASS_PREFIX = '@anonymous';
+    const DEBUG_BACKTRACE_LIMIT = 500;
 
     /** @var mixed */
     private $data;
@@ -18,6 +19,9 @@ class MessageHandler
         $this->data = $data;
     }
 
+    /**
+     * @throws ValueTypeException
+     */
     public static function convert($data): MessageDto
     {
         $self = new self($data);
@@ -27,7 +31,7 @@ class MessageHandler
             'version' => \phpversion(),
             'framework' => static::detectFramework(),
             'data' => $self->capsulizeRecursively($self->data),
-            'backtrace' => debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, 2000),
+            'backtrace' => debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, self::DEBUG_BACKTRACE_LIMIT),
         ]);
     }
 
