@@ -13,4 +13,11 @@ if (! function_exists('gg')) {
 
         return $gg->send($parameters);
     }
+
+    function gd(...$parameters): GG
+    {
+        gg($parameters);
+
+        exit();
+    }
 }
