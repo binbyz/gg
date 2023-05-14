@@ -6,7 +6,7 @@ use Beaverlabs\GG\Data;
 
 class DataCapsuleDto extends Data
 {
-    /** @var string 'array', 'string', 'integer', 'boolean', 'object', 'NULL' */
+    /** @var string array, string, integer, boolean, object, NULL */
     public $type;
 
     /** @var bool */

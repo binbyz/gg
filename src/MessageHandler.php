@@ -5,6 +5,7 @@ namespace Beaverlabs\GG;
 use Beaverlabs\GG\Dto\DataCapsuleDto;
 use Beaverlabs\GG\Dto\MessageDto;
 use Beaverlabs\GG\Exceptions\ValueTypeException;
+use ReflectionException;
 
 class MessageHandler
 {
@@ -21,6 +22,7 @@ class MessageHandler
 
     /**
      * @throws ValueTypeException
+     * @throws ReflectionException
      */
     public static function convert($data): MessageDto
     {
@@ -42,6 +44,7 @@ class MessageHandler
 
     /**
      * @throws ValueTypeException
+     * @throws ReflectionException
      */
     public function capsulizeRecursively($data): DataCapsuleDto
     {
@@ -67,6 +70,7 @@ class MessageHandler
 
     /**
      * @throws ValueTypeException
+     * @throws ReflectionException
      */
     public function capsuleArrayType($data): DataCapsuleDto
     {
@@ -87,6 +91,7 @@ class MessageHandler
 
     /**
      * @throws ValueTypeException
+     * @throws ReflectionException
      */
     public function capsuleObjectType($data): DataCapsuleDto
     {
@@ -99,10 +104,33 @@ class MessageHandler
             'isScalarType' => false,
             'namespace' => static::getNamespace($data),
             'className' => static::normalizeClassName($data),
-            'value' => \array_map(function ($item) {
-                return $this->capsulizeRecursively($item);
-            }, \get_object_vars($data)),
+            'value' => $this->getPropertiesToArray($data),
         ]);
+    }
+
+    /**
+     * @throws ReflectionException
+     * @throws ValueTypeException
+     */
+    private function getPropertiesToArray($data): array
+    {
+        $properties = [];
+
+        $reflection = new \ReflectionClass($data);
+
+        foreach ($reflection->getProperties() as $property) {
+            $property->setAccessible(true);
+
+            $properties[$property->getName()] = $property->getValue($data);
+        }
+
+        return \array_map(
+             /** @throws ValueTypeException|ReflectionException */
+             function ($item) {
+                return $this->capsulizeRecursively($item);
+            },
+             $properties
+        );
     }
 
     public static function getNamespace($data): string
