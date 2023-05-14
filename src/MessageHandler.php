@@ -64,7 +64,7 @@ class MessageHandler
     /**
      * @throws ValueTypeException
      */
-    private function capsuleArrayType($data): DataCapsuleDto
+    public function capsuleArrayType($data): DataCapsuleDto
     {
         if (! \is_array($data)) {
             throw ValueTypeException::make($data);
@@ -84,7 +84,7 @@ class MessageHandler
     /**
      * @throws ValueTypeException
      */
-    private function capsuleObjectType($data): DataCapsuleDto
+    public function capsuleObjectType($data): DataCapsuleDto
     {
         if (! \is_object($data)) {
             throw ValueTypeException::make($data);

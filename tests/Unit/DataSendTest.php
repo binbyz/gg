@@ -1,5 +1,6 @@
 <?php
 
+use Beaverlabs\GG\Exceptions\ValueTypeException;
 use Beaverlabs\GG\GG;
 use Beaverlabs\GG\MessageHandler;
 
@@ -15,7 +16,6 @@ test('data send test via helper function', function () {
 });
 
 test('object, array data send test', function () {
-//    $param1 = ['test' => 'test'];
     $param2 = new class extends Beaverlabs\GG\Data {
         public $id = 1;
         public $name = 'WONBEEN IM';
@@ -25,8 +25,6 @@ test('object, array data send test', function () {
             'key2' => 'value2',
         ];
     };
-
-    ray($param2);
 
     expect(gg($param2))
         ->toBeInstanceOf(GG::class);
@@ -47,8 +45,15 @@ test('array data send test', function () {
         ],
     ];
 
-    ray($param1);
-
     expect(gg($param1))
         ->toBeInstanceOf(GG::class);
 });
+
+test('exception message send test', function () {
+    $throw = ValueTypeException::make('Exception message send test');
+
+    gg($throw);
+    ray($throw);
+
+    throw $throw;
+})->throws(ValueTypeException::class);
