@@ -16,7 +16,7 @@ test('헬퍼 함수를 통한 데이터 전송', function () {
 });
 
 test('Anonymous 클래스 전송 테스트', function () {
-    $param2 = new class extends Beaverlabs\GG\Data {
+    $parameter = new class extends Beaverlabs\GG\Data {
         public $id = 1;
         public $name = 'WONBEEN IM';
         private $email = 'eyedroot@gmail.com';
@@ -24,10 +24,29 @@ test('Anonymous 클래스 전송 테스트', function () {
         public $array = [
             'key1' => 'value1',
             'key2' => 'value2',
+            'depth3' => [
+                'key1' => 'value1',
+                'key2' => 'value2',
+                'key3' => 'value2',
+                'key4' => 'value2',
+            ],
         ];
+
+        public function __construct()
+        {
+            $this->array['depth3']['key5'] = new class {
+                public $id = 1;
+                public $name = 'WONBEEN IM';
+                private $email = 'byzz@kakao.com';
+                protected $password = '1234';
+                public $address = 'South Korea';
+            };
+        }
     };
 
-    expect(gg($param2))
+    ray($parameter);
+
+    expect(gg($parameter))
         ->toBeInstanceOf(GG::class);
 });
 
