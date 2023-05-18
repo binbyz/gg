@@ -40,6 +40,7 @@ test('Anonymous 클래스 전송 테스트', function () {
                 private $email = 'byzz@kakao.com';
                 protected $password = '1234';
                 public $address = 'South Korea';
+                public $phoneNumber = 12345667;
             };
         }
     };
