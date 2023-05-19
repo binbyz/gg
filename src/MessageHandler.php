@@ -34,7 +34,9 @@ class MessageHandler
             'version' => \phpversion(),
             'framework' => static::detectFramework(),
             'data' => $self->capsulizeRecursively($self->data),
-            'backtrace' => debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, self::DEBUG_BACKTRACE_LIMIT),
+            'backtrace' => $self->capsulizeBacktraceRecursively(
+                debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, self::DEBUG_BACKTRACE_LIMIT)
+            )
         ]);
     }
 
@@ -58,6 +60,22 @@ class MessageHandler
         }
 
         return $this->capsuleObjectType($data);
+    }
+
+    public function capsulizeBacktraceRecursively(array $backtrace): array
+    {
+        return \array_map(
+            /**
+            * @throws ReflectionException
+            * @throws ValueTypeException
+            */
+            function ($item) {
+                $item['args'] = $this->capsulizeRecursively($item['args']);
+
+                return $item;
+            },
+            $backtrace
+        );
     }
 
     private function capsuleScalarType($data): DataCapsuleDto

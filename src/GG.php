@@ -4,6 +4,8 @@ namespace Beaverlabs\GG;
 
 use Beaverlabs\GG\Dto\EnvironmentDto;
 use Beaverlabs\GG\Dto\MessageDto;
+use Beaverlabs\GG\Exceptions\ValueTypeException;
+use ReflectionException;
 
 class GG
 {
@@ -40,6 +42,10 @@ class GG
         return static::$instance;
     }
 
+    /**
+     * @throws ReflectionException
+     * @throws ValueTypeException
+     */
     public function send(...$parameters): self
     {
         if (! count($parameters)) {
