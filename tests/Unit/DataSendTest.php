@@ -45,8 +45,6 @@ test('Anonymous 클래스 전송 테스트', function () {
         }
     };
 
-    ray($parameter);
-
     expect(gg($parameter))
         ->toBeInstanceOf(GG::class);
 });

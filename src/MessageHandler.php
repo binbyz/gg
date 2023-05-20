@@ -9,6 +9,8 @@ use ReflectionException;
 
 class MessageHandler
 {
+    const SANITIZE_BACKTRACE_NAMESPACE = 'Beaverlabs\\GG';
+
     const DEBUG_BACKTRACE_LIMIT = 500;
     const ANONYMOUS_CLASS_PREFIX = '@anonymous';
     const MODIFIER_SPLITTER = '@';
@@ -29,13 +31,15 @@ class MessageHandler
     {
         $self = new self($data);
 
+        $backtrace = debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, self::DEBUG_BACKTRACE_LIMIT);
+
         return MessageDto::from([
             'language' => 'PHP',
             'version' => \phpversion(),
             'framework' => static::detectFramework(),
             'data' => $self->capsulizeRecursively($self->data),
-            'backtrace' => $self->capsulizeBacktraceRecursively(
-                debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, self::DEBUG_BACKTRACE_LIMIT)
+            'backtrace' => $self->sanitizeBacktrace(
+                $self->capsulizeBacktraceRecursively($backtrace)
             )
         ]);
     }
@@ -76,6 +80,19 @@ class MessageHandler
             },
             $backtrace
         );
+    }
+
+    public function sanitizeBacktrace(array $backtrace): array
+    {
+        $backtrace = \array_filter($backtrace, static function ($item) {
+            if (\strpos($item['class'], static::SANITIZE_BACKTRACE_NAMESPACE) !== false) {
+                return false;
+            }
+
+            return true;
+        });
+
+        return \array_values($backtrace);
     }
 
     private function capsuleScalarType($data): DataCapsuleDto
