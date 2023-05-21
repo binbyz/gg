@@ -8,7 +8,7 @@ class Data implements \JsonSerializable
      * @param  array  $inputs
      * @return static
      */
-    public static function from(array $inputs)
+    public static function from(array $inputs): Data
     {
         $reflection = new \ReflectionClass(static::class);
 
