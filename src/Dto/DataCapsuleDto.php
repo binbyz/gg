@@ -7,13 +7,17 @@ use Beaverlabs\GG\Data;
 class DataCapsuleDto extends Data
 {
     /** @var string array, string, integer, boolean, object, NULL */
-    public string $type;
+    public $type;
 
-    public bool $isScalarType;
+    /** @var bool */
+    public $isScalarType;
 
-    public ?string $namespace = null;
+    /** @var ?string */
+    public $namespace = null;
 
-    public ?string $className = null;
+    /** @var ?string */
+    public $className = null;
 
-    public mixed $value;
+    /** @var mixed */
+    public $value;
 }

@@ -1,13 +1,8 @@
 <?php
 
-use Beaverlabs\GG\Exceptions\ValueTypeException;
 use Beaverlabs\GG\GG;
 
 if (! function_exists('gg')) {
-    /**
-     * @throws ReflectionException
-     * @throws ValueTypeException
-     */
     function gg(...$parameters): GG
     {
         $gg = GG::getInstance();
