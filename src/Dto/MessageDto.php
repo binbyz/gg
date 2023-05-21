@@ -6,20 +6,15 @@ use Beaverlabs\GG\Data;
 
 class MessageDto extends Data
 {
-    /** @var string */
-    public $language;
+    public string $language;
 
-    /** @var string */
-    public $version;
+    public string $version;
 
-    /** @var string */
-    public $framework;
+    public string $framework;
 
-    /** @var mixed */
-    public $data;
+    public mixed $data;
 
-    /** @var array */
-    public $backtrace;
+    public array $backtrace;
 
     public function __construct(
         string $language,

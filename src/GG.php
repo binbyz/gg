@@ -12,13 +12,11 @@ class GG
     /**
      * response status when sent data received successfully
      */
-    const RESPONSE_STATUS = 'gg';
+    public const RESPONSE_STATUS = 'gg';
 
-    /** @var GG */
-    private static $instance;
+    private static GG $instance;
 
-    /** @var EnvironmentDto */
-    public $environments;
+    public EnvironmentDto $environments;
 
     private function __construct()
     {

@@ -15,8 +15,7 @@ class MessageHandler
     const ANONYMOUS_CLASS_PREFIX = '@anonymous';
     const MODIFIER_SPLITTER = '@';
 
-    /** @var mixed */
-    private $data;
+    private mixed $data;
 
     private function __construct($data)
     {
@@ -85,7 +84,7 @@ class MessageHandler
     public function sanitizeBacktrace(array $backtrace): array
     {
         $backtrace = \array_filter($backtrace, static function ($item) {
-            if (\strpos($item['class'], static::SANITIZE_BACKTRACE_NAMESPACE) !== false) {
+            if (str_contains($item['class'], static::SANITIZE_BACKTRACE_NAMESPACE)) {
                 return false;
             }
 
