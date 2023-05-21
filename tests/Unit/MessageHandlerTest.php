@@ -7,7 +7,6 @@ use Beaverlabs\GG\MessageHandler;
 
 test('MessageConverter Scalar Data Type', function () {
     expect(MessageHandler::convert([]))
-        ->ray()
         ->toBeInstanceOf(MessageDto::class)
         ->toHaveProperties([
             'language',
@@ -47,7 +46,6 @@ test('Array Message Data Test (1)', function () {
     ]);
 
     expect($converted)
-        ->ray()
         ->toBeInstanceOf(MessageDto::class)
         ->data->toBeInstanceOf(DataCapsuleDto::class);
 });
@@ -64,7 +62,6 @@ test('Array Message Data Test (2)', function () {
     ]);
 
     expect($converted)
-        ->ray()
         ->toBeInstanceOf(MessageDto::class)
         ->data->toBeInstanceOf(DataCapsuleDto::class);
 });
@@ -79,7 +76,6 @@ test('Object Message Data Test', function () {
     $converted = MessageHandler::convert($data);
 
     expect($converted)
-        ->ray()
         ->toBeInstanceOf(MessageDto::class)
         ->data->toBeInstanceOf(DataCapsuleDto::class);
 });

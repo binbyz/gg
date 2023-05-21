@@ -72,7 +72,6 @@ test('예외 클래스 전송 테스트', function () {
     $throw = ValueTypeException::make('Exception message send test');
 
     gg($throw);
-    ray($throw);
 
     throw $throw;
 })->throws(ValueTypeException::class);
