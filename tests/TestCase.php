@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Beaverlabs\GG\Tests;
 
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
