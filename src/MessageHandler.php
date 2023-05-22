@@ -84,8 +84,8 @@ class MessageHandler
 
     public function sanitizeBacktrace(array $backtrace): array
     {
-        $backtrace = \array_filter($backtrace, static function ($item) {
-            if (\strpos($item['class'], static::SANITIZE_BACKTRACE_NAMESPACE) !== false) {
+        $backtrace = \array_filter($backtrace, static function (array $item) {
+            if (\array_key_exists('class', $item) && \strpos($item['class'], static::SANITIZE_BACKTRACE_NAMESPACE) !== false) {
                 return false;
             }
 
