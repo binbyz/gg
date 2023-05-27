@@ -14,7 +14,7 @@ class GG
      */
     const RESPONSE_STATUS = 'gg';
 
-    private static GG $instance;
+    private static ?GG $instance = null;
 
     public EnvironmentDto $environments;
 
