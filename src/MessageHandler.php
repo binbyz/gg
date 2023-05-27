@@ -9,6 +9,7 @@ use ReflectionException;
 
 class MessageHandler
 {
+    const SANITIZE_HELPER_FUNCTION = 'gg';
     const SANITIZE_BACKTRACE_NAMESPACE = 'Beaverlabs\\GG';
 
     const DEBUG_BACKTRACE_LIMIT = 500;
@@ -87,6 +88,12 @@ class MessageHandler
         $backtrace = \array_filter($backtrace, static function (array $item) {
             if (\array_key_exists('class', $item) && \strpos($item['class'], static::SANITIZE_BACKTRACE_NAMESPACE) !== false) {
                 return false;
+            }
+
+            if (\array_key_exists('function', $item)) {
+                if ($item['function'] == self::SANITIZE_HELPER_FUNCTION || \strpos($item['function'], static::SANITIZE_BACKTRACE_NAMESPACE) !== false) {
+                    return false;
+                }
             }
 
             return true;
