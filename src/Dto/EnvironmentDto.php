@@ -6,11 +6,9 @@ use Beaverlabs\GG\Data;
 
 class EnvironmentDto extends Data
 {
-    /** @var ?string */
-    public $host;
+    public ?string $host;
 
-    /** @var ?int */
-    public $port;
+    public ?int $port;
 
     public function getEndpoint(): string
     {
