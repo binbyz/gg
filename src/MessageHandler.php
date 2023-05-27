@@ -85,13 +85,15 @@ class MessageHandler
 
     public function sanitizeBacktrace(array $backtrace): array
     {
-        $backtrace = \array_filter($backtrace, static function (array $item) {
+        $convertedFunctionNamespace = \str_replace('\\\\', '\\', static::SANITIZE_BACKTRACE_NAMESPACE);
+
+        $backtrace = \array_filter($backtrace, static function (array $item) use ($convertedFunctionNamespace) {
             if (\array_key_exists('class', $item) && \strpos($item['class'], static::SANITIZE_BACKTRACE_NAMESPACE) !== false) {
                 return false;
             }
 
             if (\array_key_exists('function', $item)) {
-                if ($item['function'] == self::SANITIZE_HELPER_FUNCTION || \strpos($item['function'], static::SANITIZE_BACKTRACE_NAMESPACE) !== false) {
+                if ($item['function'] == self::SANITIZE_HELPER_FUNCTION || \strpos($item['function'], $convertedFunctionNamespace) !== false) {
                     return false;
                 }
             }
