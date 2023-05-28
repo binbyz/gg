@@ -10,7 +10,10 @@ use ReflectionException;
 class MessageHandler
 {
     const SANITIZE_HELPER_FUNCTION = 'gg';
-    const SANITIZE_BACKTRACE_NAMESPACE = 'Beaverlabs\\GG';
+    const SANITIZE_BACKTRACE_NAMESPACES = [
+        'Beaverlabs\\GG',
+        'Illuminate\Support\Traits',
+    ];
 
     const DEBUG_BACKTRACE_LIMIT = 500;
     const ANONYMOUS_CLASS_PREFIX = '@anonymous';
@@ -85,17 +88,17 @@ class MessageHandler
 
     public function sanitizeBacktrace(array $backtrace): array
     {
-        $convertedFunctionNamespace = \str_replace('\\\\', '\\', static::SANITIZE_BACKTRACE_NAMESPACE);
-
-        $backtrace = \array_filter($backtrace, static function (array $item) use ($convertedFunctionNamespace) {
-            if (\array_key_exists('class', $item) && \strpos($item['class'], static::SANITIZE_BACKTRACE_NAMESPACE) !== false) {
-                return false;
+        $backtrace = \array_filter($backtrace, static function (array $item) {
+            if (\array_key_exists('class', $item)) {
+                foreach (self::SANITIZE_BACKTRACE_NAMESPACES as $namespace) {
+                    if (\strpos($item['class'], $namespace) > -1) {
+                        return false;
+                    }
+                }
             }
 
-            if (\array_key_exists('function', $item)) {
-                if ($item['function'] == self::SANITIZE_HELPER_FUNCTION || \strpos($item['function'], $convertedFunctionNamespace) !== false) {
-                    return false;
-                }
+            if (\array_key_exists('function', $item) && $item['function'] == self::SANITIZE_HELPER_FUNCTION) {
+                return false;
             }
 
             return true;
