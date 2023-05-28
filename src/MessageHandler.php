@@ -10,9 +10,11 @@ use ReflectionException;
 class MessageHandler
 {
     const SANITIZE_HELPER_FUNCTION = 'gg';
+
     const SANITIZE_BACKTRACE_NAMESPACES = [
         'Beaverlabs\\GG',
-        'Illuminate\Support\Traits',
+        'Illuminate\\Support\\Collection',
+        'Illuminate\\Database\\Eloquent\\Collection',
     ];
 
     const DEBUG_BACKTRACE_LIMIT = 500;
