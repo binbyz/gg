@@ -9,12 +9,13 @@ use ReflectionException;
 
 class MessageHandler
 {
-    const SANITIZE_HELPER_FUNCTION = 'gg';
+    const SANITIZE_HELPER_FUNCTION = [
+        'gg',
+        'Beaverlabs\\LaravelGG\\{closure}',
+    ];
 
-    const SANITIZE_BACKTRACE_NAMESPACES = [
+    const SANITIZE_BACKTRACE_CLASSES = [
         'Beaverlabs\\GG',
-        'Illuminate\\Support\\Collection',
-        'Illuminate\\Database\\Eloquent\\Collection',
     ];
 
     const DEBUG_BACKTRACE_LIMIT = 500;
@@ -92,15 +93,19 @@ class MessageHandler
     {
         $backtrace = \array_filter($backtrace, static function (array $item) {
             if (\array_key_exists('class', $item)) {
-                foreach (self::SANITIZE_BACKTRACE_NAMESPACES as $namespace) {
-                    if (\strpos($item['class'], $namespace) > -1) {
+                foreach (self::SANITIZE_BACKTRACE_CLASSES as $className) {
+                    if (\strpos($item['class'], $className) > -1) {
                         return false;
                     }
                 }
             }
 
-            if (\array_key_exists('function', $item) && $item['function'] == self::SANITIZE_HELPER_FUNCTION) {
-                return false;
+            if (\array_key_exists('function', $item)) {
+                foreach (self::SANITIZE_HELPER_FUNCTION as $helperFunction) {
+                    if (\strpos($item['function'], $helperFunction) > -1) {
+                        return false;
+                    }
+                }
             }
 
             return true;
