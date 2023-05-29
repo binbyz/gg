@@ -1,9 +1,9 @@
 <?php
 
-use Beaverlabs\Gg\GG;
+use Beaverlabs\Gg\Gg;
 
 it('returns GG instance', function () {
-    expect(\gg())->toBeInstanceOf(GG::class);
+    expect(\gg())->toBeInstanceOf(Gg::class);
 });
 
 it('always return same memory address', function () {

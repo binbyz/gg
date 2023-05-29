@@ -1,7 +1,7 @@
 <?php
 
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
-use Beaverlabs\Gg\GG;
+use Beaverlabs\Gg\Gg;
 use Beaverlabs\Gg\MessageHandler;
 
 test('스칼라 타입 데이터 전송', function () {
@@ -12,7 +12,7 @@ test('스칼라 타입 데이터 전송', function () {
 
 test('헬퍼 함수를 통한 데이터 전송', function () {
     expect(gg('123', 123, true, false, null, ['key1' => 'value1', 'key2' => 'value2']))
-        ->toBeInstanceOf(GG::class);
+        ->toBeInstanceOf(Gg::class);
 });
 
 test('Anonymous 클래스 전송 테스트', function () {
@@ -46,7 +46,7 @@ test('Anonymous 클래스 전송 테스트', function () {
     };
 
     expect(gg($parameter))
-        ->toBeInstanceOf(GG::class);
+        ->toBeInstanceOf(Gg::class);
 });
 
 test('배열 전송 테스트', function () {
@@ -65,7 +65,7 @@ test('배열 전송 테스트', function () {
     ];
 
     expect(gg($param1))
-        ->toBeInstanceOf(GG::class);
+        ->toBeInstanceOf(Gg::class);
 });
 
 test('예외 클래스 전송 테스트', function () {

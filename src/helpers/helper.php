@@ -1,11 +1,11 @@
 <?php
 
-use Beaverlabs\Gg\GG;
+use Beaverlabs\Gg\Gg;
 
 if (! function_exists('gg')) {
-    function gg(...$parameters): GG
+    function gg(...$parameters): Gg
     {
-        $gg = GG::getInstance();
+        $gg = Gg::getInstance();
 
         if (! count($parameters)) {
             return $gg;
@@ -14,7 +14,7 @@ if (! function_exists('gg')) {
         return $gg->send($parameters);
     }
 
-    function gd(...$parameters): GG
+    function gd(...$parameters): Gg
     {
         gg($parameters);
 

@@ -7,14 +7,14 @@ use Beaverlabs\Gg\Dto\MessageDto;
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
 use ReflectionException;
 
-class GG
+class Gg
 {
     /**
      * response status when sent data received successfully
      */
     const RESPONSE_STATUS = 'gg';
 
-    private static ?GG $instance = null;
+    private static ?Gg $instance = null;
 
     public EnvironmentDto $environments;
 
@@ -31,7 +31,7 @@ class GG
         ]);
     }
 
-    public static function getInstance(): GG
+    public static function getInstance(): Gg
     {
         if (static::$instance === null) {
             static::$instance = new static();
