@@ -1,10 +1,10 @@
 <?php
 
-namespace Beaverlabs\GG;
+namespace Beaverlabs\Gg;
 
-use Beaverlabs\GG\Dto\EnvironmentDto;
-use Beaverlabs\GG\Dto\MessageDto;
-use Beaverlabs\GG\Exceptions\ValueTypeException;
+use Beaverlabs\Gg\Dto\EnvironmentDto;
+use Beaverlabs\Gg\Dto\MessageDto;
+use Beaverlabs\Gg\Exceptions\ValueTypeException;
 use ReflectionException;
 
 class GG

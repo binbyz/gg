@@ -1,6 +1,6 @@
 <?php
 
-use Beaverlabs\GG\GG;
+use Beaverlabs\Gg\GG;
 
 if (! function_exists('gg')) {
     function gg(...$parameters): GG

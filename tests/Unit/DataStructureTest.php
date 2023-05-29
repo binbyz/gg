@@ -1,9 +1,9 @@
 <?php
 
-use Beaverlabs\GG\Dto\DataCapsuleDto;
-use Beaverlabs\GG\Dto\EnvironmentDto;
-use Beaverlabs\GG\Dto\MessageDto;
-use Beaverlabs\GG\MessageHandler;
+use Beaverlabs\Gg\Dto\DataCapsuleDto;
+use Beaverlabs\Gg\Dto\EnvironmentDto;
+use Beaverlabs\Gg\Dto\MessageDto;
+use Beaverlabs\Gg\MessageHandler;
 
 test('환경변수 파일 테스트', function () {
     $data = EnvironmentDto::from([

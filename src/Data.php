@@ -1,6 +1,6 @@
 <?php
 
-namespace Beaverlabs\GG;
+namespace Beaverlabs\Gg;
 
 class Data implements \JsonSerializable
 {

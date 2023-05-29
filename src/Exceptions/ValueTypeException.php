@@ -1,6 +1,6 @@
 <?php
 
-namespace Beaverlabs\GG\Exceptions;
+namespace Beaverlabs\Gg\Exceptions;
 
 class ValueTypeException extends \Exception
 {

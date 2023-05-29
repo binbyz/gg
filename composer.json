@@ -25,13 +25,12 @@
     "ext-json": "*"
   },
   "require-dev": {
-    "pestphp/pest": "^1.23.0",
-    "phpunit/phpunit": "^9.3",
-    "symfony/console": "^5.2"
+    "pestphp/pest": "^2.6.1",
+    "phpunit/phpunit": "^10.1.3"
   },
   "autoload": {
     "psr-4": {
-      "Beaverlabs\\GG\\": "src/"
+      "Beaverlabs\\Gg\\": "src/"
     },
     "files": [
       "src/helpers/helper.php"
@@ -39,7 +38,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Beaverlabs\\GG\\Tests\\": "tests/"
+      "Beaverlabs\\Gg\\Tests\\": "tests/"
     }
   },
   "scripts": {

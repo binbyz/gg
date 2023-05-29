@@ -1,8 +1,8 @@
 <?php
 
-use Beaverlabs\GG\Exceptions\ValueTypeException;
-use Beaverlabs\GG\GG;
-use Beaverlabs\GG\MessageHandler;
+use Beaverlabs\Gg\Exceptions\ValueTypeException;
+use Beaverlabs\Gg\GG;
+use Beaverlabs\Gg\MessageHandler;
 
 test('스칼라 타입 데이터 전송', function () {
     $result = gg()->sendData(MessageHandler::convert(false));
@@ -16,7 +16,7 @@ test('헬퍼 함수를 통한 데이터 전송', function () {
 });
 
 test('Anonymous 클래스 전송 테스트', function () {
-    $parameter = new class extends Beaverlabs\GG\Data {
+    $parameter = new class extends Beaverlabs\Gg\Data {
         public $id = 1;
         public $name = 'WONBEEN IM';
         private $email = 'eyedroot@gmail.com';

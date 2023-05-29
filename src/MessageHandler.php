@@ -1,21 +1,21 @@
 <?php
 
-namespace Beaverlabs\GG;
+namespace Beaverlabs\Gg;
 
-use Beaverlabs\GG\Dto\DataCapsuleDto;
-use Beaverlabs\GG\Dto\MessageDto;
-use Beaverlabs\GG\Exceptions\ValueTypeException;
+use Beaverlabs\Gg\Dto\DataCapsuleDto;
+use Beaverlabs\Gg\Dto\MessageDto;
+use Beaverlabs\Gg\Exceptions\ValueTypeException;
 use ReflectionException;
 
 class MessageHandler
 {
     const SANITIZE_HELPER_FUNCTION = [
         'gg',
-        'Beaverlabs\\LaravelGG\\{closure}',
+        'Beaverlabs\\LaravelGg\\{closure}',
     ];
 
     const SANITIZE_BACKTRACE_CLASSES = [
-        'Beaverlabs\\GG',
+        'Beaverlabs\\Gg',
     ];
 
     const DEBUG_BACKTRACE_LIMIT = 500;

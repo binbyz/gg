@@ -1,8 +1,8 @@
 <?php
 
-namespace Beaverlabs\GG\Dto;
+namespace Beaverlabs\Gg\Dto;
 
-use Beaverlabs\GG\Data;
+use Beaverlabs\Gg\Data;
 
 class EnvironmentDto extends Data
 {

@@ -1,9 +1,9 @@
 <?php
 
-use Beaverlabs\GG\Data;
-use Beaverlabs\GG\Dto\DataCapsuleDto;
-use Beaverlabs\GG\Dto\MessageDto;
-use Beaverlabs\GG\MessageHandler;
+use Beaverlabs\Gg\Data;
+use Beaverlabs\Gg\Dto\DataCapsuleDto;
+use Beaverlabs\Gg\Dto\MessageDto;
+use Beaverlabs\Gg\MessageHandler;
 
 test('MessageConverter Scalar Data Type', function () {
     expect(MessageHandler::convert([]))
@@ -97,5 +97,5 @@ test('Normalize Class Name Test', function () {
     $class = new class extends Data {};
 
     expect(MessageHandler::normalizeClassName($class))
-        ->toBeString('Beaverlabs\GG\Data@anonymous');
+        ->toBeString('Beaverlabs\Gg\Data@anonymous');
 });

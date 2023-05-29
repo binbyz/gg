@@ -1,6 +1,6 @@
 <?php
 
-use Beaverlabs\GG\GG;
+use Beaverlabs\Gg\GG;
 
 it('returns GG instance', function () {
     expect(\gg())->toBeInstanceOf(GG::class);
