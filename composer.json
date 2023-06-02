@@ -22,7 +22,8 @@
   "require": {
     "php": "^7.4|^8.0",
     "ext-curl": "*",
-    "ext-json": "*"
+    "ext-json": "*",
+    "illuminate/support": "^7.20|^8.19|^9.0|^10.0"
   },
   "require-dev": {
     "pestphp/pest": "^2.6.1",

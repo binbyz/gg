@@ -43,7 +43,7 @@ class MessageHandler
         return MessageDto::from([
             'language' => 'PHP',
             'version' => \phpversion(),
-            'framework' => static::detectFramework(),
+            'framework' => FrameworkDetector::detectFramework(),
             'data' => $self->capsulizeRecursively($self->data),
             'backtrace' => $self->sanitizeBacktrace(
                 $self->capsulizeBacktraceRecursively($backtrace)
@@ -214,30 +214,5 @@ class MessageHandler
         }
 
         return $className;
-    }
-
-    public static function detectFramework(): string
-    {
-        if (defined('LARAVEL_START')) {
-            return 'Laravel';
-        }
-
-        if (class_exists('Symfony\Component\HttpKernel\Kernel')) {
-            return 'Symfony';
-        }
-
-        if (defined('WPINC')) {
-            return 'WordPress';
-        }
-
-        if (defined('YII_BEGIN_TIME')) {
-            return 'Yii';
-        }
-
-        if (defined('BASEPATH')) {
-            return 'CodeIgniter';
-        }
-
-        return 'Vanilla';
     }
 }

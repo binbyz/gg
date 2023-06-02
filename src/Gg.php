@@ -2,7 +2,6 @@
 
 namespace Beaverlabs\Gg;
 
-use Beaverlabs\Gg\Dto\EnvironmentDto;
 use Beaverlabs\Gg\Dto\MessageDto;
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
 use ReflectionException;
@@ -16,19 +15,20 @@ class Gg
 
     private static ?Gg $instance = null;
 
-    public EnvironmentDto $environments;
+    public static string $userAgent = 'Beaverlabs/GG';
+
+    public GgConnection $connection;
 
     private function __construct()
     {
-        $this->environments = $this->loadEnvironments();
+        $this->connection = GgConnection::make();
     }
 
-    public function loadEnvironments(): EnvironmentDto
+    public function bindConnection(GgConnection $connection): self
     {
-        return EnvironmentDto::from([
-            'host' => 'localhost',
-            'port' => 21868,
-        ]);
+        $this->connection = $connection;
+
+        return $this;
     }
 
     public static function getInstance(): Gg
@@ -59,12 +59,14 @@ class Gg
 
     public function sendData(MessageDto $message): bool
     {
+        $endpoint = sprintf('http://%s:%d/api/receiver', $this->connection->host, $this->connection->port);
+
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'http://localhost:21868/api/receiver');
+        curl_setopt($ch, CURLOPT_URL, $endpoint);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 500);
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, 500);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Beaverlabs/GG');
+        curl_setopt($ch, CURLOPT_USERAGENT, self::$userAgent);
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($message));
