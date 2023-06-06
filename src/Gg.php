@@ -60,7 +60,6 @@ class Gg
     public function sendData(MessageDto $message): bool
     {
         $endpoint = sprintf('http://%s:%d/api/receiver', $this->connection->host, $this->connection->port);
-        echo $endpoint;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $endpoint);

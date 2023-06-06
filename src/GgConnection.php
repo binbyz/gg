@@ -13,7 +13,7 @@ class GgConnection
 
     public function __construct(string $host = 'localhost', int $port = 21868)
     {
-        $this->host = \getenv('GG_HOST', $host);
-        $this->port = \getenv('GG_PORT', $port);
+        $this->host = \getenv('GG_HOST') ?: $host;
+        $this->port = \getenv('GG_PORT') ?: $port;
     }
 }
