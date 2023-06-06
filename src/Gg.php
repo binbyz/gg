@@ -59,7 +59,7 @@ class Gg
 
     public function sendData(MessageDto $message): bool
     {
-        $endpoint = sprintf('http://%s:%d/api/receiver', $this->connection->host, $this->connection->port);
+        $endpoint = $this->getEndpoint();
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $endpoint);
@@ -77,5 +77,10 @@ class Gg
         curl_close($ch);
 
         return $result == self::RESPONSE_STATUS;
+    }
+
+    public function getEndpoint(): string
+    {
+        return sprintf('http://%s:%d/api/receiver', $this->connection->host, $this->connection->port);
     }
 }
