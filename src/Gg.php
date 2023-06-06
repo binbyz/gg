@@ -81,6 +81,6 @@ class Gg
 
     public function getEndpoint(): string
     {
-        return sprintf('%s:%d/api/receiver', $this->connection->host, $this->connection->port);
+        return sprintf('http://%s:%d/api/receiver', $this->connection->host, $this->connection->port);
     }
 }
