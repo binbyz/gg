@@ -38,7 +38,14 @@ class MessageHandler
     {
         $self = new self($data);
 
-        $backtrace = debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, self::DEBUG_BACKTRACE_LIMIT);
+        $backtrace = \array_map(
+            function ($bt) {
+                if (\array_key_exists('object', $bt)) {
+                    unset($bt['object']);
+                }
+            },
+            debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, self::DEBUG_BACKTRACE_LIMIT),
+        );
 
         return MessageDto::from([
             'language' => 'PHP',
