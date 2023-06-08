@@ -39,10 +39,12 @@ class MessageHandler
         $self = new self($data);
 
         $backtrace = \array_map(
-            function ($bt) {
-                if (\array_key_exists('object', $bt)) {
-                    unset($bt['object']);
+            function ($row) {
+                if (\array_key_exists('object', $row)) {
+                    unset($row['object']);
                 }
+
+                return $row;
             },
             debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, self::DEBUG_BACKTRACE_LIMIT),
         );
@@ -52,9 +54,7 @@ class MessageHandler
             'version' => \phpversion(),
             'framework' => FrameworkDetector::detectFramework(),
             'data' => $self->capsulizeRecursively($self->data),
-            'backtrace' => $self->sanitizeBacktrace(
-                $self->capsulizeBacktraceRecursively($backtrace)
-            )
+            'backtrace' => $self->capsulizeBacktraceRecursively($self->sanitizeBacktrace($backtrace))
         ]);
     }
 
@@ -117,6 +117,20 @@ class MessageHandler
 
             return true;
         });
+
+        $backtrace = \array_map(static function (array $item) {
+            if (\array_key_exists('args', $item) && \is_array($item['args'])) {
+                $item['args'] = \array_map(static function ($arg) {
+                    if (\is_object($arg)) {
+                        return \get_class($arg);
+                    }
+
+                    return $arg;
+                }, $item['args']);
+            }
+
+            return $item;
+        }, $backtrace);
 
         return \array_values($backtrace);
     }
@@ -198,7 +212,7 @@ class MessageHandler
              function ($item) {
                 return $this->capsulizeRecursively($item);
             },
-             $properties
+             $properties,
         );
     }
 
