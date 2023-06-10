@@ -3,6 +3,7 @@
 use Beaverlabs\Gg\Data;
 use Beaverlabs\Gg\Dto\DataCapsuleDto;
 use Beaverlabs\Gg\Dto\MessageDto;
+use Beaverlabs\Gg\FrameworkDetector;
 use Beaverlabs\Gg\MessageHandler;
 
 test('MessageConverter Scalar Data Type', function () {
@@ -84,7 +85,7 @@ test('Object Message Data Test', function () {
 test('Detect Framework Test', function (string $result, string $defineKey) {
     define($defineKey, true);
 
-    expect(MessageHandler::detectFramework())->toBeString($result);
+    expect(FrameworkDetector::detectFramework())->toBeString($result);
 })->with([
     ['Laravel', 'LARAVEL_START'],
     ['WordPress', 'WPINC'],

@@ -4,18 +4,16 @@ namespace Beaverlabs\Gg;
 
 use Beaverlabs\Gg\Dto\DataCapsuleDto;
 use Beaverlabs\Gg\Dto\MessageDto;
+use Beaverlabs\Gg\Dto\ThrowableDto;
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
 use ReflectionException;
 
 class MessageHandler
 {
     const SANITIZE_HELPER_FUNCTION = [
-//        'gg',
-//        'Beaverlabs\\LaravelGg\\{closure}',
     ];
 
     const SANITIZE_BACKTRACE_CLASSES = [
-//        'Beaverlabs\\Gg',
     ];
 
     const DEBUG_BACKTRACE_LIMIT = 50;
@@ -74,14 +72,18 @@ class MessageHandler
         }
 
         if (static::isScalarType($data)) {
-            return $this->capsuleScalarType($data);
+            return $this->capsulizeScalar($data);
         }
 
         if (\is_array($data)) {
-            return $this->capsuleArrayType($data);
+            return $this->capsulizeArray($data);
         }
 
-        return $this->capsuleObjectType($data);
+        if ($data instanceof \Throwable) {
+            return $this->capsulizeThrowable($data);
+        }
+
+        return $this->capsulizeObject($data);
     }
 
     public function capsulizeBacktraceRecursively(array $backtrace): array
@@ -146,7 +148,7 @@ class MessageHandler
         return \array_values($backtrace);
     }
 
-    private function capsuleScalarType($data): DataCapsuleDto
+    private function capsulizeScalar($data): DataCapsuleDto
     {
         return DataCapsuleDto::from([
             'type' => gettype($data),
@@ -159,7 +161,7 @@ class MessageHandler
      * @throws ValueTypeException
      * @throws ReflectionException
      */
-    public function capsuleArrayType($data): DataCapsuleDto
+    public function capsulizeArray($data): DataCapsuleDto
     {
         if (! \is_array($data)) {
             throw ValueTypeException::make($data);
@@ -180,7 +182,7 @@ class MessageHandler
      * @throws ValueTypeException
      * @throws ReflectionException
      */
-    public function capsuleObjectType($data): DataCapsuleDto
+    public function capsulizeObject($data): DataCapsuleDto
     {
         if (! \is_object($data)) {
             throw ValueTypeException::make($data);
@@ -192,6 +194,31 @@ class MessageHandler
             'namespace' => static::getNamespace($data),
             'className' => static::normalizeClassName($data),
             'value' => $this->getPropertiesToArray($data),
+        ]);
+    }
+
+    /**
+     * @throws ValueTypeException
+     */
+    public function capsulizeThrowable($data): DataCapsuleDto
+    {
+        if (! $data instanceof \Throwable) {
+            throw ValueTypeException::make($data);
+        }
+
+        return DataCapsuleDto::from([
+            'type' => 'throwable',
+            'isScalarType' => false,
+            'namespace' => static::getNamespace($data),
+            'className' => static::normalizeClassName($data),
+            'value' => ThrowableDto::from([
+                'message' => $data->getMessage(),
+                'code' => $data->getCode(),
+                'file' => $data->getFile(),
+                'line' => $data->getLine(),
+                'trace' => $this->capsulizeBacktraceRecursively($this->sanitizeBacktrace($data->getTrace())),
+                'previous' => $data->getPrevious(),
+            ]),
         ]);
     }
 
