@@ -10,12 +10,12 @@ use ReflectionException;
 class MessageHandler
 {
     const SANITIZE_HELPER_FUNCTION = [
-        'gg',
-        'Beaverlabs\\LaravelGg\\{closure}',
+//        'gg',
+//        'Beaverlabs\\LaravelGg\\{closure}',
     ];
 
     const SANITIZE_BACKTRACE_CLASSES = [
-        'Beaverlabs\\Gg',
+//        'Beaverlabs\\Gg',
     ];
 
     const DEBUG_BACKTRACE_LIMIT = 50;

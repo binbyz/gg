@@ -18,7 +18,9 @@ if (! function_exists('gg')) {
 
         return $gg->send($parameters);
     }
+}
 
+if (! function_exists('gd')) {
     /**
      * @throws ReflectionException
      * @throws ValueTypeException
