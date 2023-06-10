@@ -15,6 +15,8 @@ class DataCapsuleDto extends Data
 
     public ?string $className = null;
 
+    public ?bool $pruned = false;
+
     /** @var mixed */
     public $value;
 }

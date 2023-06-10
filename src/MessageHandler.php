@@ -69,6 +69,10 @@ class MessageHandler
      */
     public function capsulizeRecursively($data): DataCapsuleDto
     {
+        if ($data instanceof DataCapsuleDto) {
+            return $data;
+        }
+
         if (static::isScalarType($data)) {
             return $this->capsuleScalarType($data);
         }
@@ -122,7 +126,14 @@ class MessageHandler
             if (\array_key_exists('args', $item) && \is_array($item['args'])) {
                 $item['args'] = \array_map(static function ($arg) {
                     if (\is_object($arg)) {
-                        return \get_class($arg);
+                        return DataCapsuleDto::from([
+                            'type' => 'class',
+                            'isScalarType' => false,
+                            'namespace' => static::getNamespace($arg),
+                            'className' => static::normalizeClassName($arg),
+                            'pruned' => true,
+                            'value' => [],
+                        ]);
                     }
 
                     return $arg;
