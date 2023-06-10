@@ -18,7 +18,7 @@ class MessageHandler
         'Beaverlabs\\Gg',
     ];
 
-    const DEBUG_BACKTRACE_LIMIT = 10;
+    const DEBUG_BACKTRACE_LIMIT = 50;
     const ANONYMOUS_CLASS_PREFIX = '@anonymous';
     const MODIFIER_SPLITTER = '@';
 
