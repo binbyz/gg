@@ -5,9 +5,9 @@ use Beaverlabs\Gg\Gg;
 use Beaverlabs\Gg\MessageHandler;
 
 test('스칼라 타입 데이터 전송', function () {
-    $result = gg()->sendData(MessageHandler::convert(false));
+    $result = gg(true);
 
-    expect($result)->toBeTrue();
+    expect($result)->toBeInstanceOf(Gg::class);
 });
 
 test('헬퍼 함수를 통한 데이터 전송', function () {
@@ -75,3 +75,21 @@ test('예외 클래스 전송 테스트', function () {
 
     throw $throw;
 })->throws(ValueTypeException::class);
+
+test('디바이더 전송 테스트', function () {
+    $sequence = \gg(1)
+        ->divider(fn () => false)
+        ->send(2)
+        ->divider('is divider')
+        ->send(3);
+
+    expect($sequence)
+        ->toBeInstanceOf(Gg::class);
+});
+
+test('단일 전송 테스트', function () {
+    $result = \gg(1, 2, 3);
+
+    expect($result)
+        ->toBeInstanceOf(Gg::class);
+});

@@ -47,11 +47,15 @@ class Gg
      */
     public function send(...$parameters): self
     {
+        if (! \is_array($parameters)) {
+            $parameters = [$parameters];
+        }
+
         if (! count($parameters)) {
             return static::getInstance();
         }
 
-        foreach (\current($parameters) as $parameter) {
+        foreach ($parameters as $parameter) {
             $this->sendData(MessageHandler::convert($parameter));
         }
 
@@ -62,25 +66,25 @@ class Gg
      * @throws ReflectionException
      * @throws ValueTypeException
      */
-    public function divide(): self
+    public function divider($conditionOrData = null): self
     {
+        if (\is_callable($conditionOrData) && ! $conditionOrData()) {
+            return static::getInstance();
+        }
+
         $this->sendData(
-            MessageHandler::convert(null, MessageTypeEnum::DIVIDER, false),
+            MessageHandler::convert($conditionOrData, MessageTypeEnum::DIVIDER, false),
         );
 
         return static::getInstance();
     }
 
-    /**
-     * @throws ReflectionException
-     * @throws ValueTypeException
-     */
-    public function divider(): self
+    public function die()
     {
-        return $this->divide();
+        die();
     }
 
-    public function sendData(MessageDto $message): bool
+    protected function sendData(MessageDto $message): bool
     {
         $endpoint = $this->getEndpoint();
 

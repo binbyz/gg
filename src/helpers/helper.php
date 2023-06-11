@@ -10,13 +10,11 @@ if (! function_exists('gg')) {
      */
     function gg(...$parameters): Gg
     {
-        $gg = Gg::getInstance();
-
-        if (! count($parameters)) {
-            return $gg;
+        foreach ($parameters as $parameter) {
+            Gg::getInstance()->send($parameter);
         }
 
-        return $gg->send($parameters);
+        return Gg::getInstance();
     }
 }
 
