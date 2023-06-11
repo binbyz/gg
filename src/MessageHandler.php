@@ -58,7 +58,7 @@ class MessageHandler implements MessageTypeEnum
             'data' => $self->capsulizeRecursively($self->data),
             'backtrace' => $debugBacktrace
                 ? $self->capsulizeBacktraceRecursively($self->sanitizeBacktrace($backtrace))
-                : null,
+                : [],
         ]);
     }
 
