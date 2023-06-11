@@ -6,6 +6,7 @@ use Beaverlabs\Gg\Data;
 
 class MessageDto extends Data
 {
+    public string $messageType;
     public string $language;
     public string $version;
     public string $framework;

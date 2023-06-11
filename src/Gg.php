@@ -2,6 +2,7 @@
 
 namespace Beaverlabs\Gg;
 
+use Beaverlabs\Gg\Contracts\MessageTypeEnum;
 use Beaverlabs\Gg\Dto\MessageDto;
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
 use ReflectionException;
@@ -55,6 +56,28 @@ class Gg
         }
 
         return static::getInstance();
+    }
+
+    /**
+     * @throws ReflectionException
+     * @throws ValueTypeException
+     */
+    public function divide(): self
+    {
+        $this->sendData(
+            MessageHandler::convert(null, MessageTypeEnum::DIVIDER, false),
+        );
+
+        return static::getInstance();
+    }
+
+    /**
+     * @throws ReflectionException
+     * @throws ValueTypeException
+     */
+    public function divider(): self
+    {
+        return $this->divide();
     }
 
     public function sendData(MessageDto $message): bool

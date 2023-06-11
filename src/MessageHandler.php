@@ -2,13 +2,14 @@
 
 namespace Beaverlabs\Gg;
 
+use Beaverlabs\Gg\Contracts\MessageTypeEnum;
 use Beaverlabs\Gg\Dto\DataCapsuleDto;
 use Beaverlabs\Gg\Dto\MessageDto;
 use Beaverlabs\Gg\Dto\ThrowableDto;
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
 use ReflectionException;
 
-class MessageHandler
+class MessageHandler implements MessageTypeEnum
 {
     const SANITIZE_HELPER_FUNCTION = [
     ];
@@ -32,27 +33,32 @@ class MessageHandler
      * @throws ValueTypeException
      * @throws ReflectionException
      */
-    public static function convert($data): MessageDto
+    public static function convert($data, string $messageType = self::LOG, bool $debugBacktrace = true): MessageDto
     {
         $self = new self($data);
 
-        $backtrace = \array_map(
-            function ($row) {
-                if (\array_key_exists('object', $row)) {
-                    unset($row['object']);
-                }
+        if ($debugBacktrace) {
+            $backtrace = \array_map(
+                function ($row) {
+                    if (\array_key_exists('object', $row)) {
+                        unset($row['object']);
+                    }
 
-                return $row;
-            },
-            debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, self::DEBUG_BACKTRACE_LIMIT),
-        );
+                    return $row;
+                },
+                debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, self::DEBUG_BACKTRACE_LIMIT),
+            );
+        }
 
         return MessageDto::from([
+            'messageType' => $messageType,
             'language' => 'PHP',
             'version' => \phpversion(),
             'framework' => FrameworkDetector::detectFramework(),
             'data' => $self->capsulizeRecursively($self->data),
-            'backtrace' => $self->capsulizeBacktraceRecursively($self->sanitizeBacktrace($backtrace))
+            'backtrace' => $debugBacktrace
+                ? $self->capsulizeBacktraceRecursively($self->sanitizeBacktrace($backtrace))
+                : null,
         ]);
     }
 
