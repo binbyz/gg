@@ -94,3 +94,9 @@ test('단일 전송 테스트', function () {
     expect($result)
         ->toBeInstanceOf(Gg::class);
 });
+
+test('Throwable 전송 테스트', function () {
+    $throw = new Exception('Exception message send test');
+
+    expect(gg($throw))->toBeInstanceOf(Gg::class);
+});

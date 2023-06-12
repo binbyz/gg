@@ -16,5 +16,5 @@ class ThrowableDto extends Data
 
     public array $trace;
 
-    public string $previous;
+    public ?string $previous;
 }

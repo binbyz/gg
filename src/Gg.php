@@ -75,7 +75,7 @@ class Gg
         }
 
         $this->sendData(
-            MessageHandler::convert((string) $stringValue, MessageTypeEnum::SPACE, false),
+            MessageHandler::convert((string) $stringValue, MessageTypeEnum::LOG_SPACE, false),
         );
 
         return static::getInstance();

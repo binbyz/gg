@@ -33,9 +33,13 @@ class MessageHandler implements MessageTypeEnum
      * @throws ValueTypeException
      * @throws ReflectionException
      */
-    public static function convert($data, string $messageType = self::LOG, bool $debugBacktrace = true): MessageDto
+    public static function convert($data, ?string $messageType = null, bool $debugBacktrace = true): MessageDto
     {
         $self = new self($data);
+
+        if (! $messageType) {
+            $messageType = static::guessMessageType($data);
+        }
 
         if ($debugBacktrace) {
             $backtrace = \array_map(
@@ -60,6 +64,15 @@ class MessageHandler implements MessageTypeEnum
                 ? $self->capsulizeBacktraceRecursively($self->sanitizeBacktrace($backtrace))
                 : [],
         ]);
+    }
+
+    private static function guessMessageType($data): string
+    {
+        if ($data instanceof \Throwable) {
+            return self::THROWABLE;
+        }
+
+        return self::LOG;
     }
 
     public static function isScalarType($data): bool
@@ -213,7 +226,7 @@ class MessageHandler implements MessageTypeEnum
         }
 
         return DataCapsuleDto::from([
-            'type' => 'throwable',
+            'type' => \gettype($data),
             'isScalarType' => false,
             'namespace' => static::getNamespace($data),
             'className' => static::normalizeClassName($data),
