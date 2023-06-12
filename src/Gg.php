@@ -73,7 +73,7 @@ class Gg
         }
 
         $this->sendData(
-            MessageHandler::convert((string) $conditionOrStringData, MessageTypeEnum::DIVIDER, false),
+            MessageHandler::convert((string) $conditionOrStringData, MessageTypeEnum::SPACE, false),
         );
 
         return static::getInstance();

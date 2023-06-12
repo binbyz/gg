@@ -76,7 +76,7 @@ test('예외 클래스 전송 테스트', function () {
     throw $throw;
 })->throws(ValueTypeException::class);
 
-test('디바이더 전송 테스트', function () {
+test('space 전송 테스트', function () {
     $sequence = \gg(1)
         ->space(fn () => false)
         ->send(2)
