@@ -81,7 +81,8 @@ test('space 전송 테스트', function () {
         ->space(fn () => false)
         ->send(2)
         ->space('is divider')
-        ->send(3);
+        ->send(3)
+        ->space(1);
 
     expect($sequence)
         ->toBeInstanceOf(Gg::class);

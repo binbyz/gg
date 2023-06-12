@@ -66,14 +66,16 @@ class Gg
      * @throws ReflectionException
      * @throws ValueTypeException
      */
-    public function space($conditionOrStringData = null): self
+    public function space($conditionOrStringData = null, $value = null): self
     {
+        $stringValue = \is_callable($conditionOrStringData) ? $value : $conditionOrStringData;
+
         if (\is_callable($conditionOrStringData) && ! $conditionOrStringData()) {
             return static::getInstance();
         }
 
         $this->sendData(
-            MessageHandler::convert((string) $conditionOrStringData, MessageTypeEnum::SPACE, false),
+            MessageHandler::convert((string) $stringValue, MessageTypeEnum::SPACE, false),
         );
 
         return static::getInstance();
