@@ -78,9 +78,9 @@ test('예외 클래스 전송 테스트', function () {
 
 test('디바이더 전송 테스트', function () {
     $sequence = \gg(1)
-        ->divider(fn () => false)
+        ->space(fn () => false)
         ->send(2)
-        ->divider('is divider')
+        ->space('is divider')
         ->send(3);
 
     expect($sequence)

@@ -66,14 +66,14 @@ class Gg
      * @throws ReflectionException
      * @throws ValueTypeException
      */
-    public function divider($conditionOrData = null): self
+    public function space($conditionOrStringData = null): self
     {
-        if (\is_callable($conditionOrData) && ! $conditionOrData()) {
+        if (\is_callable($conditionOrStringData) && ! $conditionOrStringData()) {
             return static::getInstance();
         }
 
         $this->sendData(
-            MessageHandler::convert($conditionOrData, MessageTypeEnum::DIVIDER, false),
+            MessageHandler::convert((string) $conditionOrStringData, MessageTypeEnum::DIVIDER, false),
         );
 
         return static::getInstance();
