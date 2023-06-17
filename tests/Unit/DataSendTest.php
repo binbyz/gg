@@ -45,7 +45,7 @@ test('Anonymous 클래스 전송 테스트', function () {
         }
     };
 
-    expect(gg($parameter))
+    expect(gg($parameter, $parameter, $parameter, $parameter, $parameter))
         ->toBeInstanceOf(Gg::class);
 });
 
@@ -97,6 +97,8 @@ test('단일 전송 테스트', function () {
 
 test('Throwable 전송 테스트', function () {
     $throw = new Exception('Exception message send test');
+
+//    \gg(1, 2, 3);
 
     expect(gg($throw))->toBeInstanceOf(Gg::class);
 });
