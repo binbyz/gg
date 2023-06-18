@@ -30,6 +30,7 @@ test('Anonymous 클래스 전송 테스트', function () {
                 'key3' => 'value2',
                 'key4' => 'value2',
             ],
+            'key3' => 14.45,
         ];
 
         public function __construct()
@@ -98,7 +99,11 @@ test('단일 전송 테스트', function () {
 test('Throwable 전송 테스트', function () {
     $throw = new Exception('Exception message send test');
 
-//    \gg(1, 2, 3);
-
     expect(gg($throw))->toBeInstanceOf(Gg::class);
+});
+
+test('실수 및 정수 전송 테스트', function () {
+    $result = gg(1, 1.1, 1.2, 1.3, 1.4, 1.5);
+
+    expect($result)->toBeInstanceOf(Gg::class);
 });
