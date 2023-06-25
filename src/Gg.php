@@ -41,10 +41,6 @@ class Gg
         return static::$instance;
     }
 
-    /**
-     * @throws ReflectionException
-     * @throws ValueTypeException
-     */
     public function send(...$parameters): self
     {
         if (! \is_array($parameters)) {
@@ -62,10 +58,6 @@ class Gg
         return static::getInstance();
     }
 
-    /**
-     * @throws ReflectionException
-     * @throws ValueTypeException
-     */
     public function space($conditionOrStringData = null, $value = null): self
     {
         $stringValue = \is_callable($conditionOrStringData) ? $value : $conditionOrStringData;

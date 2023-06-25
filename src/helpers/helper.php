@@ -1,13 +1,8 @@
 <?php
 
-use Beaverlabs\Gg\Exceptions\ValueTypeException;
 use Beaverlabs\Gg\Gg;
 
 if (! function_exists('gg')) {
-    /**
-     * @throws ReflectionException
-     * @throws ValueTypeException
-     */
     function gg(...$parameters): Gg
     {
         foreach ($parameters as $parameter) {
@@ -19,10 +14,6 @@ if (! function_exists('gg')) {
 }
 
 if (! function_exists('gd')) {
-    /**
-     * @throws ReflectionException
-     * @throws ValueTypeException
-     */
     function gd(...$parameters): Gg
     {
         gg($parameters);

@@ -30,10 +30,6 @@ class MessageHandler implements MessageTypeEnum
         $this->data = $data;
     }
 
-    /**
-     * @throws ValueTypeException
-     * @throws ReflectionException
-     */
     public static function convert($data, ?string $messageType = null, bool $debugBacktrace = true): MessageDto
     {
         $self = new self($data);
@@ -137,10 +133,6 @@ class MessageHandler implements MessageTypeEnum
         return is_scalar($data) || is_null($data);
     }
 
-    /**
-     * @throws ValueTypeException
-     * @throws ReflectionException
-     */
     public function capsulizeRecursively($data): DataCapsuleDto
     {
         if ($data instanceof DataCapsuleDto) {
@@ -233,16 +225,8 @@ class MessageHandler implements MessageTypeEnum
         ]);
     }
 
-    /**
-     * @throws ValueTypeException
-     * @throws ReflectionException
-     */
-    public function capsulizeArray($data): DataCapsuleDto
+    public function capsulizeArray(array $data): DataCapsuleDto
     {
-        if (! \is_array($data)) {
-            throw ValueTypeException::make($data);
-        }
-
         return DataCapsuleDto::from([
             'type' => gettype($data),
             'isScalarType' => false,
@@ -254,16 +238,8 @@ class MessageHandler implements MessageTypeEnum
         ]);
     }
 
-    /**
-     * @throws ValueTypeException
-     * @throws ReflectionException
-     */
-    public function capsulizeObject($data): DataCapsuleDto
+    public function capsulizeObject(object $data): DataCapsuleDto
     {
-        if (! \is_object($data)) {
-            throw ValueTypeException::make($data);
-        }
-
         return DataCapsuleDto::from([
             'type' => gettype($data),
             'isScalarType' => false,
@@ -273,15 +249,8 @@ class MessageHandler implements MessageTypeEnum
         ]);
     }
 
-    /**
-     * @throws ValueTypeException
-     */
-    public function capsulizeThrowable($data): DataCapsuleDto
+    public function capsulizeThrowable(\Throwable $data): DataCapsuleDto
     {
-        if (! $data instanceof \Throwable) {
-            throw ValueTypeException::make($data);
-        }
-
         return DataCapsuleDto::from([
             'type' => \gettype($data),
             'isScalarType' => false,
@@ -298,10 +267,6 @@ class MessageHandler implements MessageTypeEnum
         ]);
     }
 
-    /**
-     * @throws ReflectionException
-     * @throws ValueTypeException
-     */
     private function getPropertiesToArray($data): array
     {
         $properties = [];
@@ -322,7 +287,6 @@ class MessageHandler implements MessageTypeEnum
         }
 
         return \array_map(
-             /** @throws ValueTypeException|ReflectionException */
              function ($item) {
                 return $this->capsulizeRecursively($item);
             },
