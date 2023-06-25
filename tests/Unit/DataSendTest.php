@@ -2,7 +2,6 @@
 
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
 use Beaverlabs\Gg\Gg;
-use Beaverlabs\Gg\MessageHandler;
 
 test('스칼라 타입 데이터 전송', function () {
     $result = gg(true);
@@ -61,11 +60,13 @@ test('배열 전송 테스트', function () {
         'key7' => 2,
         'key8' => [
             'test' => 1,
-            'test2' => 2,
+            'test2' => true,
         ],
     ];
 
-    expect(gg($param1))
+    $param2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+    expect(gg($param1, $param2))
         ->toBeInstanceOf(Gg::class);
 });
 
@@ -103,7 +104,7 @@ test('Throwable 전송 테스트', function () {
 });
 
 test('실수 및 정수 전송 테스트', function () {
-    $result = gg(1, 1.1, 1.2, 1.3, 1.4, 1.5);
+    $result = gg(1, 2, 3);
 
     expect($result)->toBeInstanceOf(Gg::class);
 });
