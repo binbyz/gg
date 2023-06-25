@@ -4,6 +4,7 @@ namespace Beaverlabs\Gg;
 
 use Beaverlabs\Gg\Contracts\MessageTypeEnum;
 use Beaverlabs\Gg\Dto\DataCapsuleDto;
+use Beaverlabs\Gg\Dto\LineCodeDto;
 use Beaverlabs\Gg\Dto\MessageDto;
 use Beaverlabs\Gg\Dto\ThrowableDto;
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
@@ -43,7 +44,11 @@ class MessageHandler implements MessageTypeEnum
 
         if ($debugBacktrace) {
             $backtrace = \array_map(
-                function ($row) {
+                function ($row) use ($self) {
+                    $row['sourceCode'] = \array_key_exists('file', $row) && \array_key_exists('line', $row)
+                        ? $self->readCode($row['file'], $row['line'])
+                        : [];
+
                     if (\array_key_exists('object', $row)) {
                         unset($row['object']);
                     }
@@ -64,6 +69,58 @@ class MessageHandler implements MessageTypeEnum
                 ? $self->capsulizeBacktraceRecursively($self->sanitizeBacktrace($backtrace))
                 : [],
         ]);
+    }
+
+    /**
+     * @param  string  $file
+     * @param  int  $line
+     * @param  int  $offset
+     * @return array<int, LineCodeDto>
+     */
+    private function readCode(string $file, int $line, int $offset = 3): array
+    {
+        if (! \file_exists($file) || ! \is_readable($file)) {
+            return [];
+        }
+
+        $handle = \fopen($file, 'r');
+
+        if (! $handle) {
+            return [];
+        }
+
+        $code = [];
+        $begin = $line - $offset;
+        $end = $line + $offset;
+        $currentLine = 1;
+
+        while (! \feof($handle)) {
+            $currentLineContent = \fgets($handle);
+
+            if ($currentLine >= $begin && $currentLine <= $end) {
+                $code[$currentLine] = $currentLineContent;
+            }
+
+            if ($currentLine > $end) {
+                break;
+            }
+
+            $currentLine++;
+        }
+
+        \fclose($handle);
+
+        $result = [];
+        foreach (\array_filter($code) as $line => $code) {
+            $result[] = LineCodeDto::from([
+                'line' => $line,
+                'code' => $code,
+            ]);
+        }
+
+        unset($code);
+
+        return $result;
     }
 
     private static function guessMessageType($data): string

@@ -10,11 +10,8 @@ class DataCapsuleDto extends Data
     public string $type;
 
     public bool $isScalarType;
-
     public ?string $namespace = null;
-
     public ?string $className = null;
-
     public ?bool $pruned = false;
 
     /** @var mixed */
