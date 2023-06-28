@@ -110,7 +110,9 @@ test('실수 및 정수 전송 테스트', function () {
 });
 
 test('메모리 사용량 및 시간 측정 데이터 전송 테스트', function () {
-    $result = gg(1, 2, 3)->begin();
+    $result = gg()->begin();
+
+    \gg([range(1, 200)]);
 
     expect($result)->toBeInstanceOf(Gg::class);
 

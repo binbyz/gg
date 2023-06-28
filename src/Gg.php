@@ -78,7 +78,6 @@ class Gg
 
     public function begin(): self
     {
-        \ray(\microtime());
         $this->beginTime = microtime(true);
         $this->beginMemory = memory_get_usage();
 
@@ -87,13 +86,17 @@ class Gg
 
     public function end(): self
     {
-        $memoryUsage = memory_get_usage() - $this->beginMemory;
+        $endMemory = memory_get_usage();
+        $memoryUsage = $endMemory - $this->beginMemory;
 
-        $message = MessageHandler::convert(
-            ['time' => microtime(true) - $this->beginTime, 'memory' => $this->formatBytes($memoryUsage)],
-            MessageTypeEnum::LOG_SPACE,
-            false,
-        );
+        $data = [
+            'beginMemory' => $this->formatBytes($this->beginMemory),
+            'endMemory' => $this->formatBytes($endMemory),
+            'diffMemory' => $this->formatBytes($memoryUsage),
+            'executeTime' => microtime(true) - $this->beginTime,
+        ];
+
+        $message = MessageHandler::convert($data, MessageTypeEnum::LOG_USAGE, false);
 
         $this->sendData($message);
 
@@ -103,9 +106,9 @@ class Gg
     public function formatBytes($memoryUsage): string
     {
         if ($memoryUsage > 1024 * 1024) {
-            $memoryUsage = round($memoryUsage / 1024 / 1024, 2) . 'MB';
+            $memoryUsage = round($memoryUsage / 1024 / 1024, 2) . ' MB';
         } else {
-            $memoryUsage = round($memoryUsage / 1024, 2) . 'KB';
+            $memoryUsage = round($memoryUsage / 1024, 2) . ' KB';
         }
 
         return $memoryUsage;
