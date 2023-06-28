@@ -15,8 +15,10 @@ class Gg
     const RESPONSE_STATUS = 'gg';
 
     private static ?Gg $instance = null;
-
     public static string $userAgent = 'Beaverlabs/GG';
+
+    private float $beginTime = 0;
+    private float $beginMemory = 0;
 
     public GgConnection $connection;
 
@@ -43,10 +45,6 @@ class Gg
 
     public function send(...$parameters): self
     {
-        if (! \is_array($parameters)) {
-            $parameters = [$parameters];
-        }
-
         if (! count($parameters)) {
             return static::getInstance();
         }
@@ -76,6 +74,41 @@ class Gg
     public function die()
     {
         die();
+    }
+
+    public function begin(): self
+    {
+        \ray(\microtime());
+        $this->beginTime = microtime(true);
+        $this->beginMemory = memory_get_usage();
+
+        return static::getInstance();
+    }
+
+    public function end(): self
+    {
+        $memoryUsage = memory_get_usage() - $this->beginMemory;
+
+        $message = MessageHandler::convert(
+            ['time' => microtime(true) - $this->beginTime, 'memory' => $this->formatBytes($memoryUsage)],
+            MessageTypeEnum::LOG_SPACE,
+            false,
+        );
+
+        $this->sendData($message);
+
+        return static::getInstance();
+    }
+
+    public function formatBytes($memoryUsage): string
+    {
+        if ($memoryUsage > 1024 * 1024) {
+            $memoryUsage = round($memoryUsage / 1024 / 1024, 2) . 'MB';
+        } else {
+            $memoryUsage = round($memoryUsage / 1024, 2) . 'KB';
+        }
+
+        return $memoryUsage;
     }
 
     protected function sendData(MessageDto $message): bool
