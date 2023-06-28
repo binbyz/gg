@@ -56,7 +56,7 @@ class Gg
         return static::getInstance();
     }
 
-    public function space($conditionOrStringData = null, $value = null): self
+    public function note($conditionOrStringData = null, $value = null): self
     {
         $stringValue = \is_callable($conditionOrStringData) ? $value : $conditionOrStringData;
 
@@ -65,7 +65,7 @@ class Gg
         }
 
         $this->sendData(
-            MessageHandler::convert((string) $stringValue, MessageTypeEnum::LOG_SPACE, false),
+            MessageHandler::convert((string) $stringValue, MessageTypeEnum::LOG_NOTE, false),
         );
 
         return static::getInstance();
@@ -103,7 +103,7 @@ class Gg
         return static::getInstance();
     }
 
-    public function formatBytes($memoryUsage): string
+    private function formatBytes($memoryUsage): string
     {
         if ($memoryUsage > 1024 * 1024) {
             $memoryUsage = round($memoryUsage / 1024 / 1024, 2) . ' MB';

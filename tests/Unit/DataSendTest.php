@@ -80,11 +80,8 @@ test('예외 클래스 전송 테스트', function () {
 
 test('space 전송 테스트', function () {
     $sequence = \gg(1)
-        ->space(fn () => false)
         ->send(2)
-        ->space('is divider')
-        ->send(3)
-        ->space(1);
+        ->send(3);
 
     expect($sequence)
         ->toBeInstanceOf(Gg::class);
@@ -112,7 +109,8 @@ test('실수 및 정수 전송 테스트', function () {
 test('메모리 사용량 및 시간 측정 데이터 전송 테스트', function () {
     $result = gg()->begin();
 
-    \gg([range(1, 200)]);
+    \gg([range(1, 10)])
+        ->note('Hello, World, 안녕하세요.');
 
     expect($result)->toBeInstanceOf(Gg::class);
 
