@@ -5,8 +5,10 @@ use Beaverlabs\Gg\Gg;
 if (! function_exists('gg')) {
     function gg(...$parameters): Gg
     {
-        foreach ($parameters as $parameter) {
-            Gg::getInstance()->send($parameter);
+        if (count($parameters)) {
+            foreach (current($parameters) as $parameter) {
+                Gg::getInstance()->send($parameter);
+            }
         }
 
         return Gg::getInstance();
