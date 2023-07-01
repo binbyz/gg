@@ -18,7 +18,11 @@ if (! function_exists('gg')) {
 if (! function_exists('gd')) {
     function gd(...$parameters): Gg
     {
-        gg($parameters);
+        if (count($parameters)) {
+            foreach ($parameters as $parameter) {
+                Gg::getInstance()->send($parameter);
+            }
+        }
 
         die();
     }

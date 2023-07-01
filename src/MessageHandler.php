@@ -281,9 +281,12 @@ class MessageHandler implements MessageTypeEnum
             // modifier to string
             $modifier = \implode(' ', \Reflection::getModifierNames($modifier));
 
-            $modifierAndPropertyName = ($modifier . self::MODIFIER_SPLITTER . $property->getName());
+            $propertyName = $property->getName();
 
-            $properties[$modifierAndPropertyName] = $property->getValue($data);
+            if (\substr($propertyName, 0, 1) !== '_') {
+                $modifierAndPropertyName = ($modifier . self::MODIFIER_SPLITTER . $propertyName);
+                $properties[$modifierAndPropertyName] = $property->getValue($data);
+            }
         }
 
         return \array_map(
