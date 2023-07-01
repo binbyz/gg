@@ -6,7 +6,7 @@ if (! function_exists('gg')) {
     function gg(...$parameters): Gg
     {
         if (count($parameters)) {
-            foreach (current($parameters) as $parameter) {
+            foreach ($parameters as $parameter) {
                 Gg::getInstance()->send($parameter);
             }
         }
