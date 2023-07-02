@@ -34,9 +34,19 @@ class MessageHandler implements MessageTypeEnum
 
     public function getBacktrace(): array
     {
-        $backtrace = ($this->data instanceof \Throwable)
+        $backtrace = ($this->isThrowableData())
             ? $this->data->getTrace()
             : \debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, self::DEBUG_BACKTRACE_LIMIT);
+
+        if ($this->isThrowableData()) {
+            /** @var \Exception $proxy */
+            $proxy = &$this->data;
+
+            \array_unshift($backtrace, [
+                'file' => $proxy->getFile(),
+                'line' => $proxy->getLine(),
+            ]);
+        }
 
         $backtrace = \array_map(
             function ($row) {
@@ -264,7 +274,6 @@ class MessageHandler implements MessageTypeEnum
                 'code' => $data->getCode(),
                 'file' => $data->getFile(),
                 'line' => $data->getLine(),
-                'trace' => $this->capsulizeBacktraceRecursively($this->sanitizeBacktrace($data->getTrace())),
                 'previous' => $data->getPrevious(),
             ]),
         ]);
@@ -319,6 +328,11 @@ class MessageHandler implements MessageTypeEnum
         }
 
         return $className;
+    }
+
+    public function isThrowableData(): bool
+    {
+        return $this->data instanceof \Throwable;
     }
 
     public function getData()
