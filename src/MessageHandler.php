@@ -24,46 +24,49 @@ class MessageHandler implements MessageTypeEnum
 
     /** @var mixed */
     private $data;
+    private string $messageType;
 
-    private function __construct($data)
+    private function __construct($data, ?string $messageType)
     {
         $this->data = $data;
+        $this->messageType = \is_null($messageType) ? self::guessMessageType($data) : $messageType;
+    }
+
+    public function getBacktrace(): array
+    {
+        $backtrace = ($this->messageType === self::THROWABLE)
+            ? $this->data->getTrace()
+            : debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, self::DEBUG_BACKTRACE_LIMIT);
+
+        $backtrace = \array_map(
+            function ($row) {
+                $row['sourceCode'] = \array_key_exists('file', $row) && \array_key_exists('line', $row)
+                    ? $this->readCode($row['file'], $row['line'])
+                    : [];
+
+                if (\array_key_exists('object', $row)) {
+                    unset($row['object']);
+                }
+
+                return $row;
+            },
+            $backtrace,
+        );
+
+        return $this->capsulizeBacktraceRecursively($this->sanitizeBacktrace($backtrace));
     }
 
     public static function convert($data, ?string $messageType = null, bool $debugBacktrace = true): MessageDto
     {
-        $self = new self($data);
-
-        if (! $messageType) {
-            $messageType = static::guessMessageType($data);
-        }
-
-        if ($debugBacktrace) {
-            $backtrace = \array_map(
-                function ($row) use ($self) {
-                    $row['sourceCode'] = \array_key_exists('file', $row) && \array_key_exists('line', $row)
-                        ? $self->readCode($row['file'], $row['line'])
-                        : [];
-
-                    if (\array_key_exists('object', $row)) {
-                        unset($row['object']);
-                    }
-
-                    return $row;
-                },
-                debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, self::DEBUG_BACKTRACE_LIMIT),
-            );
-        }
+        $self = new self($data, $messageType);
 
         return MessageDto::from([
-            'messageType' => $messageType,
+            'messageType' => $self->getMessageType(),
             'language' => 'PHP',
             'version' => \phpversion(),
             'framework' => FrameworkDetector::detectFramework(),
-            'data' => $self->capsulizeRecursively($self->data),
-            'backtrace' => $debugBacktrace
-                ? $self->capsulizeBacktraceRecursively($self->sanitizeBacktrace($backtrace))
-                : [],
+            'data' => $self->capsulizeRecursively($self->getData()),
+            'backtrace' => ($debugBacktrace && ! $self->isThrowableType()) ? $self->getBacktrace() : [],
         ]);
     }
 
@@ -316,5 +319,20 @@ class MessageHandler implements MessageTypeEnum
         }
 
         return $className;
+    }
+
+    public function isThrowableType(): bool
+    {
+        return $this->messageType === self::THROWABLE;
+    }
+
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    public function getMessageType(): string
+    {
+        return $this->messageType;
     }
 }
