@@ -34,9 +34,9 @@ class MessageHandler implements MessageTypeEnum
 
     public function getBacktrace(): array
     {
-        $backtrace = ($this->messageType === self::THROWABLE)
+        $backtrace = ($this->data instanceof \Throwable)
             ? $this->data->getTrace()
-            : debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, self::DEBUG_BACKTRACE_LIMIT);
+            : \debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, self::DEBUG_BACKTRACE_LIMIT);
 
         $backtrace = \array_map(
             function ($row) {
@@ -66,7 +66,7 @@ class MessageHandler implements MessageTypeEnum
             'version' => \phpversion(),
             'framework' => FrameworkDetector::detectFramework(),
             'data' => $self->capsulizeRecursively($self->getData()),
-            'backtrace' => ($debugBacktrace && ! $self->isThrowableType()) ? $self->getBacktrace() : [],
+            'backtrace' => ($debugBacktrace) ? $self->getBacktrace() : [],
         ]);
     }
 
@@ -319,11 +319,6 @@ class MessageHandler implements MessageTypeEnum
         }
 
         return $className;
-    }
-
-    public function isThrowableType(): bool
-    {
-        return $this->messageType === self::THROWABLE;
     }
 
     public function getData()
