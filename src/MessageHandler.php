@@ -175,7 +175,9 @@ class MessageHandler implements MessageTypeEnum
             * @throws ValueTypeException
             */
             function ($item) {
-                $item['args'] = $this->capsulizeRecursively($item['args']);
+                if (\array_key_exists('args', $item)) {
+                    $item['args'] = $this->capsulizeRecursively($item['args']);
+                }
 
                 return $item;
             },
