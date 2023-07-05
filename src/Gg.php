@@ -14,17 +14,32 @@ class Gg
      */
     const RESPONSE_STATUS = 'gg';
 
+    const BUFFER_CHUNK_SIZE = 20;
+
     private static ?Gg $instance = null;
     public static string $userAgent = 'Beaverlabs/GG';
 
     private float $beginTime = 0;
     private float $beginMemory = 0;
 
+    private array $buffer = [];
+
     public GgConnection $connection;
 
     private function __construct()
     {
         $this->connection = GgConnection::make();
+    }
+
+    public function __destruct()
+    {
+        $this->sendData();
+    }
+
+    private function clear()
+    {
+        unset($this->buffer);
+        $this->buffer = [];
     }
 
     public function bindConnection(GgConnection $connection): self
@@ -50,7 +65,7 @@ class Gg
         }
 
         foreach ($parameters as $parameter) {
-            $this->sendData(MessageHandler::convert($parameter));
+            $this->appendBuffer(MessageHandler::convert($parameter));
         }
 
         return static::getInstance();
@@ -64,7 +79,7 @@ class Gg
             return static::getInstance();
         }
 
-        $this->sendData(
+        $this->appendBuffer(
             MessageHandler::convert((string) $stringValue, MessageTypeEnum::LOG_NOTE, false),
         );
 
@@ -98,7 +113,7 @@ class Gg
 
         $message = MessageHandler::convert($data, MessageTypeEnum::LOG_USAGE, false);
 
-        $this->sendData($message);
+        $this->appendBuffer($message);
 
         return static::getInstance();
     }
@@ -114,26 +129,34 @@ class Gg
         return $memoryUsage;
     }
 
-    protected function sendData(MessageDto $message): bool
+    private function appendBuffer($data): void
+    {
+        $this->buffer[] = $data;
+    }
+
+    private function sendData(): void
     {
         $endpoint = $this->getEndpoint();
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $endpoint);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 500);
-        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 500);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 1000);
+        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 1000);
         curl_setopt($ch, CURLOPT_USERAGENT, self::$userAgent);
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($message));
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
-        $result = curl_exec($ch);
-        curl_close($ch);
+        $chunks = \array_chunk($this->buffer, self::BUFFER_CHUNK_SIZE);
 
-        return $result == self::RESPONSE_STATUS;
+        foreach ($chunks as $chunk) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($chunk));
+            curl_exec($ch);
+        }
+
+        curl_close($ch);
     }
 
     public function getEndpoint(): string

@@ -101,7 +101,10 @@ test('Throwable 전송 테스트', function () {
 });
 
 test('실수 및 정수 전송 테스트', function () {
-    $result = gg(1, 2, 3);
+
+    foreach (range(1, 100) as $value) {
+        $result = gg($value);
+    }
 
     expect($result)->toBeInstanceOf(Gg::class);
 });
