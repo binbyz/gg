@@ -140,7 +140,7 @@ class Gg
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $endpoint);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 1000);
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, 1000);
         curl_setopt($ch, CURLOPT_USERAGENT, self::$userAgent);
