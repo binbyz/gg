@@ -71,12 +71,12 @@ class MessageHandler implements MessageTypeEnum
         $self = new self($data, $messageType);
 
         return MessageDto::from([
-            'messageType' => $self->getMessageType(),
+            'type' => $self->getMessageType(),
             'language' => 'PHP',
             'version' => \phpversion(),
             'framework' => FrameworkDetector::detectFramework(),
             'data' => $self->capsulizeRecursively($self->getData()),
-            'backtrace' => ($debugBacktrace) ? $self->getBacktrace() : [],
+            'trace' => ($debugBacktrace) ? $self->getBacktrace() : [],
         ]);
     }
 
@@ -213,7 +213,7 @@ class MessageHandler implements MessageTypeEnum
                     if (\is_object($arg)) {
                         return DataCapsuleDto::from([
                             'type' => 'class',
-                            'isScalarType' => false,
+                            'isScalar' => false,
                             'namespace' => static::getNamespace($arg),
                             'className' => static::normalizeClassName($arg),
                             'pruned' => true,
