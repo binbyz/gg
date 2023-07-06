@@ -64,7 +64,7 @@ class Gg
 
         foreach ($parameters as $parameter) {
             $this->appendBuffer(
-                MessageHandler::convert($parameter, MessageTypeEnum::LOG, $this->flagBacktrace),
+                MessageHandler::convert($parameter, null, $this->flagBacktrace),
             );
         }
 

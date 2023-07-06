@@ -32,7 +32,7 @@ test('String Message Data Test', function () {
         ->data->toBeInstanceOf(DataCapsuleDto::class)
         ->toHaveProperties([
             'type' => 'string',
-            'isScalarType' => true,
+            'isScalar' => true,
             'value' => '[]',
         ]);
 });

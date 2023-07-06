@@ -5,8 +5,9 @@ namespace Beaverlabs\Gg;
 class Data implements \JsonSerializable
 {
     /**
-     * @param  array  $inputs
+     * @param array $inputs
      * @return static
+     * @throws \ReflectionException
      */
     public static function from(array $inputs): Data
     {

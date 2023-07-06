@@ -66,6 +66,9 @@ class MessageHandler implements MessageTypeEnum
         return $this->capsulizeBacktraceRecursively($this->sanitizeBacktrace($backtrace));
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public static function convert($data, ?string $messageType = null, bool $debugBacktrace = false): MessageDto
     {
         $self = new self($data, $messageType);
@@ -81,10 +84,11 @@ class MessageHandler implements MessageTypeEnum
     }
 
     /**
-     * @param  string  $file
-     * @param  int  $line
-     * @param  int  $offset
+     * @param string $file
+     * @param int $line
+     * @param int $offset
      * @return array<int, LineCodeDto>
+     * @throws ReflectionException
      */
     private function readCode(string $file, int $line, int $offset = 3): array
     {
@@ -141,7 +145,7 @@ class MessageHandler implements MessageTypeEnum
         return self::LOG;
     }
 
-    public static function isScalarType($data): bool
+    public static function isScalar($data): bool
     {
         return is_scalar($data) || is_null($data);
     }
@@ -152,7 +156,7 @@ class MessageHandler implements MessageTypeEnum
             return $data;
         }
 
-        if (static::isScalarType($data)) {
+        if (static::isScalar($data)) {
             return $this->capsulizeScalar($data);
         }
 
@@ -235,7 +239,7 @@ class MessageHandler implements MessageTypeEnum
     {
         return DataCapsuleDto::from([
             'type' => gettype($data),
-            'isScalarType' => true,
+            'isScalar' => true,
             'value' => $data,
         ]);
     }
@@ -244,7 +248,7 @@ class MessageHandler implements MessageTypeEnum
     {
         return DataCapsuleDto::from([
             'type' => gettype($data),
-            'isScalarType' => false,
+            'isScalar' => false,
             'namespace' => null,
             'className' => null,
             'value' => \array_map(function ($item) {
@@ -257,7 +261,7 @@ class MessageHandler implements MessageTypeEnum
     {
         return DataCapsuleDto::from([
             'type' => gettype($data),
-            'isScalarType' => false,
+            'isScalar' => false,
             'namespace' => static::getNamespace($data),
             'className' => static::normalizeClassName($data),
             'value' => $this->getPropertiesToArray($data),
@@ -268,7 +272,7 @@ class MessageHandler implements MessageTypeEnum
     {
         return DataCapsuleDto::from([
             'type' => \gettype($data),
-            'isScalarType' => false,
+            'isScalar' => false,
             'namespace' => static::getNamespace($data),
             'className' => static::normalizeClassName($data),
             'value' => ThrowableDto::from([
