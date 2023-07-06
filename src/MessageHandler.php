@@ -66,7 +66,7 @@ class MessageHandler implements MessageTypeEnum
         return $this->capsulizeBacktraceRecursively($this->sanitizeBacktrace($backtrace));
     }
 
-    public static function convert($data, ?string $messageType = null, bool $debugBacktrace = true): MessageDto
+    public static function convert($data, ?string $messageType = null, bool $debugBacktrace = false): MessageDto
     {
         $self = new self($data, $messageType);
 

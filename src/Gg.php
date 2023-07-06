@@ -9,18 +9,15 @@ use ReflectionException;
 
 class Gg
 {
-    /**
-     * response status when sent data received successfully
-     */
-    const RESPONSE_STATUS = 'gg';
-
     const BUFFER_CHUNK_SIZE = 20;
 
     private static ?Gg $instance = null;
-    public static string $userAgent = 'Beaverlabs/GG';
+    private static string $userAgent = 'Beaverlabs/GG';
 
     private float $beginTime = 0;
     private float $beginMemory = 0;
+
+    private bool $flagBacktrace = false;
 
     private array $buffer = [];
 
@@ -34,6 +31,7 @@ class Gg
     public function __destruct()
     {
         $this->sendData();
+        $this->clear();
     }
 
     private function clear()
@@ -65,8 +63,17 @@ class Gg
         }
 
         foreach ($parameters as $parameter) {
-            $this->appendBuffer(MessageHandler::convert($parameter));
+            $this->appendBuffer(
+                MessageHandler::convert($parameter, MessageTypeEnum::LOG, $this->flagBacktrace),
+            );
         }
+
+        return static::getInstance();
+    }
+
+    public function backtrace(): self
+    {
+        $this->flagBacktrace = true;
 
         return static::getInstance();
     }

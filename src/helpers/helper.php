@@ -15,6 +15,21 @@ if (! function_exists('gg')) {
     }
 }
 
+if (! function_exists('gtrace')) {
+    function gtrace(...$parameters): Gg
+    {
+        if (count($parameters)) {
+            \gg()->backtrace();
+
+            foreach ($parameters as $parameter) {
+                Gg::getInstance()->send($parameter);
+            }
+        }
+
+        return Gg::getInstance();
+    }
+}
+
 if (! function_exists('gd')) {
     function gd(...$parameters): Gg
     {
