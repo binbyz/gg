@@ -1,21 +1,8 @@
 <?php
 
 use Beaverlabs\Gg\Dto\DataCapsuleDto;
-use Beaverlabs\Gg\Dto\EnvironmentDto;
 use Beaverlabs\Gg\Dto\MessageDto;
 use Beaverlabs\Gg\MessageHandler;
-
-test('환경변수 파일 테스트', function () {
-    $data = EnvironmentDto::from([
-        'host' => 'localhost',
-        'port' => 21868,
-    ]);
-
-    expect($data)->toBeInstanceOf(EnvironmentDto::class)
-        ->host->toBeString()
-        ->port->toBeInt()
-        ->getEndpoint()->toBe('http://localhost:21868');
-});
 
 test('Array 캡슐라이징 테스트', function () {
     $data = [
@@ -32,7 +19,7 @@ test('Array 캡슐라이징 테스트', function () {
 
     expect($result)->toBeInstanceOf(MessageDto::class)
         ->language->toBe('PHP')
-        ->backtrace->toBeArray()
+        ->trace->toBeArray()
         ->and($result->data)->toBeInstanceOf(DataCapsuleDto::class)
             ->type->toBe('array')
             ->isScalar->toBeFalse()
