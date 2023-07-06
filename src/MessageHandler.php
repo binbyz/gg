@@ -193,8 +193,8 @@ class MessageHandler implements MessageTypeEnum
     {
         $backtrace = \array_filter($backtrace, static function (array $item) {
             if (\array_key_exists('class', $item)) {
-                foreach (self::SANITIZE_BACKTRACE_CLASSES as $className) {
-                    if (\strpos($item['class'], $className) > -1) {
+                foreach (self::SANITIZE_BACKTRACE_CLASSES as $class) {
+                    if (\strpos($item['class'], $class) > -1) {
                         return false;
                     }
                 }
@@ -219,7 +219,7 @@ class MessageHandler implements MessageTypeEnum
                             'type' => 'class',
                             'isScalar' => false,
                             'namespace' => static::getNamespace($arg),
-                            'className' => static::normalizeClassName($arg),
+                            'class' => static::normalizeclass($arg),
                             'pruned' => true,
                             'value' => [],
                         ]);
@@ -250,7 +250,7 @@ class MessageHandler implements MessageTypeEnum
             'type' => gettype($data),
             'isScalar' => false,
             'namespace' => null,
-            'className' => null,
+            'class' => null,
             'value' => \array_map(function ($item) {
                 return $this->capsulizeRecursively($item);
             }, $data),
@@ -263,7 +263,7 @@ class MessageHandler implements MessageTypeEnum
             'type' => gettype($data),
             'isScalar' => false,
             'namespace' => static::getNamespace($data),
-            'className' => static::normalizeClassName($data),
+            'class' => static::normalizeclass($data),
             'value' => $this->getPropertiesToArray($data),
         ]);
     }
@@ -274,7 +274,7 @@ class MessageHandler implements MessageTypeEnum
             'type' => \gettype($data),
             'isScalar' => false,
             'namespace' => static::getNamespace($data),
-            'className' => static::normalizeClassName($data),
+            'class' => static::normalizeclass($data),
             'value' => ThrowableDto::from([
                 'message' => $data->getMessage(),
                 'code' => $data->getCode(),
@@ -323,17 +323,17 @@ class MessageHandler implements MessageTypeEnum
         return \implode('\\', $namespace);
     }
 
-    public static function normalizeClassName($data): string
+    public static function normalizeclass($data): string
     {
-        $className = \get_class($data);
+        $class = \get_class($data);
 
-        if (\strpos($className, self::ANONYMOUS_CLASS_PREFIX) !== false) {
-            $exploded = explode(self::ANONYMOUS_CLASS_PREFIX, $className);
+        if (\strpos($class, self::ANONYMOUS_CLASS_PREFIX) !== false) {
+            $exploded = explode(self::ANONYMOUS_CLASS_PREFIX, $class);
 
-            $className = $exploded[0] . self::ANONYMOUS_CLASS_PREFIX;
+            $class = $exploded[0] . self::ANONYMOUS_CLASS_PREFIX;
         }
 
-        return $className;
+        return $class;
     }
 
     public function isThrowableData(): bool

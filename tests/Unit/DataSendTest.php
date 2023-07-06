@@ -119,3 +119,9 @@ test('메모리 사용량 및 시간 측정 데이터 전송 테스트', functio
 
     \gg()->end();
 });
+
+test('링크 전송 테스트', function () {
+    $result = \gg('asdf https://www.naver.com/ asdf');
+
+    expect($result)->toBeInstanceOf(Gg::class);
+});

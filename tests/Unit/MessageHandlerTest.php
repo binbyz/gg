@@ -97,6 +97,6 @@ test('Detect Framework Test', function (string $result, string $defineKey) {
 test('Normalize Class Name Test', function () {
     $class = new class extends Data {};
 
-    expect(MessageHandler::normalizeClassName($class))
+    expect(MessageHandler::normalizeclass($class))
         ->toBeString('Beaverlabs\Gg\Data@anonymous');
 });

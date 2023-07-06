@@ -24,7 +24,7 @@ test('Array 캡슐라이징 테스트', function () {
             ->type->toBe('array')
             ->isScalar->toBeFalse()
             ->namespace->toBeNull()
-            ->className->toBeNull()
+            ->class->toBeNull()
             ->value->toBeArray()
             ->value->toHaveCount(2) // 'test', 'test2'
                 ->and($result->data->value)->toHaveKeys(['test', 'test2'])
@@ -32,7 +32,7 @@ test('Array 캡슐라이징 테스트', function () {
                     ->type->toBe('integer')
                     ->isScalar->toBeTrue()
                     ->namespace->toBeNull()
-                    ->className->toBeNull()
+                    ->class->toBeNull()
                     ->value->toBe(1)
                 ->and($result->data->value['test2'])->toBeInstanceOf(DataCapsuleDto::class);
 });
