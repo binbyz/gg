@@ -19,7 +19,7 @@ if (! function_exists('gtrace')) {
     function gtrace(...$parameters): Gg
     {
         if (count($parameters)) {
-            \gg()->backtrace();
+            \gg()->onTrace();
 
             foreach ($parameters as $parameter) {
                 Gg::getInstance()->send($parameter);

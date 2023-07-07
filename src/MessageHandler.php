@@ -12,10 +12,11 @@ use ReflectionException;
 
 class MessageHandler implements MessageTypeEnum
 {
-    const SANITIZE_HELPER_FUNCTION = [
-    ];
+    protected static array $skipHelperFunctions = [];
+    protected static array $skipTraceClasses = [];
 
-    const SANITIZE_BACKTRACE_CLASSES = [
+    protected static array $propertySortingClasses = [
+        \Illuminate\Support\Collection::class => ['items', 'escapeWhenCastingToString'],
     ];
 
     const DEBUG_BACKTRACE_LIMIT = 50;
@@ -63,7 +64,7 @@ class MessageHandler implements MessageTypeEnum
             $backtrace,
         );
 
-        return $this->capsulizeBacktraceRecursively($this->sanitizeBacktrace($backtrace));
+        return $this->capsulizeBacktraceRecursively($this->skipTrace($backtrace));
     }
 
     /**
@@ -189,11 +190,11 @@ class MessageHandler implements MessageTypeEnum
         );
     }
 
-    public function sanitizeBacktrace(array $backtrace): array
+    public function skipTrace(array $backtrace): array
     {
         $backtrace = \array_filter($backtrace, static function (array $item) {
             if (\array_key_exists('class', $item)) {
-                foreach (self::SANITIZE_BACKTRACE_CLASSES as $class) {
+                foreach (self::$skipTraceClasses as $class) {
                     if (\strpos($item['class'], $class) > -1) {
                         return false;
                     }
@@ -201,7 +202,7 @@ class MessageHandler implements MessageTypeEnum
             }
 
             if (\array_key_exists('function', $item)) {
-                foreach (self::SANITIZE_HELPER_FUNCTION as $helperFunction) {
+                foreach (self::$skipHelperFunctions as $helperFunction) {
                     if (\strpos($item['function'], $helperFunction) > -1) {
                         return false;
                     }
@@ -291,15 +292,22 @@ class MessageHandler implements MessageTypeEnum
 
         $reflection = new \ReflectionClass($data);
 
+        $key = \array_search($reflection->getName(), \array_keys(self::$propertySortingClasses), true);
+        $availableProperties = $key >= 0 ? self::$propertySortingClasses[$reflection->getName()] : false;
+
         foreach ($reflection->getProperties() as $property) {
+            $propertyName = $property->getName();
+
+            if (\is_array($availableProperties) && ! \in_array($propertyName, $availableProperties, true)) {
+                continue;
+            }
+
             $modifier = $property->getModifiers();
 
             $property->setAccessible(true);
 
             // modifier to string
             $modifier = \implode(' ', \Reflection::getModifierNames($modifier));
-
-            $propertyName = $property->getName();
 
             if (\substr($propertyName, 0, 1) !== '_') {
                 $modifierAndPropertyName = ($modifier . self::MODIFIER_SPLITTER . $propertyName);

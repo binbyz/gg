@@ -2,6 +2,7 @@
 
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
 use Beaverlabs\Gg\Gg;
+use Illuminate\Support\Collection;
 
 test('스칼라 타입 데이터 전송', function () {
     $result = gg(true);
@@ -122,6 +123,30 @@ test('메모리 사용량 및 시간 측정 데이터 전송 테스트', functio
 
 test('링크 전송 테스트', function () {
     $result = \gg('asdf https://www.naver.com/ asdf');
+
+    expect($result)->toBeInstanceOf(Gg::class);
+});
+
+test('데이터 압축 테스트', function () {
+    $test = [
+        Collection::range(1, 20),
+        Collection::range(1, 20),
+        Collection::range(1, 20),
+        Collection::range(1, 20),
+        Collection::range(1, 20),
+        Collection::range(1, 20),
+        Collection::range(1, 20),
+        Collection::range(1, 20),
+        Collection::range(1, 20),
+    ];
+
+    $result = \gg($test);
+
+    expect($result)->toBeInstanceOf(Gg::class);
+});
+
+test('컬렉션 전송 테스트', function () {
+    $result = \gg(Collection::range(1, 100));
 
     expect($result)->toBeInstanceOf(Gg::class);
 });

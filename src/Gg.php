@@ -71,7 +71,7 @@ class Gg
         return static::getInstance();
     }
 
-    public function backtrace(): self
+    public function onTrace(): self
     {
         $this->flagBacktrace = true;
 
