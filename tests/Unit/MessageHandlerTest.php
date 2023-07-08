@@ -23,11 +23,12 @@ test('String Message Data Test', function () {
     expect($converted)
         ->toBeInstanceOf(MessageDto::class)
         ->toHaveProperties([
+            'type',
             'language',
             'version',
             'framework',
             'data',
-            'backtrace'
+            'trace',
         ])
         ->data->toBeInstanceOf(DataCapsuleDto::class)
         ->toHaveProperties([
