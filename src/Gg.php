@@ -64,7 +64,11 @@ class Gg
 
         foreach ($parameters as $parameter) {
             $this->appendBuffer(
-                MessageHandler::convert($parameter, null, $this->flagBacktrace),
+                MessageHandler::convert(
+                    $parameter,
+                    null,
+                    $parameter instanceof \Throwable ? true : $this->flagBacktrace,
+                ),
             );
         }
 

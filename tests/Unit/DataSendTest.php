@@ -98,7 +98,7 @@ test('단일 전송 테스트', function () {
 test('Throwable 전송 테스트', function () {
     $throw = new Exception('Exception message send test');
 
-    expect(gtrace($throw))->toBeInstanceOf(Gg::class);
+    expect(gg($throw))->toBeInstanceOf(Gg::class);
 });
 
 test('실수 및 정수 전송 테스트', function () {
