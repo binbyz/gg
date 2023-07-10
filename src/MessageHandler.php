@@ -292,8 +292,8 @@ class MessageHandler implements MessageTypeEnum
 
         $reflection = new \ReflectionClass($data);
 
-        $key = \array_search($reflection->getName(), \array_keys(self::$propertySortingClasses), true);
-        $availableProperties = $key >= 0 ? self::$propertySortingClasses[$reflection->getName()] : false;
+        $existSortClass = in_array($reflection->getName(), \array_keys(self::$propertySortingClasses), true);
+        $availableProperties = $existSortClass !== false ? self::$propertySortingClasses[$reflection->getName()] : false;
 
         foreach ($reflection->getProperties() as $property) {
             $propertyName = $property->getName();
