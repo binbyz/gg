@@ -11,6 +11,8 @@ class Gg
 {
     const BUFFER_CHUNK_SIZE = 20;
 
+    private bool $enabled = true;
+
     private static ?Gg $instance = null;
     private static string $userAgent = 'Beaverlabs/GG';
 
@@ -26,11 +28,15 @@ class Gg
     private function __construct()
     {
         $this->connection = GgConnection::make();
+        $this->enabled = \getenv('GG_ENABLED', true) === 'true';
     }
 
     public function __destruct()
     {
-        $this->sendData();
+        if ($this->enabled) {
+            $this->sendData();
+        }
+
         $this->clear();
     }
 

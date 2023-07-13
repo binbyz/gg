@@ -1,5 +1,7 @@
 <?php
 
+use Beaverlabs\Gg\Dto\LineCodeDto;
+use Beaverlabs\Gg\Dto\MessageDto;
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
 use Beaverlabs\Gg\Gg;
 use Illuminate\Support\Collection;
@@ -149,4 +151,40 @@ test('컬렉션 전송 테스트', function () {
     $result = \gg(Collection::range(1, 100));
 
     expect($result)->toBeInstanceOf(Gg::class);
+});
+
+test('샘플 데이터 전송', function () {
+    $var1 = collect([
+        LineCodeDto::from(['line' => 1, 'code' => '<?php']),
+        LineCodeDto::from(['line' => 1, 'code' => '<?php']),
+        LineCodeDto::from(['line' => 1, 'code' => '<?php']),
+        LineCodeDto::from(['line' => 1, 'code' => '<?php']),
+        LineCodeDto::from(['line' => 1, 'code' => '<?php']),
+    ]);
+
+    $var2 = [
+        'Hello, Word!',
+        1,
+        2,
+        3,
+        4,
+        5,
+    ];
+
+    $var3 = MessageDto::from([
+        'type' => 'log',
+        'language' => 'ko_KR',
+        'version' => '1.0.0',
+        'framework' => 'Laravel',
+        'data' => [
+            'message' => 'Hello, World!',
+            'code' => 200,
+            'file' => 'app/Http/Controllers/Controller.php',
+            'line' => 1,
+            'trace' => [],
+        ],
+        'trace' => [],
+    ]);
+
+    expect(gg($var1, $var2, $var3))->toBeInstanceOf(Gg::class);
 });
