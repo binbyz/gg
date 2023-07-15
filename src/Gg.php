@@ -3,10 +3,6 @@
 namespace Beaverlabs\Gg;
 
 use Beaverlabs\Gg\Contracts\MessageTypeEnum;
-use Beaverlabs\Gg\Dto\MessageDto;
-use Beaverlabs\Gg\Exceptions\ValueTypeException;
-use Dotenv\Dotenv;
-use ReflectionException;
 
 class Gg
 {
