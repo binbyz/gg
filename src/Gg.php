@@ -5,6 +5,7 @@ namespace Beaverlabs\Gg;
 use Beaverlabs\Gg\Contracts\MessageTypeEnum;
 use Beaverlabs\Gg\Dto\MessageDto;
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
+use Dotenv\Dotenv;
 use ReflectionException;
 
 class Gg
@@ -28,7 +29,10 @@ class Gg
     private function __construct()
     {
         $this->connection = GgConnection::make();
-        $this->enabled = \getenv('GG_ENABLED', true) === 'true';
+
+        $local = \trim(\strtolower(\getenv('GG_ENABLED')));
+
+        $this->enabled = ! (\strtolower($local) === 'false');
     }
 
     public function __destruct()
