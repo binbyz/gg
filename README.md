@@ -1,6 +1,6 @@
 # GG
 
-![GG Client](https://github.com/binbyz/public-gg-client/raw/main/gg-client-v1.0.0-min.png "GG Client")
+This library is a PHP library required to use the GG Client. Please visit the following site: https://phpgg.kr
 
 ## About
 
