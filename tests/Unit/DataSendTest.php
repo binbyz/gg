@@ -183,7 +183,9 @@ test('샘플 데이터 전송', function () {
             'line' => 1,
             'trace' => [],
         ],
-        'trace' => [],
+        'trace' => [
+            "asdf https://phpgg.kr/ asdf https://www.naver.com/ asdf",
+        ],
     ]);
 
     expect(gg($var1, $var2, $var3))->toBeInstanceOf(Gg::class);
