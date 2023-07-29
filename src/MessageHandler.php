@@ -2,12 +2,12 @@
 
 namespace Beaverlabs\Gg;
 
-use Beaverlabs\Gg\Contracts\MessageTypeEnum;
 use Beaverlabs\Gg\Dto\DataCapsuleDto;
 use Beaverlabs\Gg\Dto\LineCodeDto;
 use Beaverlabs\Gg\Dto\MessageDto;
 use Beaverlabs\Gg\Dto\ThrowableDto;
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
+use Beaverlabs\Gg\Types\MessageTypeEnum;
 use ReflectionException;
 
 class MessageHandler implements MessageTypeEnum

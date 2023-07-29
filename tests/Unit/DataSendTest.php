@@ -9,6 +9,8 @@ use Illuminate\Support\Collection;
 test('스칼라 타입 데이터 전송', function () {
     $result = gg(true);
 
+    collect([1, 2, 3, 4, 5])->gg();
+
     expect($result)->toBeInstanceOf(Gg::class);
 });
 

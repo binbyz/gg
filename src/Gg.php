@@ -2,7 +2,7 @@
 
 namespace Beaverlabs\Gg;
 
-use Beaverlabs\Gg\Contracts\MessageTypeEnum;
+use Beaverlabs\Gg\Types\MessageTypeEnum;
 
 class Gg
 {

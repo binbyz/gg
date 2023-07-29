@@ -7,7 +7,6 @@ class Data implements \JsonSerializable
     /**
      * @param array $inputs
      * @return static
-     * @throws \ReflectionException
      */
     public static function from(array $inputs): Data
     {
