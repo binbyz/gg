@@ -10,7 +10,6 @@ class Gg
 
     private bool $enabled = true;
 
-    private static ?Gg $instance = null;
     private static string $userAgent = 'Beaverlabs/GG';
 
     private float $beginTime = 0;
@@ -22,7 +21,7 @@ class Gg
 
     public GgConnection $connection;
 
-    private function __construct()
+    public function __construct()
     {
         $this->connection = GgConnection::make();
 
@@ -53,19 +52,10 @@ class Gg
         return $this;
     }
 
-    public static function getInstance(): Gg
-    {
-        if (static::$instance === null) {
-            static::$instance = new static();
-        }
-
-        return static::$instance;
-    }
-
     public function send(...$parameters): self
     {
         if (! count($parameters)) {
-            return static::getInstance();
+            return $this;
         }
 
         foreach ($parameters as $parameter) {
@@ -78,14 +68,14 @@ class Gg
             );
         }
 
-        return static::getInstance();
+        return $this;
     }
 
     public function onTrace(): self
     {
         $this->flagBacktrace = true;
 
-        return static::getInstance();
+        return $this;
     }
 
     public function note($conditionOrStringData = null, $value = null): self
@@ -93,14 +83,14 @@ class Gg
         $stringValue = \is_callable($conditionOrStringData) ? $value : $conditionOrStringData;
 
         if (\is_callable($conditionOrStringData) && ! $conditionOrStringData()) {
-            return static::getInstance();
+            return $this;
         }
 
         $this->appendBuffer(
             MessageHandler::convert((string) $stringValue, MessageTypeEnum::LOG_NOTE, false),
         );
 
-        return static::getInstance();
+        return $this;
     }
 
     public function die()
@@ -113,7 +103,7 @@ class Gg
         $this->beginTime = microtime(true);
         $this->beginMemory = memory_get_usage();
 
-        return static::getInstance();
+        return $this;
     }
 
     public function end(): self
@@ -132,7 +122,7 @@ class Gg
 
         $this->appendBuffer($message);
 
-        return static::getInstance();
+        return $this;
     }
 
     private function formatBytes($memoryUsage): string
