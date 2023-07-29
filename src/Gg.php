@@ -2,7 +2,7 @@
 
 namespace Beaverlabs\Gg;
 
-use Beaverlabs\Gg\Types\MessageTypeEnum;
+use Beaverlabs\Gg\Enums\MessageType;
 
 class Gg
 {
@@ -87,7 +87,7 @@ class Gg
         }
 
         $this->appendBuffer(
-            MessageHandler::convert((string) $stringValue, MessageTypeEnum::LOG_NOTE, false),
+            MessageHandler::convert((string) $stringValue, MessageType::LOG_NOTE, false),
         );
 
         return $this;
@@ -118,7 +118,7 @@ class Gg
             'executeTime' => microtime(true) - $this->beginTime,
         ];
 
-        $message = MessageHandler::convert($data, MessageTypeEnum::LOG_USAGE, false);
+        $message = MessageHandler::convert($data, MessageType::LOG_USAGE, false);
 
         $this->appendBuffer($message);
 

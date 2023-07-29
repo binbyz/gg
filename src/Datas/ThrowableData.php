@@ -1,10 +1,10 @@
 <?php
 
-namespace Beaverlabs\Gg\Dto;
+namespace Beaverlabs\Gg\Datas;
 
 use Beaverlabs\Gg\Data;
 
-class ThrowableDto extends Data
+class ThrowableData extends Data
 {
     public string $message;
     public int $code;

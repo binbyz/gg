@@ -1,14 +1,14 @@
 <?php
 
+use Beaverlabs\Gg\AgentDetector;
 use Beaverlabs\Gg\Data;
-use Beaverlabs\Gg\Dto\DataCapsuleDto;
-use Beaverlabs\Gg\Dto\MessageDto;
-use Beaverlabs\Gg\FrameworkDetector;
+use Beaverlabs\Gg\Datas\DataCapsuleData;
+use Beaverlabs\Gg\Datas\MessageData;
 use Beaverlabs\Gg\MessageHandler;
 
 test('MessageConverter Scalar Data Type', function () {
     expect(MessageHandler::convert([]))
-        ->toBeInstanceOf(MessageDto::class)
+        ->toBeInstanceOf(MessageData::class)
         ->toHaveProperties([
             'language',
             'version',
@@ -21,7 +21,7 @@ test('String Message Data Test', function () {
     $converted = MessageHandler::convert('[]');
 
     expect($converted)
-        ->toBeInstanceOf(MessageDto::class)
+        ->toBeInstanceOf(MessageData::class)
         ->toHaveProperties([
             'type',
             'language',
@@ -30,7 +30,7 @@ test('String Message Data Test', function () {
             'data',
             'trace',
         ])
-        ->data->toBeInstanceOf(DataCapsuleDto::class)
+        ->data->toBeInstanceOf(DataCapsuleData::class)
         ->toHaveProperties([
             'type' => 'string',
             'isScalar' => true,
@@ -48,8 +48,8 @@ test('Array Message Data Test (1)', function () {
     ]);
 
     expect($converted)
-        ->toBeInstanceOf(MessageDto::class)
-        ->data->toBeInstanceOf(DataCapsuleDto::class);
+        ->toBeInstanceOf(MessageData::class)
+        ->data->toBeInstanceOf(DataCapsuleData::class);
 });
 
 test('Array Message Data Test (2)', function () {
@@ -64,8 +64,8 @@ test('Array Message Data Test (2)', function () {
     ]);
 
     expect($converted)
-        ->toBeInstanceOf(MessageDto::class)
-        ->data->toBeInstanceOf(DataCapsuleDto::class);
+        ->toBeInstanceOf(MessageData::class)
+        ->data->toBeInstanceOf(DataCapsuleData::class);
 });
 
 test('Object Message Data Test', function () {
@@ -78,15 +78,15 @@ test('Object Message Data Test', function () {
     $converted = MessageHandler::convert($data);
 
     expect($converted)
-        ->toBeInstanceOf(MessageDto::class)
-        ->data->toBeInstanceOf(DataCapsuleDto::class);
+        ->toBeInstanceOf(MessageData::class)
+        ->data->toBeInstanceOf(DataCapsuleData::class);
 });
 
 // todo fix this text code only laravel 5 times :(
 test('Detect Framework Test', function (string $result, string $defineKey) {
     define($defineKey, true);
 
-    expect(FrameworkDetector::detectFramework())->toBeString($result);
+    expect(AgentDetector::detectFramework())->toBeString($result);
 })->with([
     ['Laravel', 'LARAVEL_START'],
     ['WordPress', 'WPINC'],

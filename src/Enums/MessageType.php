@@ -1,8 +1,8 @@
 <?php
 
-namespace Beaverlabs\Gg\Types;
+namespace Beaverlabs\Gg\Enums;
 
-interface MessageTypeEnum
+interface MessageType
 {
     public const LOG = 'log';
     public const LOG_NOTE = 'log.note';

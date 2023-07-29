@@ -2,8 +2,6 @@
 
 namespace Beaverlabs\Gg\Macros;
 
-use Beaverlabs\Gg\Contracts\Macro;
-
 class QueryBuilder implements Macro
 {
     public function register(): \Closure

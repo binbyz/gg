@@ -1,6 +1,6 @@
 <?php
 
-namespace Beaverlabs\Gg\Contracts;
+namespace Beaverlabs\Gg\Macros;
 
 interface Macro
 {

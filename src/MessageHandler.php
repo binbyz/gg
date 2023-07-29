@@ -2,15 +2,15 @@
 
 namespace Beaverlabs\Gg;
 
-use Beaverlabs\Gg\Dto\DataCapsuleDto;
-use Beaverlabs\Gg\Dto\LineCodeDto;
-use Beaverlabs\Gg\Dto\MessageDto;
-use Beaverlabs\Gg\Dto\ThrowableDto;
+use Beaverlabs\Gg\Datas\DataCapsuleData;
+use Beaverlabs\Gg\Datas\LineCodeData;
+use Beaverlabs\Gg\Datas\MessageData;
+use Beaverlabs\Gg\Datas\ThrowableData;
+use Beaverlabs\Gg\Enums\MessageType;
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
-use Beaverlabs\Gg\Types\MessageTypeEnum;
 use ReflectionException;
 
-class MessageHandler implements MessageTypeEnum
+class MessageHandler implements MessageType
 {
     protected static array $skipHelperFunctions = [];
     protected static array $skipTraceClasses = [];
@@ -70,15 +70,15 @@ class MessageHandler implements MessageTypeEnum
     /**
      * @throws ReflectionException
      */
-    public static function convert($data, ?string $messageType = null, bool $debugBacktrace = false): MessageDto
+    public static function convert($data, ?string $messageType = null, bool $debugBacktrace = false): MessageData
     {
         $self = new self($data, $messageType);
 
-        return MessageDto::from([
+        return MessageData::from([
             'type' => $self->getMessageType(),
             'language' => 'PHP',
             'version' => \phpversion(),
-            'framework' => FrameworkDetector::detectFramework(),
+            'framework' => AgentDetector::detectFramework(),
             'data' => $self->capsulizeRecursively($self->getData()),
             'trace' => ($debugBacktrace) ? $self->getBacktrace() : [],
         ]);
@@ -88,7 +88,7 @@ class MessageHandler implements MessageTypeEnum
      * @param string $file
      * @param int $line
      * @param int $offset
-     * @return array<int, LineCodeDto>
+     * @return array<int, LineCodeData>
      * @throws ReflectionException
      */
     private function readCode(string $file, int $line, int $offset = 3): array
@@ -126,7 +126,7 @@ class MessageHandler implements MessageTypeEnum
 
         $result = [];
         foreach (\array_filter($code) as $line => $code) {
-            $result[] = LineCodeDto::from([
+            $result[] = LineCodeData::from([
                 'line' => $line,
                 'code' => $code,
             ]);
@@ -151,9 +151,9 @@ class MessageHandler implements MessageTypeEnum
         return is_scalar($data) || is_null($data);
     }
 
-    public function capsulizeRecursively($data): DataCapsuleDto
+    public function capsulizeRecursively($data): DataCapsuleData
     {
-        if ($data instanceof DataCapsuleDto) {
+        if ($data instanceof DataCapsuleData) {
             return $data;
         }
 
@@ -216,7 +216,7 @@ class MessageHandler implements MessageTypeEnum
             if (\array_key_exists('args', $item) && \is_array($item['args'])) {
                 $item['args'] = \array_map(static function ($arg) {
                     if (\is_object($arg)) {
-                        return DataCapsuleDto::from([
+                        return DataCapsuleData::from([
                             'type' => 'class',
                             'isScalar' => false,
                             'namespace' => static::getNamespace($arg),
@@ -236,18 +236,18 @@ class MessageHandler implements MessageTypeEnum
         return \array_values($backtrace);
     }
 
-    private function capsulizeScalar($data): DataCapsuleDto
+    private function capsulizeScalar($data): DataCapsuleData
     {
-        return DataCapsuleDto::from([
+        return DataCapsuleData::from([
             'type' => gettype($data),
             'isScalar' => true,
             'value' => $data,
         ]);
     }
 
-    public function capsulizeArray(array $data): DataCapsuleDto
+    public function capsulizeArray(array $data): DataCapsuleData
     {
-        return DataCapsuleDto::from([
+        return DataCapsuleData::from([
             'type' => gettype($data),
             'isScalar' => false,
             'namespace' => null,
@@ -258,9 +258,9 @@ class MessageHandler implements MessageTypeEnum
         ]);
     }
 
-    public function capsulizeObject(object $data): DataCapsuleDto
+    public function capsulizeObject(object $data): DataCapsuleData
     {
-        return DataCapsuleDto::from([
+        return DataCapsuleData::from([
             'type' => gettype($data),
             'isScalar' => false,
             'namespace' => static::getNamespace($data),
@@ -269,14 +269,14 @@ class MessageHandler implements MessageTypeEnum
         ]);
     }
 
-    public function capsulizeThrowable(\Throwable $data): DataCapsuleDto
+    public function capsulizeThrowable(\Throwable $data): DataCapsuleData
     {
-        return DataCapsuleDto::from([
+        return DataCapsuleData::from([
             'type' => \gettype($data),
             'isScalar' => false,
             'namespace' => static::getNamespace($data),
             'class' => static::normalizeclass($data),
-            'value' => ThrowableDto::from([
+            'value' => ThrowableData::from([
                 'message' => $data->getMessage(),
                 'code' => $data->getCode(),
                 'file' => $data->getFile(),

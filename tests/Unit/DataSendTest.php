@@ -1,7 +1,7 @@
 <?php
 
-use Beaverlabs\Gg\Dto\LineCodeDto;
-use Beaverlabs\Gg\Dto\MessageDto;
+use Beaverlabs\Gg\Datas\LineCodeData;
+use Beaverlabs\Gg\Datas\MessageData;
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
 use Beaverlabs\Gg\Gg;
 use Illuminate\Support\Collection;
@@ -20,7 +20,7 @@ test('헬퍼 함수를 통한 데이터 전송', function () {
 });
 
 test('Anonymous 클래스 전송 테스트', function () {
-    $parameter = new class extends Beaverlabs\Gg\Data {
+    $parameter = new class extends \Beaverlabs\Gg\Data {
         public $id = 1;
         public $name = 'WONBEEN IM';
         private $email = 'eyedroot@gmail.com';
@@ -157,11 +157,11 @@ test('컬렉션 전송 테스트', function () {
 
 test('샘플 데이터 전송', function () {
     $var1 = collect([
-        LineCodeDto::from(['line' => 1, 'code' => '<?php']),
-        LineCodeDto::from(['line' => 1, 'code' => '<?php']),
-        LineCodeDto::from(['line' => 1, 'code' => '<?php']),
-        LineCodeDto::from(['line' => 1, 'code' => '<?php']),
-        LineCodeDto::from(['line' => 1, 'code' => '<?php']),
+        LineCodeData::from(['line' => 1, 'code' => '<?php']),
+        LineCodeData::from(['line' => 1, 'code' => '<?php']),
+        LineCodeData::from(['line' => 1, 'code' => '<?php']),
+        LineCodeData::from(['line' => 1, 'code' => '<?php']),
+        LineCodeData::from(['line' => 1, 'code' => '<?php']),
     ]);
 
     $var2 = [
@@ -173,7 +173,7 @@ test('샘플 데이터 전송', function () {
         5,
     ];
 
-    $var3 = MessageDto::from([
+    $var3 = MessageData::from([
         'type' => 'log',
         'language' => 'ko_KR',
         'version' => '1.0.0',

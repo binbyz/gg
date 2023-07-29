@@ -1,10 +1,10 @@
 <?php
 
-namespace Beaverlabs\Gg\Dto;
+namespace Beaverlabs\Gg\Datas;
 
 use Beaverlabs\Gg\Data;
 
-class LineCodeDto extends Data
+class LineCodeData extends Data
 {
     public int $line;
     public string $code;

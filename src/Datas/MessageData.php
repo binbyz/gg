@@ -1,10 +1,10 @@
 <?php
 
-namespace Beaverlabs\Gg\Dto;
+namespace Beaverlabs\Gg\Datas;
 
 use Beaverlabs\Gg\Data;
 
-class MessageDto extends Data
+class MessageData extends Data
 {
     public string $type;
     public string $language;

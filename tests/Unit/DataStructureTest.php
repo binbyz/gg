@@ -1,7 +1,7 @@
 <?php
 
-use Beaverlabs\Gg\Dto\DataCapsuleDto;
-use Beaverlabs\Gg\Dto\MessageDto;
+use Beaverlabs\Gg\Datas\DataCapsuleData;
+use Beaverlabs\Gg\Datas\MessageData;
 use Beaverlabs\Gg\MessageHandler;
 
 test('Array 캡슐라이징 테스트', function () {
@@ -17,10 +17,10 @@ test('Array 캡슐라이징 테스트', function () {
 
     $result = MessageHandler::convert($data);
 
-    expect($result)->toBeInstanceOf(MessageDto::class)
+    expect($result)->toBeInstanceOf(MessageData::class)
         ->language->toBe('PHP')
         ->trace->toBeArray()
-        ->and($result->data)->toBeInstanceOf(DataCapsuleDto::class)
+        ->and($result->data)->toBeInstanceOf(DataCapsuleData::class)
             ->type->toBe('array')
             ->isScalar->toBeFalse()
             ->namespace->toBeNull()
@@ -28,11 +28,11 @@ test('Array 캡슐라이징 테스트', function () {
             ->value->toBeArray()
             ->value->toHaveCount(2) // 'test', 'test2'
                 ->and($result->data->value)->toHaveKeys(['test', 'test2'])
-                ->and($result->data->value['test'])->toBeInstanceOf(DataCapsuleDto::class)
+                ->and($result->data->value['test'])->toBeInstanceOf(DataCapsuleData::class)
                     ->type->toBe('integer')
                     ->isScalar->toBeTrue()
                     ->namespace->toBeNull()
                     ->class->toBeNull()
                     ->value->toBe(1)
-                ->and($result->data->value['test2'])->toBeInstanceOf(DataCapsuleDto::class);
+                ->and($result->data->value['test2'])->toBeInstanceOf(DataCapsuleData::class);
 });

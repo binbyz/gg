@@ -1,10 +1,10 @@
 <?php
 
-namespace Beaverlabs\Gg\Dto;
+namespace Beaverlabs\Gg\Datas;
 
 use Beaverlabs\Gg\Data;
 
-class DataCapsuleDto extends Data
+class DataCapsuleData extends Data
 {
     /** @var string array, string, integer, boolean, object, NULL */
     public string $type;

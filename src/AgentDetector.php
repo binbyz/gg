@@ -4,7 +4,7 @@ namespace Beaverlabs\Gg;
 
 use Beaverlabs\Gg\Traits\MakeTrait;
 
-class FrameworkDetector
+class AgentDetector
 {
     use MakeTrait;
 
