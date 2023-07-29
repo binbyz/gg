@@ -2,43 +2,42 @@
 
 use Beaverlabs\Gg\Gg;
 
+if (! function_exists('ggInstance')) {
+    function ggInstance(): Gg
+    {
+        if (function_exists('app')) {
+            return app(Gg::class);
+        }
+
+        return new Gg();
+    }
+}
+
 if (! function_exists('gg')) {
     function gg(...$parameters): Gg
     {
+        $instance = ggInstance();
+
         if (count($parameters)) {
             foreach ($parameters as $parameter) {
-                Gg::getInstance()->send($parameter);
+                $instance->send($parameter);
             }
         }
 
-        return Gg::getInstance();
+        return $instance;
     }
 }
 
 if (! function_exists('gtrace')) {
     function gtrace(...$parameters): Gg
     {
-        if (count($parameters)) {
-            \gg()->onTrace();
-
-            foreach ($parameters as $parameter) {
-                Gg::getInstance()->send($parameter);
-            }
-        }
-
-        return Gg::getInstance();
+        return \gg()->onTrace()->send(...$parameters);
     }
 }
 
 if (! function_exists('gd')) {
-    function gd(...$parameters): Gg
+    function gd(...$parameters): void
     {
-        if (count($parameters)) {
-            foreach ($parameters as $parameter) {
-                Gg::getInstance()->send($parameter);
-            }
-        }
-
-        die();
+        \gg(...$parameters)->die();
     }
 }
