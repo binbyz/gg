@@ -190,3 +190,54 @@ test('샘플 데이터 전송', function () {
 
     expect(gg($var1, $var2, $var3))->toBeInstanceOf(Gg::class);
 });
+
+test('샘플 데이터 전송 2', function () {
+    $data = [
+        "items" => [
+            [
+                "name" => "Sword",
+                "type" => "Weapon",
+                "damage" => 50,
+            ],
+            [
+                "name" => "Shield",
+                "type" => "Armor",
+                "defense" => 20,
+            ],
+        ],
+        "characters" => [
+            [
+                "name" => "Knight",
+                "level" => 10,
+                "health" => 100,
+                "stats" => [
+                    "strength" => 15,
+                    "agility" => 10,
+                    "intelligence" => 5,
+                ],
+            ],
+            [
+                "name" => "Mage",
+                "level" => 8,
+                "health" => 80,
+                "stats" => [
+                    "strength" => 5,
+                    "agility" => 10,
+                    "intelligence" => 15,
+                ],
+            ],
+            [
+                "name" => "Archer",
+                "level" => 9,
+                "health" => 90,
+                "stats" => [
+                    "strength" => 10,
+                    "agility" => 15,
+                    "intelligence" => 10,
+                ],
+            ],
+        ],
+    ];
+
+    expect(gg($data))->toBeInstanceOf(Gg::class);
+});
