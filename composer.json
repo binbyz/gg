@@ -62,7 +62,8 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Beaverlabs\\Gg\\Providers\\GgServiceProvider"
+        "Beaverlabs\\Gg\\Providers\\GgServiceProvider",
+        "Beaverlabs\\Gg\\Providers\\GgEventServiceProvider"
       ]
     }
   },
