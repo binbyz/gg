@@ -63,7 +63,7 @@
     "laravel": {
       "providers": [
         "Beaverlabs\\Gg\\Providers\\GgServiceProvider",
-        "Beaverlabs\\Gg\\Providers\\GgEventServiceProvider"
+        "Beaverlabs\\Gg\\Providers\\EventServiceProvider"
       ]
     }
   },
