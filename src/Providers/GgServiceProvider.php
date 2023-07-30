@@ -1,7 +1,10 @@
 <?php
 
-namespace Beaverlabs\Gg;
+namespace Beaverlabs\Gg\Providers;
 
+use Beaverlabs\Gg\Gg;
+use Beaverlabs\Gg\Macros\QueryBuilder as QueryBuilderMacro;
+use Beaverlabs\Gg\Macros\Collection as CollectionMacro;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Log\Events\MessageLogged;
 use Illuminate\Support\Collection;
@@ -11,8 +14,8 @@ use Illuminate\Support\ServiceProvider;
 class GgServiceProvider extends ServiceProvider
 {
     protected array $macros = [
-        Builder::class => Macros\QueryBuilder::class,
-        Collection::class => Macros\Collection::class,
+        Builder::class => QueryBuilderMacro::class,
+        Collection::class => CollectionMacro::class,
     ];
 
     public function register()
@@ -30,18 +33,9 @@ class GgServiceProvider extends ServiceProvider
     private function bootMacros()
     {
         foreach ($this->macros as $class => $macro) {
-            $class::macro('gg', (new $macro)->register());
-        }
-    }
-
-    protected function bindExceptionWatcher(): self
-    {
-        Event::listen(MessageLogged::class, static function (MessageLogged $logged) {
-            if (\array_key_exists('exception', $logged->context) && $logged->context['exception'] instanceof \Throwable) {
-                \gtrace($logged->context['exception']);
+            if (\method_exists($class, 'macro')) {
+                $class::macro('gg', (new $macro)->register());
             }
-        });
-
-        return $this;
+        }
     }
 }
