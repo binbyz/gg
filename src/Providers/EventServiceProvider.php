@@ -9,7 +9,7 @@ class EventServiceProvider extends \Illuminate\Foundation\Support\Providers\Even
 {
     protected $listen = [
         QueryExecuted::class => [
-            \Beaverlabs\Gg\Listeners\QueryExecutedListener::class,
+//            \Beaverlabs\Gg\Listeners\QueryExecutedListener::class,
         ],
         MessageLogged::class => [
             \Beaverlabs\Gg\Listeners\ExceptionListener::class,
