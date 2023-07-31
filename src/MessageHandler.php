@@ -67,9 +67,6 @@ class MessageHandler implements MessageType
         return $this->capsulizeBacktraceRecursively($this->skipTrace($backtrace));
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public static function convert($data, ?string $messageType = null, bool $debugBacktrace = false): MessageData
     {
         $self = new self($data, $messageType);
@@ -89,7 +86,6 @@ class MessageHandler implements MessageType
      * @param int $line
      * @param int $offset
      * @return array<int, LineCodeData>
-     * @throws ReflectionException
      */
     private function readCode(string $file, int $line, int $offset = 3): array
     {
