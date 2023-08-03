@@ -31,4 +31,3 @@ This is very important. Please report bugs in **GG Client** through the issues i
 For bugs related to the library, please report them using the repositories below:
 
 - [beaverlabs/gg](https://github.com/binbyz/gg)
-- [beaverlabs/laravel-gg](https://github.com/binbyz/laravel-gg)
