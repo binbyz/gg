@@ -136,9 +136,11 @@ class Gg
         return $memoryUsage;
     }
 
-    private function appendBuffer($data): void
+    public function appendBuffer($data): self
     {
         $this->buffer[] = $data;
+
+        return $this;
     }
 
     private function sendData(): void
