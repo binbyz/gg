@@ -153,6 +153,10 @@ class MessageHandler implements MessageType
             return $data;
         }
 
+        if (\is_resource($data)) {
+            return $this->capsulizeScalar('resource#' . \get_resource_type($data));
+        }
+
         if (static::isScalar($data)) {
             return $this->capsulizeScalar($data);
         }
