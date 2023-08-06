@@ -8,4 +8,5 @@ interface MessageType
     public const LOG_NOTE = 'log.note';
     public const LOG_USAGE = 'log.usage';
     public const THROWABLE = 'throwable';
+    public const HTTP_REQUEST = 'http.request';
 }

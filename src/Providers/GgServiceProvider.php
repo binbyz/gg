@@ -27,26 +27,6 @@ class GgServiceProvider extends ServiceProvider
         $this->app->bind(Gg::class, static function () {
             return new Gg();
         });
-
-        $this->app->bind(Client::class, function () {
-            $handlerStack = HandlerStack::create();
-
-            $timestamp = \microtime(true);
-
-            $handlerStack->push(Middleware::mapRequest(static function (Request $request) use ($timestamp) {
-                GgRequestEvent::dispatch($request, $timestamp);
-
-                return $request;
-            }));
-
-            $handlerStack->push(Middleware::mapResponse(static function (Response $response) use ($timestamp) {
-                GgRequestEvent::dispatch($response, $timestamp);
-
-                return $response;
-            }));
-
-            return new Client(['handler' => $handlerStack]);
-        });
     }
 
     public function boot()
