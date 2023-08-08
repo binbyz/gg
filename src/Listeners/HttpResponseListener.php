@@ -32,9 +32,17 @@ class HttpResponseListener
 
     private function getResponseArray(Response $response): array
     {
+        $headers = $response->headers();
+
+        if (\array_key_exists('Content-Type', $headers) && \strpos($headers['Content-Type'][0], 'application/json') !== false) {
+            $body = \json_decode($response->body(), true);
+        } else {
+            $body = $response->body();
+        }
+
         return [
             'status' => $response->status(),
-            'body' => $response->body(),
+            'body' => $body,
             'headers' => $response->headers(),
             'cookies' => $response->cookies(),
             'handlerStats' => $response->handlerStats(),
