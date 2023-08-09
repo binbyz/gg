@@ -6,7 +6,7 @@ use Beaverlabs\Gg\Enums\MessageType;
 
 class Gg
 {
-    const BUFFER_CHUNK_SIZE = 20;
+    const BUFFER_CHUNK_SIZE = 10;
 
     private bool $enabled = true;
 
