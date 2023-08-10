@@ -158,9 +158,8 @@ class Gg
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
-        $chunks = \array_chunk($this->buffer, self::BUFFER_CHUNK_SIZE);
-
-        foreach ($chunks as $chunk) {
+        while (! empty($this->buffer)) {
+            $chunk = \array_splice($this->buffer, 0, self::BUFFER_CHUNK_SIZE);
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($chunk));
             curl_exec($ch);
         }
