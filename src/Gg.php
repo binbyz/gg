@@ -54,6 +54,10 @@ class Gg
 
     public function send(...$parameters): self
     {
+        if (! $this->enabled) {
+            return $this;
+        }
+
         if (! count($parameters)) {
             return $this;
         }
@@ -138,6 +142,10 @@ class Gg
 
     public function appendBuffer($data): self
     {
+        if (! $this->enabled) {
+            return $this;
+        }
+
         $this->buffer[] = $data;
 
         return $this;
