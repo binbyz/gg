@@ -17,6 +17,7 @@ class Gg
 
     private bool $flagBacktrace = false;
 
+    private string $originalMemoryLimit;
     private array $buffer = [];
 
     public GgConnection $connection;
@@ -26,6 +27,9 @@ class Gg
         $this->connection = GgConnection::make();
 
         $local = \trim(\strtolower(\getenv('GG_ENABLED')));
+
+        $this->originalMemoryLimit = \ini_get('memory_limit');
+        $this->increaseMemoryTemporarily();
 
         $this->enabled = ! (\strtolower($local) === 'false');
     }
@@ -37,6 +41,8 @@ class Gg
         }
 
         $this->clear();
+
+        $this->restoreMemoryLimit();
     }
 
     private function clear()
@@ -165,6 +171,16 @@ class Gg
         }
 
         curl_close($ch);
+    }
+
+    private function increaseMemoryTemporarily(): void
+    {
+        \ini_set('memory_limit', '256M');
+    }
+
+    private function restoreMemoryLimit(): void
+    {
+        \ini_set('memory_limit', $this->originalMemoryLimit);
     }
 
     public function getEndpoint(): string
