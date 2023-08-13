@@ -72,6 +72,8 @@ class Gg
             );
         }
 
+        $this->sendData();
+
         return $this;
     }
 
