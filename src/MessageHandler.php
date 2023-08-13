@@ -220,7 +220,7 @@ class MessageHandler implements MessageType
                             'type' => 'class',
                             'isScalar' => false,
                             'namespace' => static::getNamespace($arg),
-                            'class' => static::normalizeclass($arg),
+                            'class' => static::normalizeNamespace($arg),
                             'pruned' => true,
                             'value' => [],
                         ]);
@@ -264,7 +264,7 @@ class MessageHandler implements MessageType
             'type' => gettype($data),
             'isScalar' => false,
             'namespace' => static::getNamespace($data),
-            'class' => static::normalizeclass($data),
+            'class' => static::normalizeNamespace($data),
             'value' => $this->getPropertiesToArray($data),
         ]);
     }
@@ -275,7 +275,7 @@ class MessageHandler implements MessageType
             'type' => \gettype($data),
             'isScalar' => false,
             'namespace' => static::getNamespace($data),
-            'class' => static::normalizeclass($data),
+            'class' => static::normalizeNamespace($data),
             'value' => ThrowableData::from([
                 'message' => $data->getMessage(),
                 'code' => $data->getCode(),
@@ -331,7 +331,7 @@ class MessageHandler implements MessageType
         return \implode('\\', $namespace);
     }
 
-    public static function normalizeclass($data): string
+    public static function normalizeNamespace($data): string
     {
         $class = \get_class($data);
 
