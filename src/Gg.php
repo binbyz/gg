@@ -142,7 +142,7 @@ class Gg
         return $memoryUsage;
     }
 
-    public function appendBuffer($data): self
+    protected function appendBuffer($data): self
     {
         if (! $this->enabled) {
             return $this;

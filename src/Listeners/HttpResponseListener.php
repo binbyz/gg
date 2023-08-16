@@ -17,7 +17,7 @@ class HttpResponseListener
 
         $messageData = MessageHandler::convert(['request' => $request, 'response' => $response], MessageType::HTTP_REQUEST);
 
-        \gg()->appendBuffer($messageData);
+        \gg()->send($messageData);
     }
 
     private function getRequestArray(Request $request): array
