@@ -40,6 +40,6 @@ class GgServiceProvider extends ServiceProvider
 
     private function bootConfig()
     {
-        $this->publishes([__DIR__ . '/../../config/gg.php' => config_path('gg.php')], 'config');
+        $this->publishes([__DIR__ . '/../config/gg.php' => config_path('gg.php')], 'config');
     }
 }
