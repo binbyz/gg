@@ -11,9 +11,9 @@ class GgConnection
     public string $host;
     public int $port;
 
-    public function __construct(string $host = 'localhost', int $port = 21868)
+    public function __construct(string $host = 'host.docker.internal', int $port = 21868)
     {
-        $this->host = \getenv('GG_HOST') ?: $host;
-        $this->port = \getenv('GG_PORT') ?: $port;
+        $this->host = \config('gg.host') ?: $host;
+        $this->port = \config('gg.port') ?: $port;
     }
 }
