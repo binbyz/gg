@@ -2,15 +2,9 @@
 
 namespace Beaverlabs\Gg\Providers;
 
-use Beaverlabs\Gg\Events\GgRequestEvent;
 use Beaverlabs\Gg\Gg;
 use Beaverlabs\Gg\Macros\QueryBuilder as QueryBuilderMacro;
 use Beaverlabs\Gg\Macros\Collection as CollectionMacro;
-use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
@@ -31,6 +25,7 @@ class GgServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        $this->bootConfig();
         $this->bootMacros();
     }
 
@@ -41,5 +36,10 @@ class GgServiceProvider extends ServiceProvider
                 $class::macro('gg', (new $macro)->register());
             }
         }
+    }
+
+    private function bootConfig()
+    {
+        $this->publishes([__DIR__ . '/../../config/gg.php' => config_path('gg.php')], 'config');
     }
 }

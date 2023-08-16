@@ -9,7 +9,8 @@ class Gg
 {
     const BUFFER_CHUNK_SIZE = 5;
 
-    private bool $enabled = true;
+    private bool $enabled;
+    private bool $httpListenerEnabled;
 
     private static string $userAgent = 'Beaverlabs/GG';
 
@@ -26,24 +27,8 @@ class Gg
     {
         $this->connection = GgConnection::make();
 
-        $local = \trim(\strtolower(\getenv('GG_ENABLED')));
-
-        $this->enabled = ! (\strtolower($local) === 'false');
-    }
-
-    public function __destruct()
-    {
-        if ($this->enabled) {
-            $this->sendData();
-        }
-
-        $this->clear();
-    }
-
-    private function clear()
-    {
-        unset($this->buffer);
-        $this->buffer = [];
+        $this->enabled = \config('gg.enabled', true);
+        $this->httpListenerEnabled = \config('gg.listeners.http_response_listener', false);
     }
 
     public function bindConnection(GgConnection $connection): self
@@ -64,14 +49,22 @@ class Gg
         }
 
         foreach ($parameters as $parameter) {
+            if ($parameter instanceof MessageData) {
+                if ($parameter->type === MessageType::HTTP_REQUEST && ! $this->httpListenerEnabled) {
+                    continue;
+                }
+
+                $this->appendBuffer($parameter);
+
+                continue;
+            }
+
             $this->appendBuffer(
-                ($parameter instanceof MessageData)
-                    ? $parameter
-                    : MessageHandler::convert(
-                        $parameter,
-                        null,
-                        $parameter instanceof \Throwable ? true : $this->flagBacktrace,
-                    ),
+                MessageHandler::convert(
+                    $parameter,
+                    null,
+                    $parameter instanceof \Throwable ? true : $this->flagBacktrace,
+                ),
             );
         }
 
