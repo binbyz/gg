@@ -10,21 +10,41 @@ This library is a PHP library required to use the GG Client. Please visit the fo
 
 **GG Client** can be used as a package installed by the composer dependency management tool. If you're a vanilla PHP developer, you can use the following command to install the library. Before installing, make sure that the PHP version of your project is higher than `^7.4`. Note that the Laravel framework supports versions from `^7.2` and above.
 
-### Global Installation via composer
-
-```bash
-$ composer global require beaverlabs/gg
-```
-
 ### Porject Installation via composer
 
 For projects that manage dependencies using composer, please install the library for your project.
 
 ```bash
-$ composer require --dev beaverlabs/gg
+composer require --dev beaverlabs/gg
 ```
 
-## 버그 제보
+### Publishing GG Client
+
+If you are using the Laravel framework, you can publish the GG Client to the public directory using the following command.
+
+```bash
+php artisan vendor:publish --provider="Beaverlabs\Gg\Providers\GgServiceProvider"
+```
+
+or
+
+`--force` option can be used to overwrite existing files.
+
+```bash
+php artisan vendor:publish --provider="Beaverlabs\Gg\Providers\GgServiceProvider" --force
+```
+
+## environment variables
+
+The following environment variables are required to use the library.
+
+```dotenv
+GG_ENABLED=true
+GG_HOST=host.docker.internal
+GG_HTTP_RESPONSE_LISTENER=true
+```
+
+## Bug Reports
 
 This is very important. Please report bugs in **GG Client** through the issues in the repository.
 
