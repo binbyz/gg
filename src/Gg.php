@@ -2,6 +2,7 @@
 
 namespace Beaverlabs\Gg;
 
+use Beaverlabs\Gg\Datas\MessageData;
 use Beaverlabs\Gg\Enums\MessageType;
 
 class Gg
@@ -64,11 +65,13 @@ class Gg
 
         foreach ($parameters as $parameter) {
             $this->appendBuffer(
-                MessageHandler::convert(
-                    $parameter,
-                    null,
-                    $parameter instanceof \Throwable ? true : $this->flagBacktrace,
-                ),
+                ($parameter instanceof MessageData)
+                    ? $parameter
+                    : MessageHandler::convert(
+                        $parameter,
+                        null,
+                        $parameter instanceof \Throwable ? true : $this->flagBacktrace,
+                    ),
             );
         }
 

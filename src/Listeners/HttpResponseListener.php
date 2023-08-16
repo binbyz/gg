@@ -26,7 +26,7 @@ class HttpResponseListener
             'method' => $request->method(),
             'url' => $request->url(),
             'body' => $request->body(),
-            'headers' => $request->headers(),
+            'headers' => $this->flattenHeaders($request->headers()),
         ];
     }
 
@@ -37,15 +37,44 @@ class HttpResponseListener
         if (\array_key_exists('Content-Type', $headers) && \strpos($headers['Content-Type'][0], 'application/json') !== false) {
             $body = \json_decode($response->body(), true);
         } else {
-            $body = $response->body();
+            $charset = $this->extractResponseEncoding($response);
+            $body = \mb_substr($response->body(), 0, 150, $charset) . '...';
         }
+
+        $handlerStats = $response->handlerStats();
 
         return [
             'status' => $response->status(),
             'body' => $body,
-            'headers' => $response->headers(),
+            'headers' => $this->flattenHeaders($response->headers()),
             'cookies' => $response->cookies(),
-            'handlerStats' => $response->handlerStats(),
+            'handlerStats' => [
+                'total_time' => $handlerStats['total_time'] ?? null,
+                'primary_ip' => $handlerStats['primary_ip'] ?? null,
+                'primary_port' => $handlerStats['primary_port'] ?? null,
+            ],
         ];
+    }
+
+    private function extractResponseEncoding(Response $response): string
+    {
+        $contentType = $response->header('Content-Type');
+
+        $parts = \array_map('trim', \array_filter(\explode(';', $contentType)));
+
+        foreach ($parts as $part) {
+            if (\strpos($part, 'charset=') !== false) {
+                return \str_replace('charset=', '', $part);
+            }
+        }
+
+        return 'UTF-8';
+    }
+
+    private function flattenHeaders(array $headers): array
+    {
+        return \array_map(function ($value) {
+            return \is_array($value) ? \implode(' ', $value) : $value;
+        }, $headers);
     }
 }
