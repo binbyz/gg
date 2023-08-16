@@ -10,7 +10,6 @@ class Gg
     const BUFFER_CHUNK_SIZE = 5;
 
     private bool $enabled;
-    private bool $httpListenerEnabled;
 
     private static string $userAgent = 'Beaverlabs/GG';
 
@@ -26,9 +25,7 @@ class Gg
     public function __construct()
     {
         $this->connection = GgConnection::make();
-
         $this->enabled = \config('gg.enabled', true);
-        $this->httpListenerEnabled = \config('gg.listeners.http_response_listener', false);
     }
 
     public function bindConnection(GgConnection $connection): self
@@ -50,12 +47,7 @@ class Gg
 
         foreach ($parameters as $parameter) {
             if ($parameter instanceof MessageData) {
-                if ($parameter->type === MessageType::HTTP_REQUEST && ! $this->httpListenerEnabled) {
-                    continue;
-                }
-
                 $this->appendBuffer($parameter);
-
                 continue;
             }
 

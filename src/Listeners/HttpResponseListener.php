@@ -12,12 +12,21 @@ class HttpResponseListener
 {
     public function handle(ResponseReceived $responseReceived): void
     {
+        if (! $this->isEnabled()) {
+            return;
+        }
+
         $request = $this->getRequestArray($responseReceived->request);
         $response = $this->getResponseArray($responseReceived->response);
 
         $messageData = MessageHandler::convert(['request' => $request, 'response' => $response], MessageType::HTTP_REQUEST);
 
         \gg()->send($messageData);
+    }
+
+    private function isEnabled(): bool
+    {
+        return \config('gg.listeners.http_response_listener', false);
     }
 
     private function getRequestArray(Request $request): array
