@@ -2,6 +2,8 @@
 
 namespace Beaverlabs\Gg\Listeners;
 
+use Beaverlabs\Gg\ConfigVariableChecker;
+use Beaverlabs\Gg\ConfigVariables;
 use Beaverlabs\Gg\Enums\MessageType;
 use Beaverlabs\Gg\MessageHandler;
 use Illuminate\Http\Client\Events\ResponseReceived;
@@ -12,21 +14,19 @@ class HttpResponseListener
 {
     public function handle(ResponseReceived $responseReceived): void
     {
-        if (! $this->isEnabled()) {
+        if (! ConfigVariableChecker::is(ConfigVariables::LISTENERS_HTTP_RESPONSE_LISTENER)) {
             return;
         }
 
         $request = $this->getRequestArray($responseReceived->request);
         $response = $this->getResponseArray($responseReceived->response);
 
-        $messageData = MessageHandler::convert(['request' => $request, 'response' => $response], MessageType::HTTP_REQUEST);
+        $messageData = MessageHandler::convert(
+            ['request' => $request, 'response' => $response],
+            MessageType::HTTP_REQUEST,
+        );
 
         \gg()->send($messageData);
-    }
-
-    private function isEnabled(): bool
-    {
-        return \config('gg.listeners.http_response_listener', false);
     }
 
     private function getRequestArray(Request $request): array
