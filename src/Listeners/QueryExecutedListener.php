@@ -4,7 +4,6 @@ namespace Beaverlabs\Gg\Listeners;
 
 use Beaverlabs\Gg\ConfigVariableChecker;
 use Beaverlabs\Gg\ConfigVariables;
-use Beaverlabs\Gg\Datas\SqlData;
 use Beaverlabs\Gg\Enums\MessageType;
 use Beaverlabs\Gg\MessageHandler;
 use Illuminate\Database\Events\QueryExecuted;
