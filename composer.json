@@ -29,10 +29,11 @@
     "illuminate/support": "^7.20|^8.19|^9.0|^10.0"
   },
   "require-dev": {
-    "laravel/framework": "^7.20|^8.19|^9.0|^10.0",
+    "fakerphp/faker": "^1.23",
     "guzzlehttp/guzzle": "^6.3|^7.0",
-    "orchestra/testbench-core": "^5.0|^6.0|^7.0|^8.5.8",
+    "laravel/framework": "^7.20|^8.19|^9.0|^10.0",
     "mockery/mockery": "^1.6.2",
+    "orchestra/testbench-core": "^5.0|^6.0|^7.0|^8.5.8",
     "pestphp/pest": "^2.6.1",
     "phpunit/phpunit": "^10.1.3"
   },
@@ -46,7 +47,9 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Beaverlabs\\Gg\\Tests\\": "tests/"
+      "Beaverlabs\\Gg\\Tests\\": "tests/",
+      "Beaverlabs\\Gg\\Databases\\Factories\\": "database/factories",
+      "Beaverlabs\\Gg\\Databases\\Migrations\\": "database/migrations"
     }
   },
   "scripts": {

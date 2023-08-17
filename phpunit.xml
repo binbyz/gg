@@ -18,5 +18,9 @@
         <env name="APP_DEBUG" value="true" />
         <env name="DB_CONNECTION" value="sqlite"/>
         <env name="DB_DATABASE" value=":memory:"/>
+        <env name="CACHE_DRIVER" value="array"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <env name="GG_HTTP_RESPONSE_LISTENER" value="true"/>
+        <env name="GG_MODEL_QUERY_LISTENER" value="true"/>
     </php>
 </phpunit>
