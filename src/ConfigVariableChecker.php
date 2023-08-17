@@ -4,8 +4,6 @@ namespace Beaverlabs\Gg;
 
 class ConfigVariableChecker implements ConfigVariables
 {
-    public const ROOT_KEY = 'gg';
-
     protected static array $variables = [
         ConfigVariables::ENABLED,
         ConfigVariables::LISTENERS_HTTP_RESPONSE_LISTENER,
@@ -19,8 +17,6 @@ class ConfigVariableChecker implements ConfigVariables
         if (! \in_array($key, self::$variables, true)) {
             return false;
         }
-
-        $key = (self::ROOT_KEY . '.' . \strtolower($key));
 
         return (bool) \config($key, false);
     }
