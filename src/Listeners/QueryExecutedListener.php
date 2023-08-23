@@ -25,7 +25,7 @@ class QueryExecutedListener
         ];
 
         \gg()->send(
-            MessageHandler::convert($data, MessageType::SQL_QUERY),
+            MessageHandler::convert($data, MessageType::SQL_MODEL),
         );
     }
 
