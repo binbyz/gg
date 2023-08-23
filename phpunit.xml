@@ -20,6 +20,8 @@
         <env name="DB_DATABASE" value=":memory:"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
+        <env name="GG_ENABLED" value="true"/>
+        <env name="GG_HOST" value="localhost"/>
         <env name="GG_HTTP_RESPONSE_LISTENER" value="true"/>
         <env name="GG_MODEL_QUERY_LISTENER" value="true"/>
     </php>
