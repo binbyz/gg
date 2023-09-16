@@ -292,7 +292,7 @@ class MessageHandler implements MessageType
 
         $reflection = new \ReflectionClass($data);
 
-        $existSortClass = in_array($reflection->getName(), \array_keys(self::$propertySortingClasses), true);
+        $existSortClass = \in_array($reflection->getName(), \array_keys(self::$propertySortingClasses), true);
         $availableProperties = $existSortClass !== false ? self::$propertySortingClasses[$reflection->getName()] : false;
 
         foreach ($reflection->getProperties() as $property) {

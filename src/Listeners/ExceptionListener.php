@@ -2,6 +2,10 @@
 
 namespace Beaverlabs\Gg\Listeners;
 
+use Beaverlabs\Gg\Datas\DataCapsuleData;
+use Beaverlabs\Gg\Datas\ThrowableData;
+use Beaverlabs\Gg\Enums\MessageType;
+use Beaverlabs\Gg\MessageHandler;
 use Illuminate\Log\Events\MessageLogged;
 
 class ExceptionListener
@@ -11,7 +15,23 @@ class ExceptionListener
         if (\array_key_exists('exception', $logged->context) && $logged->context['exception'] instanceof \Throwable) {
             \gtrace($logged->context['exception']);
         } else {
-            \gg($logged->message);
+            $exceptionData = [
+                'type' => \gettype($logged->message),
+                'isScalar' => true,
+                'namespace' => '',
+                'class' => '',
+                'value' => ThrowableData::from([
+                    'message' => $logged->message,
+                    'code' => 0,
+                    'file' => '',
+                    'line' => 0,
+                    'previous' => null,
+                ]),
+            ];
+
+            \gg()->send(
+                MessageHandler::convert(DataCapsuleData::from($exceptionData), MessageType::THROWABLE),
+            );
         }
     }
 }
