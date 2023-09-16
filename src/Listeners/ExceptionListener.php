@@ -10,6 +10,8 @@ class ExceptionListener
     {
         if (\array_key_exists('exception', $logged->context) && $logged->context['exception'] instanceof \Throwable) {
             \gtrace($logged->context['exception']);
+        } else {
+            \gg($logged->message);
         }
     }
 }
