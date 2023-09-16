@@ -7,6 +7,7 @@ class ConfigVariableChecker implements ConfigVariables
     protected static array $variables = [
         ConfigVariables::ENABLED,
         ConfigVariables::LISTENERS_HTTP_RESPONSE_LISTENER,
+        ConfigVariables::LISTENERS_HTTP_ROUTE_MATCHED_LISTENER,
         ConfigVariables::LISTENERS_MODEL_QUERY_LISTENER,
         ConfigVariables::HOST,
         ConfigVariables::PORT,

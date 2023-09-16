@@ -9,5 +9,6 @@ interface MessageType
     public const LOG_USAGE = 'log.usage';
     public const THROWABLE = 'throwable';
     public const HTTP_REQUEST = 'http.request';
+    public const HTTP_ROUTE_MATCHED = 'http.route.matched';
     public const SQL_MODEL = 'sql.model';
 }
