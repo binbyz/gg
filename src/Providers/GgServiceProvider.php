@@ -18,7 +18,7 @@ class GgServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->bind(Gg::class, static function () {
+        $this->app->singleton(Gg::class, static function () {
             return new Gg();
         });
     }
