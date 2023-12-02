@@ -2,6 +2,8 @@
 
 namespace Beaverlabs\Gg\Listeners;
 
+use Beaverlabs\Gg\ConfigVariableChecker;
+use Beaverlabs\Gg\ConfigVariables;
 use Beaverlabs\Gg\Datas\DataCapsuleData;
 use Beaverlabs\Gg\Datas\ThrowableData;
 use Beaverlabs\Gg\Enums\MessageType;
@@ -12,6 +14,10 @@ class ExceptionListener
 {
     public function handle(MessageLogged $logged): void
     {
+        if (! ConfigVariableChecker::is(ConfigVariables::LISTENERS_EXCEPTION_LISTENER)) {
+            return;
+        }
+
         if (\array_key_exists('exception', $logged->context) && $logged->context['exception'] instanceof \Throwable) {
             \gtrace($logged->context['exception']);
         } else {
