@@ -41,6 +41,8 @@ The following environment variables are required to use the library.
 ```dotenv
 GG_ENABLED=true
 GG_HOST=host.docker.internal
+LISTENERS_EXCEPTION_LISTENER=false
+LISTENERS_HTTP_RESPONSE_LISTENER=true
 GG_HTTP_RESPONSE_LISTENER=true
 GG_MODEL_QUERY_LISTENER=true
 ```
