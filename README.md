@@ -1,6 +1,6 @@
 # GG
 
-This library is a PHP library required to use the GG Client. Please visit the following site: https://phpgg.kr
+This library is a PHP library required to use the GG Client. Please visit the following site: http://phpgg.kr
 
 ## About
 
