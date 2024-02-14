@@ -16,20 +16,20 @@ class GgServiceProvider extends ServiceProvider
         Collection::class => CollectionMacro::class,
     ];
 
-    public function register()
+    public function register(): void
     {
         $this->app->singleton(Gg::class, static function () {
             return new Gg();
         });
     }
 
-    public function boot()
+    public function boot(): void
     {
         $this->bootConfig();
         $this->bootMacros();
     }
 
-    private function bootMacros()
+    private function bootMacros(): void
     {
         foreach ($this->macros as $class => $macro) {
             if (\method_exists($class, 'macro')) {
@@ -38,7 +38,7 @@ class GgServiceProvider extends ServiceProvider
         }
     }
 
-    private function bootConfig()
+    private function bootConfig(): void
     {
         $this->publishes([__DIR__ . '/../config/gg.php' => config_path('gg.php')], 'config');
     }

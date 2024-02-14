@@ -2,13 +2,13 @@
 
 namespace Beaverlabs\Gg\Enums;
 
-interface MessageType
+enum MessageType: string
 {
-    public const LOG = 'log';
-    public const LOG_NOTE = 'log.note';
-    public const LOG_USAGE = 'log.usage';
-    public const THROWABLE = 'throwable';
-    public const HTTP_REQUEST = 'http.request';
-    public const HTTP_ROUTE_MATCHED = 'http.route.matched';
-    public const SQL_MODEL = 'sql.model';
+    case LOG = 'log';
+    case LOG_NOTE = 'log.note';
+    case LOG_USAGE = 'log.usage';
+    case THROWABLE = 'throwable';
+    case HTTP_REQUEST = 'http.request';
+    case HTTP_ROUTE_MATCHED = 'http.route.matched';
+    case SQL_MODEL = 'sql.model';
 }

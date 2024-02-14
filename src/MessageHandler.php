@@ -10,7 +10,7 @@ use Beaverlabs\Gg\Enums\MessageType;
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
 use ReflectionException;
 
-class MessageHandler implements MessageType
+class MessageHandler
 {
     protected static array $skipHelperFunctions = [];
     protected static array $skipTraceClasses = [];
@@ -18,13 +18,12 @@ class MessageHandler implements MessageType
     protected static array $propertySortingClasses = [
     ];
 
-    const DEBUG_BACKTRACE_LIMIT = 50;
-    const ANONYMOUS_CLASS_PREFIX = '@anonymous';
-    const MODIFIER_SPLITTER = '@';
+    const int DEBUG_BACKTRACE_LIMIT = 50;
+    const string ANONYMOUS_CLASS_PREFIX = '@anonymous';
+    const string MODIFIER_SPLITTER = '@';
 
-    /** @var mixed */
-    private $data;
-    private string $messageType;
+    private mixed $data;
+    private MessageType $messageType;
 
     private function __construct($data, ?string $messageType)
     {
@@ -66,7 +65,7 @@ class MessageHandler implements MessageType
         return $this->capsulizeBacktraceRecursively($this->skipTrace($backtrace));
     }
 
-    public static function convert($data, ?string $messageType = null, bool $debugBacktrace = false): MessageData
+    public static function convert($data, ?MessageType $messageType = null, bool $debugBacktrace = false): MessageData
     {
         $self = new self($data, $messageType);
 
@@ -132,13 +131,13 @@ class MessageHandler implements MessageType
         return $result;
     }
 
-    private static function guessMessageType($data): string
+    private static function guessMessageType($data): MessageType
     {
         if ($data instanceof \Throwable) {
-            return self::THROWABLE;
+            return MessageType::THROWABLE;
         }
 
-        return self::LOG;
+        return MessageType::LOG;
     }
 
     public static function isScalar($data): bool
@@ -308,7 +307,7 @@ class MessageHandler implements MessageType
             // modifier to string
             $modifier = \implode(' ', \Reflection::getModifierNames($modifier));
 
-            if (\substr($propertyName, 0, 1) !== '_') {
+            if (! str_starts_with($propertyName, '_')) {
                 $modifierAndPropertyName = ($modifier . self::MODIFIER_SPLITTER . $propertyName);
                 $properties[$modifierAndPropertyName] = $property->getValue($data);
             }
@@ -334,7 +333,7 @@ class MessageHandler implements MessageType
     {
         $class = \get_class($data);
 
-        if (\strpos($class, self::ANONYMOUS_CLASS_PREFIX) !== false) {
+        if (str_contains($class, self::ANONYMOUS_CLASS_PREFIX)) {
             $exploded = explode(self::ANONYMOUS_CLASS_PREFIX, $class);
 
             $class = $exploded[0] . self::ANONYMOUS_CLASS_PREFIX;
@@ -353,7 +352,7 @@ class MessageHandler implements MessageType
         return $this->data;
     }
 
-    public function getMessageType(): string
+    public function getMessageType(): MessageType
     {
         return $this->messageType;
     }

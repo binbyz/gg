@@ -3,16 +3,16 @@
 namespace Beaverlabs\Gg\Datas;
 
 use Beaverlabs\Gg\Data;
+use Beaverlabs\Gg\Enums\MessageType;
 
 class MessageData extends Data
 {
-    public string $type;
+    public MessageType $type;
     public string $language;
     public string $version;
     public string $framework;
 
-    /** @var mixed */
-    public $data;
+    public mixed $data;
 
     public array $trace;
 }

@@ -19,7 +19,7 @@
     }
   ],
   "require": {
-    "php": "^8.2",
+    "php": "^8.3",
     "ext-curl": "*",
     "ext-json": "*",
     "illuminate/log": "^9.0|^10.0",

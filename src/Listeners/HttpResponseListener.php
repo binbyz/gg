@@ -43,7 +43,7 @@ class HttpResponseListener
     {
         $headers = $response->headers();
 
-        if (\array_key_exists('Content-Type', $headers) && \strpos($headers['Content-Type'][0], 'application/json') !== false) {
+        if (\array_key_exists('Content-Type', $headers) && str_contains($headers['Content-Type'][0], 'application/json')) {
             $body = \json_decode($response->body(), true);
         } else {
             $charset = $this->extractResponseEncoding($response);
