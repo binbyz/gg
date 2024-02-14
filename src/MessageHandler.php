@@ -16,7 +16,6 @@ class MessageHandler implements MessageType
     protected static array $skipTraceClasses = [];
 
     protected static array $propertySortingClasses = [
-        \Illuminate\Support\Collection::class => ['items', 'escapeWhenCastingToString'],
     ];
 
     const DEBUG_BACKTRACE_LIMIT = 50;
