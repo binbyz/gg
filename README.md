@@ -8,7 +8,12 @@ This library is a PHP library required to use the GG Client. Please visit the fo
 
 ## Installation and Requirements
 
-**GG Client** can be used as a package installed by the composer dependency management tool. If you're a vanilla PHP developer, you can use the following command to install the library. Before installing, make sure that the PHP version of your project is higher than `^7.4`. Note that the Laravel framework supports versions from `^7.2` and above.
+**GG Client** can be used as a package installed by the composer dependency management tool. If you're a vanilla PHP developer, you can use the following command to install the library. Before installing, make sure that the PHP version of your project is higher than `^8.3`. Note that the Laravel framework supports versions from `^9.0` and above.
+
+## Support PHP Version
+
+- `beaverlabs/gg:v2.0.0` requires PHP version `^8.3`
+- `beaverlabs/gg:v1.5.3` requires PHP version `^7.4`
 
 ### Porject Installation via composer
 
