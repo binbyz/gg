@@ -29,7 +29,7 @@ class MessageHandler
 
     private MessageType $messageType;
 
-    private function __construct($data, ?string $messageType)
+    private function __construct($data, ?MessageType $messageType)
     {
         $this->data = $data;
         $this->messageType = \is_null($messageType) ? self::guessMessageType($data) : $messageType;
