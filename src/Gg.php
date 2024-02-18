@@ -12,21 +12,22 @@ class Gg
 
     private bool $enabled;
 
-    private static string $userAgent = 'Beaverlabs/GG';
-
     private float $beginTime = 0;
+
     private float $beginMemory = 0;
 
     private bool $flagBacktrace = false;
 
     private array $buffer = [];
 
+    private static string $userAgent = 'Beaverlabs/GG';
+
     public GgConnection $connection;
 
     public function __construct()
     {
         $this->connection = GgConnection::make();
-        $this->enabled = \config('gg.enabled', true);
+        $this->enabled = config('gg.enabled', true);
     }
 
     public function bindConnection(GgConnection $connection): self
@@ -49,6 +50,7 @@ class Gg
         foreach ($parameters as $parameter) {
             if ($parameter instanceof MessageData) {
                 $this->appendBuffer($parameter);
+
                 continue;
             }
 
@@ -75,9 +77,9 @@ class Gg
 
     public function note($conditionOrStringData = null, $value = null): self
     {
-        $stringValue = \is_callable($conditionOrStringData) ? $value : $conditionOrStringData;
+        $stringValue = is_callable($conditionOrStringData) ? $value : $conditionOrStringData;
 
-        if (\is_callable($conditionOrStringData) && ! $conditionOrStringData()) {
+        if (is_callable($conditionOrStringData) && ! $conditionOrStringData()) {
             return $this;
         }
 
@@ -88,9 +90,9 @@ class Gg
         return $this;
     }
 
-    public function die()
+    public function die(): void
     {
-        die();
+        exit();
     }
 
     public function begin(): self
@@ -123,9 +125,9 @@ class Gg
     private function formatBytes($memoryUsage): string
     {
         if ($memoryUsage > 1024 * 1024) {
-            $memoryUsage = round($memoryUsage / 1024 / 1024, 2) . ' MB';
+            $memoryUsage = round($memoryUsage / 1024 / 1024, 2).' MB';
         } else {
-            $memoryUsage = round($memoryUsage / 1024, 2) . ' KB';
+            $memoryUsage = round($memoryUsage / 1024, 2).' KB';
         }
 
         return $memoryUsage;
@@ -158,7 +160,11 @@ class Gg
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
         while (! empty($this->buffer)) {
-            $chunk = \array_splice($this->buffer, 0, self::BUFFER_CHUNK_SIZE);
+            $chunk = array_splice($this->buffer, 0, self::BUFFER_CHUNK_SIZE);
+
+            $chunk = array_map(function (Data $data) {
+                return $data->toArray();
+            }, $chunk);
 
             curl_setopt($ch, CURLOPT_POSTFIELDS, MessagePack::pack($chunk));
             curl_exec($ch);
