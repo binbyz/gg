@@ -1,7 +1,7 @@
 <?php
 
-use Beaverlabs\Gg\Datas\LineCodeData;
-use Beaverlabs\Gg\Datas\MessageData;
+use Beaverlabs\Gg\Data\LineCodeData;
+use Beaverlabs\Gg\Data\MessageData;
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
 use Beaverlabs\Gg\Gg;
 use Illuminate\Support\Collection;

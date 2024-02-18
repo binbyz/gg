@@ -2,10 +2,10 @@
 
 namespace Beaverlabs\Gg;
 
-use Beaverlabs\Gg\Datas\DataCapsuleData;
-use Beaverlabs\Gg\Datas\LineCodeData;
-use Beaverlabs\Gg\Datas\MessageData;
-use Beaverlabs\Gg\Datas\ThrowableData;
+use Beaverlabs\Gg\Data\DataCapsuleData;
+use Beaverlabs\Gg\Data\LineCodeData;
+use Beaverlabs\Gg\Data\MessageData;
+use Beaverlabs\Gg\Data\ThrowableData;
 use Beaverlabs\Gg\Enums\MessageType;
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
 use ReflectionException;

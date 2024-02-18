@@ -2,8 +2,9 @@
 
 namespace Beaverlabs\Gg;
 
-use Beaverlabs\Gg\Datas\MessageData;
+use Beaverlabs\Gg\Data\MessageData;
 use Beaverlabs\Gg\Enums\MessageType;
+use MessagePack\MessagePack;
 
 class Gg
 {
@@ -151,14 +152,15 @@ class Gg
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 1000);
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, 1000);
         curl_setopt($ch, CURLOPT_USERAGENT, self::$userAgent);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/x-msgpack']);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
         while (! empty($this->buffer)) {
             $chunk = \array_splice($this->buffer, 0, self::BUFFER_CHUNK_SIZE);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($chunk));
+
+            curl_setopt($ch, CURLOPT_POSTFIELDS, MessagePack::pack($chunk));
             curl_exec($ch);
         }
 

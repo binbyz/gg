@@ -2,8 +2,8 @@
 
 use Beaverlabs\Gg\AgentDetector;
 use Beaverlabs\Gg\Data;
-use Beaverlabs\Gg\Datas\DataCapsuleData;
-use Beaverlabs\Gg\Datas\MessageData;
+use Beaverlabs\Gg\Data\DataCapsuleData;
+use Beaverlabs\Gg\Data\MessageData;
 use Beaverlabs\Gg\MessageHandler;
 
 test('MessageConverter Scalar Data Type', function () {

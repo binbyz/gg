@@ -1,7 +1,7 @@
 <?php
 
-use Beaverlabs\Gg\Datas\DataCapsuleData;
-use Beaverlabs\Gg\Datas\MessageData;
+use Beaverlabs\Gg\Data\DataCapsuleData;
+use Beaverlabs\Gg\Data\MessageData;
 use Beaverlabs\Gg\MessageHandler;
 
 test('Array 캡슐라이징 테스트', function () {

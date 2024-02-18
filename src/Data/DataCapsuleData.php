@@ -1,6 +1,6 @@
 <?php
 
-namespace Beaverlabs\Gg\Datas;
+namespace Beaverlabs\Gg\Data;
 
 use Beaverlabs\Gg\Data;
 

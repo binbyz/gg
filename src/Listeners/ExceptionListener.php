@@ -4,8 +4,8 @@ namespace Beaverlabs\Gg\Listeners;
 
 use Beaverlabs\Gg\ConfigVariableChecker;
 use Beaverlabs\Gg\ConfigVariables;
-use Beaverlabs\Gg\Datas\DataCapsuleData;
-use Beaverlabs\Gg\Datas\ThrowableData;
+use Beaverlabs\Gg\Data\DataCapsuleData;
+use Beaverlabs\Gg\Data\ThrowableData;
 use Beaverlabs\Gg\Enums\MessageType;
 use Beaverlabs\Gg\MessageHandler;
 use Illuminate\Log\Events\MessageLogged;
