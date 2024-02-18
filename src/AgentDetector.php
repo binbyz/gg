@@ -9,6 +9,7 @@ class AgentDetector
     use MakeTrait;
 
     public const string VANILLA_PHP = 'Vanilla';
+
     public const string LARAVEL_FRAMEWORK = 'Laravel';
 
     public static function detectFramework(): string

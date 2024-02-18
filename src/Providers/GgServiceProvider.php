@@ -3,8 +3,8 @@
 namespace Beaverlabs\Gg\Providers;
 
 use Beaverlabs\Gg\Gg;
-use Beaverlabs\Gg\Macros\QueryBuilder as QueryBuilderMacro;
 use Beaverlabs\Gg\Macros\Collection as CollectionMacro;
+use Beaverlabs\Gg\Macros\QueryBuilder as QueryBuilderMacro;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
@@ -40,6 +40,6 @@ class GgServiceProvider extends ServiceProvider
 
     private function bootConfig(): void
     {
-        $this->publishes([__DIR__ . '/../config/gg.php' => config_path('gg.php')], 'config');
+        $this->publishes([__DIR__.'/../config/gg.php' => config_path('gg.php')], 'config');
     }
 }

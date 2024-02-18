@@ -8,8 +8,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
-    use \Orchestra\Testbench\Concerns\CreatesApplication;
     use DatabaseMigrations;
+    use \Orchestra\Testbench\Concerns\CreatesApplication;
 
     protected function setUp(): void
     {

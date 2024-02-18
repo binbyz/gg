@@ -69,9 +69,12 @@ test('Array Message Data Test (2)', function () {
 });
 
 test('Object Message Data Test', function () {
-    $data = new class extends Data {
+    $data = new class extends Data
+    {
         public $foo = 'bar';
+
         public $baz = 'qux';
+
         private $quux = 'corge';
     };
 
@@ -96,7 +99,9 @@ test('Detect Framework Test', function (string $result, string $defineKey) {
 ]);
 
 test('Normalize Class Name Test', function () {
-    $class = new class extends Data {};
+    $class = new class extends Data
+    {
+    };
 
     expect(MessageHandler::normalizeNamespace($class))
         ->toBeString('Beaverlabs\Gg\Data@anonymous');

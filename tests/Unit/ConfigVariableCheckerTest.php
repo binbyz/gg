@@ -1,6 +1,5 @@
 <?php
 
-
 use Beaverlabs\Gg\ConfigVariableChecker;
 use Beaverlabs\Gg\ConfigVariables;
 

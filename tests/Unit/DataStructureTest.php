@@ -21,18 +21,18 @@ test('Array 캡슐라이징 테스트', function () {
         ->language->toBe('PHP')
         ->trace->toBeArray()
         ->and($result->data)->toBeInstanceOf(DataCapsuleData::class)
-            ->type->toBe('array')
-            ->isScalar->toBeFalse()
-            ->namespace->toBeNull()
-            ->class->toBeNull()
-            ->value->toBeArray()
-            ->value->toHaveCount(2) // 'test', 'test2'
-                ->and($result->data->value)->toHaveKeys(['test', 'test2'])
-                ->and($result->data->value['test'])->toBeInstanceOf(DataCapsuleData::class)
-                    ->type->toBe('integer')
-                    ->isScalar->toBeTrue()
-                    ->namespace->toBeNull()
-                    ->class->toBeNull()
-                    ->value->toBe(1)
-                ->and($result->data->value['test2'])->toBeInstanceOf(DataCapsuleData::class);
+        ->type->toBe('array')
+        ->isScalar->toBeFalse()
+        ->namespace->toBeNull()
+        ->class->toBeNull()
+        ->value->toBeArray()
+        ->value->toHaveCount(2) // 'test', 'test2'
+        ->and($result->data->value)->toHaveKeys(['test', 'test2'])
+        ->and($result->data->value['test'])->toBeInstanceOf(DataCapsuleData::class)
+        ->type->toBe('integer')
+        ->isScalar->toBeTrue()
+        ->namespace->toBeNull()
+        ->class->toBeNull()
+        ->value->toBe(1)
+        ->and($result->data->value['test2'])->toBeInstanceOf(DataCapsuleData::class);
 });

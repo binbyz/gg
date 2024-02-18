@@ -9,6 +9,7 @@ class GgConnection
     use MakeTrait;
 
     public string $host;
+
     public int $port;
 
     public function __construct(string $host = 'localhost', int $port = 21868)

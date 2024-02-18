@@ -10,8 +10,11 @@ class DataCapsuleData extends Data
     public string $type;
 
     public bool $isScalar;
+
     public ?string $namespace = null;
+
     public ?string $class = null;
+
     public ?bool $pruned = false;
 
     /** @var mixed */

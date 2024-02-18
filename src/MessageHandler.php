@@ -13,16 +13,20 @@ use ReflectionException;
 class MessageHandler
 {
     protected static array $skipHelperFunctions = [];
+
     protected static array $skipTraceClasses = [];
 
     protected static array $propertySortingClasses = [
     ];
 
     const int DEBUG_BACKTRACE_LIMIT = 50;
+
     const string ANONYMOUS_CLASS_PREFIX = '@anonymous';
+
     const string MODIFIER_SPLITTER = '@';
 
     private mixed $data;
+
     private MessageType $messageType;
 
     private function __construct($data, ?string $messageType)
@@ -83,10 +87,8 @@ class MessageHandler
     }
 
     /**
-     * @param string $file
-     * @param int $line
-     * @param int $offset
      * @return array<int, LineCodeData>
+     *
      * @throws ReflectionException
      */
     private function readCode(string $file, int $line, int $offset = 3): array
@@ -156,7 +158,7 @@ class MessageHandler
         }
 
         if (\is_resource($data)) {
-            return $this->capsulizeScalar('resource#' . \get_resource_type($data));
+            return $this->capsulizeScalar('resource#'.\get_resource_type($data));
         }
 
         if (static::isScalar($data)) {
@@ -178,9 +180,9 @@ class MessageHandler
     {
         return \array_map(
             /**
-            * @throws ReflectionException
-            * @throws ValueTypeException
-            */
+             * @throws ReflectionException
+             * @throws ValueTypeException
+             */
             function ($item) {
                 if (\array_key_exists('args', $item)) {
                     $item['args'] = $this->capsulizeRecursively($item['args']);
@@ -313,16 +315,16 @@ class MessageHandler
             $modifier = \implode(' ', \Reflection::getModifierNames($modifier));
 
             if (! str_starts_with($propertyName, '_')) {
-                $modifierAndPropertyName = ($modifier . self::MODIFIER_SPLITTER . $propertyName);
+                $modifierAndPropertyName = ($modifier.self::MODIFIER_SPLITTER.$propertyName);
                 $properties[$modifierAndPropertyName] = $property->getValue($data);
             }
         }
 
         return \array_map(
-             function ($item) {
+            function ($item) {
                 return $this->capsulizeRecursively($item);
             },
-             $properties,
+            $properties,
         );
     }
 
@@ -341,7 +343,7 @@ class MessageHandler
         if (str_contains($class, self::ANONYMOUS_CLASS_PREFIX)) {
             $exploded = explode(self::ANONYMOUS_CLASS_PREFIX, $class);
 
-            $class = $exploded[0] . self::ANONYMOUS_CLASS_PREFIX;
+            $class = $exploded[0].self::ANONYMOUS_CLASS_PREFIX;
         }
 
         return $class;

@@ -4,5 +4,4 @@ namespace Beaverlabs\Gg\Listeners;
 
 class HttpConnectionFailedListener
 {
-
 }

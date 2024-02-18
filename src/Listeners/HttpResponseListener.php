@@ -47,7 +47,7 @@ class HttpResponseListener
             $body = \json_decode($response->body(), true);
         } else {
             $charset = $this->extractResponseEncoding($response);
-            $body = \mb_substr($response->body(), 0, 150, $charset) . '...';
+            $body = \mb_substr($response->body(), 0, 150, $charset).'...';
         }
 
         $handlerStats = $response->handlerStats();

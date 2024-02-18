@@ -11,7 +11,7 @@
 |
 */
 
- uses(Beaverlabs\Gg\Tests\TestCase::class)->in('Unit');
+uses(Beaverlabs\Gg\Tests\TestCase::class)->in('Unit');
 
 /*
 |--------------------------------------------------------------------------

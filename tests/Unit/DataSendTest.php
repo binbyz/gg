@@ -1,8 +1,6 @@
 <?php
 
 use Beaverlabs\Gg\Data\LineCodeData;
-use Beaverlabs\Gg\Data\MessageData;
-use Beaverlabs\Gg\Enums\MessageType;
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
 use Beaverlabs\Gg\Gg;
 use Illuminate\Support\Collection;
@@ -21,11 +19,16 @@ test('헬퍼 함수를 통한 데이터 전송', function () {
 });
 
 test('Anonymous 클래스 전송 테스트', function () {
-    $parameter = new class extends \Beaverlabs\Gg\Data {
+    $parameter = new class extends \Beaverlabs\Gg\Data
+    {
         public $id = 1;
+
         public $name = 'WONBEEN IM';
+
         private $email = 'eyedroot@gmail.com';
+
         protected $password = '1234';
+
         public $array = [
             'key1' => 'value1',
             'key2' => 'value2',
@@ -40,12 +43,18 @@ test('Anonymous 클래스 전송 테스트', function () {
 
         public function __construct()
         {
-            $this->array['depth3']['key5'] = new class {
+            $this->array['depth3']['key5'] = new class
+            {
                 public $id = 1;
+
                 public $name = 'WONBEEN IM';
+
                 private $email = 'byzz@kakao.com';
+
                 protected $password = '1234';
+
                 public $address = 'South Korea';
+
                 public $phoneNumber = 12345667;
             };
         }
@@ -165,7 +174,6 @@ test('샘플 데이터 전송', function () {
         LineCodeData::from(['line' => 1, 'code' => '<?php']),
     ]);
 
-
     $var2 = [
         'Hello, Word!',
         1,
@@ -180,47 +188,47 @@ test('샘플 데이터 전송', function () {
 
 test('sample#2 샘플 데이터 전송 2', function () {
     $data = [
-        "items" => [
+        'items' => [
             [
-                "name" => "Sword",
-                "type" => "Weapon",
-                "damage" => 50,
+                'name' => 'Sword',
+                'type' => 'Weapon',
+                'damage' => 50,
             ],
             [
-                "name" => "Shield",
-                "type" => "Armor",
-                "defense" => 20,
+                'name' => 'Shield',
+                'type' => 'Armor',
+                'defense' => 20,
             ],
         ],
-        "characters" => [
+        'characters' => [
             [
-                "name" => "Knight",
-                "level" => 10,
-                "health" => 100,
-                "stats" => [
-                    "strength" => 15,
-                    "agility" => 10,
-                    "intelligence" => 5,
+                'name' => 'Knight',
+                'level' => 10,
+                'health' => 100,
+                'stats' => [
+                    'strength' => 15,
+                    'agility' => 10,
+                    'intelligence' => 5,
                 ],
             ],
             [
-                "name" => "Mage",
-                "level" => 8,
-                "health" => 80,
-                "stats" => [
-                    "strength" => 5,
-                    "agility" => 10,
-                    "intelligence" => 15,
+                'name' => 'Mage',
+                'level' => 8,
+                'health' => 80,
+                'stats' => [
+                    'strength' => 5,
+                    'agility' => 10,
+                    'intelligence' => 15,
                 ],
             ],
             [
-                "name" => "Archer",
-                "level" => 9,
-                "health" => 90,
-                "stats" => [
-                    "strength" => 10,
-                    "agility" => 15,
-                    "intelligence" => 10,
+                'name' => 'Archer',
+                'level' => 9,
+                'health' => 90,
+                'stats' => [
+                    'strength' => 10,
+                    'agility' => 15,
+                    'intelligence' => 10,
                 ],
             ],
         ],
