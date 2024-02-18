@@ -65,6 +65,9 @@ class MessageHandler
         return $this->capsulizeBacktraceRecursively($this->skipTrace($backtrace));
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public static function convert($data, ?MessageType $messageType = null, bool $debugBacktrace = false): MessageData
     {
         $self = new self($data, $messageType);
@@ -84,6 +87,7 @@ class MessageHandler
      * @param int $line
      * @param int $offset
      * @return array<int, LineCodeData>
+     * @throws ReflectionException
      */
     private function readCode(string $file, int $line, int $offset = 3): array
     {
@@ -284,6 +288,9 @@ class MessageHandler
         ]);
     }
 
+    /**
+     * @throws ReflectionException
+     */
     private function getPropertiesToArray($data): array
     {
         $properties = [];
@@ -301,8 +308,6 @@ class MessageHandler
             }
 
             $modifier = $property->getModifiers();
-
-            $property->setAccessible(true);
 
             // modifier to string
             $modifier = \implode(' ', \Reflection::getModifierNames($modifier));

@@ -2,10 +2,13 @@
 
 namespace Beaverlabs\Gg;
 
+use ReflectionException;
+
 class Data implements \JsonSerializable
 {
     /**
      * @return static
+     * @throws ReflectionException
      */
     public static function from(array $inputs): Data
     {
@@ -18,7 +21,6 @@ class Data implements \JsonSerializable
             if ($reflection->hasProperty($key)) {
                 $property = $reflection->getProperty($key);
 
-                $property->setAccessible(true);
                 $property->setValue($dataClass, $value);
             }
         }

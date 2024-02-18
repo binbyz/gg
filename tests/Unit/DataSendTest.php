@@ -2,6 +2,7 @@
 
 use Beaverlabs\Gg\Data\LineCodeData;
 use Beaverlabs\Gg\Data\MessageData;
+use Beaverlabs\Gg\Enums\MessageType;
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
 use Beaverlabs\Gg\Gg;
 use Illuminate\Support\Collection;
@@ -164,6 +165,7 @@ test('샘플 데이터 전송', function () {
         LineCodeData::from(['line' => 1, 'code' => '<?php']),
     ]);
 
+
     $var2 = [
         'Hello, Word!',
         1,
@@ -173,27 +175,10 @@ test('샘플 데이터 전송', function () {
         5,
     ];
 
-    $var3 = MessageData::from([
-        'type' => 'log',
-        'language' => 'ko_KR',
-        'version' => '1.0.0',
-        'framework' => 'Laravel',
-        'data' => [
-            'message' => 'Hello, World!',
-            'code' => 200,
-            'file' => 'app/Http/Controllers/Controller.php',
-            'line' => 1,
-            'trace' => [],
-        ],
-        'trace' => [
-            "asdf https://phpgg.kr/ asdf https://www.naver.com/ asdf",
-        ],
-    ]);
-
-    expect(gg($var1, $var2, $var3))->toBeInstanceOf(Gg::class);
+    expect(gg($var1, $var2))->toBeInstanceOf(Gg::class);
 });
 
-test('샘플 데이터 전송 2', function () {
+test('sample#2 샘플 데이터 전송 2', function () {
     $data = [
         "items" => [
             [
