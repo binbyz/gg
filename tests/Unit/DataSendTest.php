@@ -3,6 +3,7 @@
 use Beaverlabs\Gg\Data\LineCodeData;
 use Beaverlabs\Gg\Exceptions\ValueTypeException;
 use Beaverlabs\Gg\Gg;
+use Carbon\CarbonImmutable;
 use Illuminate\Support\Collection;
 
 test('스칼라 타입 데이터 전송', function () {
@@ -16,6 +17,14 @@ test('스칼라 타입 데이터 전송', function () {
 test('헬퍼 함수를 통한 데이터 전송', function () {
     expect(gg('123', 123, true, false, null, ['key1' => 'value1', 'key2' => 'value2']))
         ->toBeInstanceOf(Gg::class);
+});
+
+test('Carbon Immutable test', function () {
+    $now = CarbonImmutable::parse('2024-03-01T14:00:00+09:00');
+
+    $now->addDays(3);
+
+    expect(\gg($now))->toBeInstanceOf(Gg::class);
 });
 
 test('Anonymous 클래스 전송 테스트', function () {
