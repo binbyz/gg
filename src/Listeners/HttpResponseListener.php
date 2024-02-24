@@ -72,7 +72,7 @@ class HttpResponseListener
         $parts = \array_map('trim', \array_filter(\explode(';', $contentType)));
 
         foreach ($parts as $part) {
-            if (\strpos($part, 'charset=') !== false) {
+            if (str_contains($part, 'charset=')) {
                 return \str_replace('charset=', '', $part);
             }
         }

@@ -20,7 +20,7 @@ test('헬퍼 함수를 통한 데이터 전송', function () {
 });
 
 test('Carbon Immutable test', function () {
-    $now = CarbonImmutable::parse('2024-03-01T14:00:00+09:00');
+    $now = CarbonImmutable::parse('2024-01-17T08:15:00.000Z')->setTimezone(new DateTimeZone('Asia/Seoul'));
 
     $now->addDays(3);
 
