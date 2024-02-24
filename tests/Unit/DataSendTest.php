@@ -20,11 +20,20 @@ test('헬퍼 함수를 통한 데이터 전송', function () {
 });
 
 test('Carbon Immutable test', function () {
-    $now = CarbonImmutable::parse('2024-01-17T08:15:00.000Z')->setTimezone(new DateTimeZone('Asia/Seoul'));
+    $now = [
+        CarbonImmutable::parse('2024-01-17T08:15:00.000Z')->setTimezone(new DateTimeZone('Asia/Seoul')),
+        CarbonImmutable::parse('2024-01-17T08:15:00.000Z')->setTimezone(new DateTimeZone('Asia/Seoul')),
+        CarbonImmutable::parse('2024-01-17T08:15:00.000Z')->setTimezone(new DateTimeZone('Asia/Seoul')),
+        CarbonImmutable::parse('2024-01-17T08:15:00.000Z')->setTimezone(new DateTimeZone('Asia/Seoul')),
+        CarbonImmutable::parse('2024-01-17T08:15:00.000Z')->setTimezone(new DateTimeZone('Asia/Seoul')),
+        CarbonImmutable::parse('2024-01-17T08:15:00.000Z')->setTimezone(new DateTimeZone('Asia/Seoul')),
+        CarbonImmutable::parse('2024-01-17T08:15:00.000Z')->setTimezone(new DateTimeZone('Asia/Seoul')),
+        CarbonImmutable::parse('2024-01-17T08:15:00.000Z')->setTimezone(new DateTimeZone('Asia/Seoul')),
+        CarbonImmutable::parse('2024-01-17T08:15:00.000Z')->setTimezone(new DateTimeZone('Asia/Seoul')),
+        CarbonImmutable::parse('2024-01-17T08:15:00.000Z')->setTimezone(new DateTimeZone('Asia/Seoul')),
+    ];
 
-    $now->addDays(3);
-
-    expect(\gg($now))->toBeInstanceOf(Gg::class);
+    expect(\gg($now[0], $now[1], $now[2], $now[3], $now[4], $now[5]))->toBeInstanceOf(Gg::class);
 });
 
 test('Anonymous 클래스 전송 테스트', function () {

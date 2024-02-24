@@ -50,20 +50,18 @@ class Gg
         foreach ($parameters as $parameter) {
             if ($parameter instanceof MessageData) {
                 $this->appendBuffer($parameter);
-
-                continue;
+            } else {
+                $this->appendBuffer(
+                    MessageHandler::convert(
+                        $parameter,
+                        null,
+                        $parameter instanceof \Throwable ? true : $this->flagBacktrace,
+                    ),
+                );
             }
 
-            $this->appendBuffer(
-                MessageHandler::convert(
-                    $parameter,
-                    null,
-                    $parameter instanceof \Throwable ? true : $this->flagBacktrace,
-                ),
-            );
+            $this->sendData();
         }
-
-        $this->sendData();
 
         return $this;
     }
