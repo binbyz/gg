@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpFoundation\Response;
 
 beforeEach(function () {
-    config()->set(ConfigVariables::LISTENERS_HTTP_RESPONSE_LISTENER, true);
+    config()->set(ConfigVariables::LISTENERS_HTTP_RESPONSE_LISTENER->value, true);
 });
 
 test('Http 전송 및 응답 미들웨어 Hook Test', function () {

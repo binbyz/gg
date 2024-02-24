@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Artisan;
 
 beforeEach(function () {
-    config()->set(ConfigVariables::LISTENERS_MODEL_QUERY_LISTENER, true);
+    config()->set(ConfigVariables::LISTENERS_MODEL_QUERY_LISTENER->value, true);
 
     Artisan::call('migrate --path=../../../../database/migrations/2023_08_17_154952_test.php');
 });
