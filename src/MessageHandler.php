@@ -87,8 +87,6 @@ class MessageHandler
 
     /**
      * @return array<int, LineCodeData>
-     *
-     * @throws ReflectionException
      */
     private function readCode(string $file, int $line, int $offset = 3): array
     {
@@ -96,7 +94,7 @@ class MessageHandler
             return [];
         }
 
-        $handle = \fopen($file, 'r');
+        $handle = fopen($file, 'r');
 
         if (! $handle) {
             return [];
@@ -125,10 +123,10 @@ class MessageHandler
 
         $result = [];
         foreach (array_filter($code) as $line => $code) {
-            $result[] = LineCodeData::from([
+            $result[] = [
                 'line' => $line,
                 'code' => $code,
-            ]);
+            ];
         }
 
         unset($code);
@@ -271,7 +269,7 @@ class MessageHandler
     public function capsulizeThrowable(\Throwable $data): DataCapsuleData
     {
         return DataCapsuleData::from([
-            'type' => \gettype($data),
+            'type' => gettype($data),
             'isScalar' => false,
             'namespace' => static::getNamespace($data),
             'class' => static::normalizeNamespace($data),
