@@ -54,6 +54,16 @@ class Data implements \JsonSerializable
                         return $item->toArray();
                     }
 
+                    if (is_array($item)) {
+                        return array_map(function ($subItem) {
+                            if ($subItem instanceof Data) {
+                                return $subItem->toArray();
+                            }
+
+                            return $subItem;
+                        }, $item);
+                    }
+
                     return $item;
                 }, $value);
             }

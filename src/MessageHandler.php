@@ -123,10 +123,10 @@ class MessageHandler
 
         $result = [];
         foreach (array_filter($code) as $line => $code) {
-            $result[] = [
+            $result[] = LineCodeData::from([
                 'line' => $line,
                 'code' => $code,
-            ];
+            ]);
         }
 
         unset($code);
