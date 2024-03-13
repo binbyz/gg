@@ -18,11 +18,11 @@ class ExceptionListener
             return;
         }
 
-        if (\array_key_exists('exception', $logged->context) && $logged->context['exception'] instanceof \Throwable) {
-            \gtrace($logged->context['exception']);
+        if (array_key_exists('exception', $logged->context) && $logged->context['exception'] instanceof \Throwable) {
+            gtrace($logged->context['exception']);
         } else {
             $exceptionData = [
-                'type' => \gettype($logged->message),
+                'type' => gettype($logged->message),
                 'isScalar' => true,
                 'namespace' => '',
                 'class' => '',
@@ -35,7 +35,7 @@ class ExceptionListener
                 ]),
             ];
 
-            \gg()->send(
+            gg()->send(
                 MessageHandler::convert(DataCapsuleData::from($exceptionData), MessageType::THROWABLE),
             );
         }
