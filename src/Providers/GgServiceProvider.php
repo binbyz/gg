@@ -32,7 +32,7 @@ class GgServiceProvider extends ServiceProvider
     private function bootMacros(): void
     {
         foreach ($this->macros as $class => $macro) {
-            if (\method_exists($class, 'macro')) {
+            if (method_exists($class, 'macro')) {
                 $class::macro('gg', (new $macro)->register());
             }
         }
