@@ -38,43 +38,31 @@ class Data implements \JsonSerializable
     {
         $result = [];
 
-        $reflection = new \ReflectionClass(static::class);
+        $reflection = new \ReflectionClass($this);
         $properties = $reflection->getProperties(\ReflectionProperty::IS_PUBLIC);
 
         foreach ($properties as $property) {
             $value = $property->getValue($this);
-
-            if ($value instanceof Data) {
-                $value = $value->toArray();
-            }
-
-            if (is_array($value)) {
-                $value = array_map(function ($item) {
-                    if ($item instanceof Data) {
-                        return $item->toArray();
-                    }
-
-                    if (is_array($item)) {
-                        return array_map(function ($subItem) {
-                            if ($subItem instanceof Data) {
-                                return $subItem->toArray();
-                            }
-
-                            return $subItem;
-                        }, $item);
-                    }
-
-                    return $item;
-                }, $value);
-            }
-
-            if ($value instanceof \UnitEnum) {
-                $value = $value->value;
-            }
-
-            $result[$property->getName()] = $value;
+            $result[$property->getName()] = $this->convertValue($value);
         }
 
         return $result;
+    }
+
+    protected static function convertValue(mixed $value): mixed
+    {
+        if ($value instanceof Data) {
+            return $value->toArray();
+        }
+
+        if (is_array($value)) {
+            return array_map(static fn ($item) => self::convertValue($item), $value);
+        }
+
+        if ($value instanceof \UnitEnum) {
+            return $value->value;
+        }
+
+        return $value;
     }
 }

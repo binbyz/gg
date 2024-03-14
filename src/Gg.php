@@ -160,9 +160,7 @@ class Gg
         while (! empty($this->buffer)) {
             $chunk = array_splice($this->buffer, 0, self::BUFFER_CHUNK_SIZE);
 
-            $chunk = array_map(function (Data $data) {
-                return $data->toArray();
-            }, $chunk);
+            $chunk = array_map(static fn (Data $data) => $data->toArray(), $chunk);
 
             curl_setopt($ch, CURLOPT_POSTFIELDS, MessagePack::pack($chunk));
             curl_exec($ch);
