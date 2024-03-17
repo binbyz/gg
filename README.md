@@ -1,14 +1,14 @@
-# Important: Deprecated
+# GG
+
+This library is a PHP library required to use the GG Client. Please visit the following site: http://phpgg.kr
+
+## Important Notice
 
 This library moved to new vendor(~~beaverlabs/gg~~) name. Please use the following command to install the library.
 
 ```shell
 composer require --dev eyedroot/gg
 ```
-
-# GG
-
-This library is a PHP library required to use the GG Client. Please visit the following site: http://phpgg.kr
 
 ## About
 
