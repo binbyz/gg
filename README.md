@@ -1,3 +1,11 @@
+# Important: Deprecated
+
+This library moved to new vendor(~~beaverlabs/gg~~) name. Please use the following command to install the library.
+
+```shell
+composer require --dev eyedroot/gg
+```
+
 # GG
 
 This library is a PHP library required to use the GG Client. Please visit the following site: http://phpgg.kr
@@ -50,11 +58,3 @@ GG_EXCEPTION_LISTENER=false
 GG_MODEL_QUERY_LISTENER=true
 GG_HTTP_RESPONSE_LISTENER=true
 ```
-
-## Bug Reports
-
-This is very important. Please report bugs in **GG Client** through the issues in the repository.
-
-For bugs related to the library, please report them using the repositories below:
-
-- [beaverlabs/gg](https://github.com/binbyz/gg)
