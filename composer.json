@@ -1,5 +1,5 @@
 {
-  "name": "beaverlabs/gg",
+  "name": "eyedroot/gg",
   "description": "PHP Debug, Logging Tools",
   "keywords": [
     "php",
@@ -8,13 +8,13 @@
     "beaverlabs",
     "gg"
   ],
-  "homepage": "https://github.com/binbyz/gg",
+  "homepage": "https://github.com/eyedroot/gg",
   "license": "MIT",
   "authors": [
     {
-      "name": "WONBEEN IM",
+      "name": "byzz",
       "email": "eyedroot@gmail.com",
-      "homepage": "https://twitter.com/eyedroot",
+      "homepage": "https://phpgg.kr",
       "role": "Developer"
     }
   ],
