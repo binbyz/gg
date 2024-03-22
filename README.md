@@ -20,15 +20,15 @@ composer require --dev eyedroot/gg
 
 ## Support PHP Version
 
-- `beaverlabs/gg:v2.0.0` requires PHP version `^8.3`
-- `beaverlabs/gg:v1.5.3` requires PHP version `^7.4`
+- `eyedroot/gg:v2.0.0` requires PHP version `^8.3`
+- `eyedroot/gg:v1.5.3` requires PHP version `^7.4`
 
 ### Porject Installation via composer
 
 For projects that manage dependencies using composer, please install the library for your project.
 
 ```bash
-composer require --dev beaverlabs/gg
+composer require --dev eyedroot/gg
 ```
 
 ### Publishing GG Client
